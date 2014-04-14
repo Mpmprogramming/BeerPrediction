@@ -17,7 +17,7 @@ public class ReadFileTest {
 	@Test
 	public void test() {
 		Corpus co = new Corpus();
-		assertEquals(co.loadFromFile("data/first1000lines.txt"), 71);
+		assertEquals(co.loadFromFile("data/first1000lines.txt", Integer.MAX_VALUE), 71);
 		co.writeToCSV("data/output/first1000lines.csv");
 	}
 

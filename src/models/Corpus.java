@@ -17,13 +17,15 @@ public class Corpus {
 	/**
 	 * Reads a corpus from a text file
 	 * 
-	 * @param path
-	 * @return Number of complete review instanes parsed
+	 * @param path the file path
+	 * @param topX Maximum number of reviews to keep
+	 * @return Number of complete review instances parsed
 	 */
-	public int loadFromFile(String path) {
+	public int loadFromFile(String path, int topX) {
 		Review review = null;
 		String line = null;
 		try {
+			System.out.println("Attempt loading file: " + path);
 			BufferedReader br = new BufferedReader(new InputStreamReader(new FileInputStream(path), "UTF8"));
 
 			while ((line = br.readLine()) != null) {
@@ -101,7 +103,9 @@ public class Corpus {
 					review.setText(text);
 
 					this.reviews.add(review);
+					if (reviews.size() >= topX ) break;
 					
+					if (reviews.size() % 100 == 0 ) System.out.println("Reviews parsed so far: " + this.reviews.size());
 				}
 			}
 			br.close();
@@ -116,6 +120,10 @@ public class Corpus {
 		return this.reviews.size();
 	}
 
+	/**
+	 * Write the whole corpus in CSV format to disc
+	 * @param file The file path
+	 */
 	public void writeToCSV(String file) {
 		Writer out = null;
 		try {
