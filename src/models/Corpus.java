@@ -119,7 +119,7 @@ public class Corpus {
 	public void writeToCSV(String file) {
 		Writer out = null;
 		try {
-			out = new BufferedWriter(new OutputStreamWriter(new FileOutputStream("data/output/"+file), "UTF-8"));
+			out = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(file), "UTF-8"));
 			
 			out.write("name,beerId,brewerId,ABV,style,appearance,aroma,palate,taste,overall,time,profileName,text");
 			out.write("\r\n");

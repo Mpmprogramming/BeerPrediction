@@ -18,7 +18,7 @@ public class ReadFileTest {
 	public void test() {
 		Corpus co = new Corpus();
 		assertEquals(co.loadFromFile("data/first1000lines.txt"), 71);
-		co.writeToCSV("test.csv");
+		co.writeToCSV("data/output/first1000lines.csv");
 	}
 
 }
