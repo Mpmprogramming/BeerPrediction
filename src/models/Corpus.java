@@ -75,7 +75,6 @@ public class Corpus {
 				// String abv = line.split(":", 2)[1].trim();
 				// review.setABV(Double.parseDouble(abv));
 				// }
-				
 
 				if (line.startsWith("beer/style")) {
 					String style = line.split(":", 2)[1].trim();
