@@ -22,7 +22,12 @@ public class ConvertData2CSV {
 	 * @param args
 	 */
 	public static void main(String[] args) {
-		Corpus co = new Corpus(new Properties());
+		
+		//Setup properties here
+		Properties props = new Properties();
+	    props.put("annotators", "tokenize");
+		Corpus co = new Corpus(props);
+		
 		int size = co.loadFromFile("data/ratebeer.txt", topX);
 		System.out.println("Amount of reviews loaded: " + size);
 		co.writeToCSV("data/output/ratebeer100K.csv");
