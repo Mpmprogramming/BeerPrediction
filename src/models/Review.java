@@ -31,7 +31,7 @@ public class Review {
 	private String name;
 	private String beerID;
 	private String brewerID;
-	private double ABV; // TODO:What exactly does that mean?
+	private double ABV; //TODO:What exactly does that mean?
 	private String style;
 	private int appearance;
 	private int aroma;
@@ -79,7 +79,7 @@ public class Review {
 	}
 
 	public static Aspect findAspect(String sentence) {
-		//TODO implement
+		//TODO implement findAspect
 		return Aspect.NONE;
 	}
 

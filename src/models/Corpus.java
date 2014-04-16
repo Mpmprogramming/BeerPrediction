@@ -28,14 +28,14 @@ public class Corpus {
 	
 	public Corpus getTopReviews(Aspect asp) {
 		//TODO:Define top reviews for each aspect
-		//TODO:Implement
+		//TODO:Implement getTopReviews
 		return new Corpus(this.props);
 	}
 	
 
 	public Corpus getLowReviews(Aspect asp) {
 		//TODO:Define low reviews for each aspect
-		//TODO:Implement
+		//TODO:Implement getLowReviews
 		return new Corpus(this.props);
 	}
 
@@ -52,7 +52,7 @@ public class Corpus {
 		BufferedReader br = null;
 		try {
 			System.out.println("Attempt loading file: " + path);
-			br = new BufferedReader(new InputStreamReader(new FileInputStream(path), "UTF8"));
+			br = new BufferedReader(new InputStreamReader(new FileInputStream(path), "UTF-8"));
 
 			while ((line = br.readLine()) != null) {
 
