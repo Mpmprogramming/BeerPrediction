@@ -7,6 +7,7 @@ import java.io.*;
 import java.util.ArrayList;
 import java.util.Properties;
 
+import models.Review.Aspect;
 import edu.stanford.nlp.pipeline.StanfordCoreNLP;
 
 /**
@@ -25,16 +26,18 @@ public class Corpus {
 		pipeline = new StanfordCoreNLP(props);
 	}
 	
+	public Corpus getTopReviews(Aspect asp) {
+		//TODO:Define top reviews for each aspect
+		//TODO:Implement
+		return new Corpus(this.props);
+	}
 	
-	public StanfordCoreNLP getPipeline() {
-		return pipeline;
+
+	public Corpus getLowReviews(Aspect asp) {
+		//TODO:Define low reviews for each aspect
+		//TODO:Implement
+		return new Corpus(this.props);
 	}
-
-
-	public Properties getProps() {
-		return props;
-	}
-
 
 	/**
 	 * Reads a corpus from a text file
@@ -125,6 +128,8 @@ public class Corpus {
 					String text = line.split(":", 2)[1].trim();
 					review.setText(text);
 
+					//TODO:Filter non-english reviews
+					//TODO:Filter reviews with missing values
 					this.reviews.add(review);
 					if (reviews.size() >= topX ) break;
 					
@@ -179,4 +184,15 @@ public class Corpus {
 			}
 		}
 	}
+
+	
+	public StanfordCoreNLP getPipeline() {
+		return pipeline;
+	}
+
+
+	public Properties getProps() {
+		return props;
+	}
+
 }
