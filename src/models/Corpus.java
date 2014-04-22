@@ -26,12 +26,129 @@ public class Corpus {
 		pipeline = new StanfordCoreNLP(props);
 	}
 	
-	public Corpus getTopReviews(Aspect asp) {
-		//TODO:Define top reviews for each aspect
-		//TODO:Implement getTopReviews
+	public Corpus getTopReviews(Aspect asp, int minThreshold) {
+		//threshold included
+		
+		
+		if (asp == Aspect.OVERALL) {	
+		
+			for (int i=0; i> reviews.size(); i++) {
+			
+				if (reviews.get(i).getOverall() <= minThreshold) 
+				{
+					reviews.remove(i);
+				}
+		}
+		}
+		
+		if (asp == Aspect.PALATE) {	
+			
+			for (int i=0; i> reviews.size(); i++) {
+			
+				if (reviews.get(i).getPalate() <= minThreshold) 
+				{
+					reviews.remove(i);
+				}
+		}
+		}
+		
+		if (asp == Aspect.TASTE) {	
+			
+			for (int i=0; i> reviews.size(); i++) {
+			
+				if (reviews.get(i).getTaste() <= minThreshold) 
+				{
+					reviews.remove(i);
+				}
+		}
+		}
+		
+		if (asp == Aspect.AROMA) {	
+			
+			for (int i=0; i> reviews.size(); i++) {
+			
+				if (reviews.get(i).getAroma() <= minThreshold) 
+				{
+					reviews.remove(i);
+				}
+		}
+		}
+		
+		if 	(asp == Aspect.APPEARANCE) {	
+			
+			for (int i=0; i> reviews.size(); i++) {
+			
+				if (reviews.get(i).getAppearance() <= minThreshold) 
+				{
+					reviews.remove(i);
+				}
+		}
+		}
+		
 		return new Corpus(this.props);
 	}
 	
+	public Corpus getTopReviews(Aspect asp) {
+		//threshold is always top XX percent
+		
+		
+		if (asp == Aspect.OVERALL) {	
+		
+			for (int i=0; i> reviews.size(); i++) {
+			
+				if (reviews.get(i).getOverall() <= 16) 
+				{
+					reviews.remove(i);
+				}
+		}
+		}
+		
+		if (asp == Aspect.PALATE) {	
+			
+			for (int i=0; i> reviews.size(); i++) {
+			
+				if (reviews.get(i).getPalate() <= 3) 
+				{
+					reviews.remove(i);
+				}
+		}
+		}
+		
+		if (asp == Aspect.TASTE) {	
+			
+			for (int i=0; i> reviews.size(); i++) {
+			
+				if (reviews.get(i).getTaste() <= 7) 
+				{
+					reviews.remove(i);
+				}
+		}
+		}
+		
+		if (asp == Aspect.AROMA) {	
+			
+			for (int i=0; i> reviews.size(); i++) {
+			
+				if (reviews.get(i).getAroma() <= 7) 
+				{
+					reviews.remove(i);
+				}
+		}
+		}
+		
+		if 	(asp == Aspect.APPEARANCE) {	
+			
+			for (int i=0; i> reviews.size(); i++) {
+			
+				if (reviews.get(i).getAppearance() <= 3) 
+				{
+					reviews.remove(i);
+				}
+		}
+		}
+		
+		return new Corpus(this.props);
+	}
 
 	public Corpus getLowReviews(Aspect asp) {
 		//TODO:Define low reviews for each aspect
