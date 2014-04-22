@@ -41,6 +41,9 @@ public class Review {
 	private int time;
 	private String profileName;
 	private String text;
+	private Boolean isLemmatized;
+	private Boolean isTokenized;
+	
 
 	// NLP analyzed fields
 	private List<String> sentences = new ArrayList<String>();
@@ -69,9 +72,9 @@ public class Review {
 				// this is the POS tag of the token
 				String pos = token.get(PartOfSpeechAnnotation.class);
 				
-				//TODO:Filter stop words
+				//TODO:Filter stop words (Marc)
 				
-				//TODO:Add analyzed tokens based on aspects
+				//TODO:Add analyzed tokens based on aspects (Marc)
 			}
 
 		}
@@ -79,6 +82,7 @@ public class Review {
 	}
 
 	public static Aspect findAspect(String sentence) {
+		//TODO: switch to arraylist for each aspect (Marc)
 		
 		
 		if (sentence.toLowerCase().contains("overall".toLowerCase())) {

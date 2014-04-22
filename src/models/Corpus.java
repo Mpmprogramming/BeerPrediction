@@ -30,8 +30,6 @@ public class Corpus {
 		//threshold included
 		
 		
-	
-		
 		if (whichAspect.toLowerCase() == "overall") {	
 		
 			for (int i=0; i> reviews.size(); i++) {
@@ -340,8 +338,8 @@ public class Corpus {
 					review.setBrewerID(brewerId);
 				}
 
-				// TODO:Check if needed
-				// TODO:Handle missing values
+				// Will be ignored for now:Check if needed
+				// Handle missing values
 				// if (line.startsWith("beer/ABV")) {
 				// String abv = line.split(":", 2)[1].trim();
 				// review.setABV(Double.parseDouble(abv));
@@ -396,8 +394,9 @@ public class Corpus {
 					String text = line.split(":", 2)[1].trim();
 					review.setText(text);
 
-					//TODO:Filter non-english reviews
-					//TODO:Filter reviews with missing values
+					//TODO:Filter non-english reviews (Marc)
+					//if getLanguage != en, continue
+					//TODO:Filter reviews with missing values 
 					this.reviews.add(review);
 					if (reviews.size() >= topX ) break;
 					
