@@ -31,7 +31,7 @@ public class Review {
 	private String name;
 	private String beerID;
 	private String brewerID;
-	private double ABV; //TODO:What exactly does that mean?
+	private double ABV; //ABV= Alcohol by volume
 	private String style;
 	private int appearance;
 	private int aroma;
@@ -79,8 +79,42 @@ public class Review {
 	}
 
 	public static Aspect findAspect(String sentence) {
-		//TODO implement findAspect
-		return Aspect.NONE;
+		
+		switch (sentence) {
+		case "overall":
+		
+			return Aspect.OVERALL; 
+			
+		case "general":
+			
+			return Aspect.OVERALL; 
+	
+		case "appearance":
+			
+			return Aspect.APPEARANCE; 
+			
+		case "color":
+			
+			return Aspect.APPEARANCE; 
+			
+		case "looks":
+			
+			return Aspect.APPEARANCE; 
+	
+		case "palate":
+			
+			return Aspect.PALATE; 
+
+		case "taste":
+		
+			return Aspect.TASTE; 
+			
+		default:
+			return Aspect.NONE;
+			
+		}
+		
+		
 	}
 
 	public List<String> getSentences() {
