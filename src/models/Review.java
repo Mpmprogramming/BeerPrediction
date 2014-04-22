@@ -80,36 +80,54 @@ public class Review {
 
 	public static Aspect findAspect(String sentence) {
 		
-		switch (sentence) {
-		case "overall":
+		
+		if (sentence.toLowerCase().contains("overall".toLowerCase())) {
 		
 			return Aspect.OVERALL; 
 			
-		case "general":
+		}
+			
+		else if (sentence.toLowerCase().contains("general".toLowerCase())) {
 			
 			return Aspect.OVERALL; 
+			
+		}
 	
-		case "appearance":
+
+			
+		else if (sentence.toLowerCase().contains("appear".toLowerCase())) {
+				
+			return Aspect.APPEARANCE; 
+				
+		}
+			
+		else if (sentence.toLowerCase().contains("color".toLowerCase())) {
 			
 			return Aspect.APPEARANCE; 
+				
+		}
 			
-		case "color":
+			
+		else if (sentence.toLowerCase().contains("look".toLowerCase())) {
 			
 			return Aspect.APPEARANCE; 
+				
+		}
 			
-		case "looks":
-			
-			return Aspect.APPEARANCE; 
 	
-		case "palate":
+		else if (sentence.toLowerCase().contains("palate".toLowerCase())) {
 			
 			return Aspect.PALATE; 
+				
+		}
 
-		case "taste":
+		else if (sentence.toLowerCase().contains("look".toLowerCase())) {
+		 
+		return Aspect.TASTE; 
 		
-			return Aspect.TASTE; 
+		}
 			
-		default:
+		else {
 			return Aspect.NONE;
 			
 		}
