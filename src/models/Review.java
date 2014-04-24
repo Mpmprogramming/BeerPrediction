@@ -57,6 +57,7 @@ public class Review {
 		wordsForAppearance.add("look");
 		wordsForAppearance.add("head");
 		wordsForAppearance.add("pour");
+		wordsForAppearance.add("Poured");
 		wordsForAppearance.add("brown");
 		wordsForAppearance.add("red");
 		wordsForAroma.add("aroma");
@@ -109,43 +110,43 @@ public class Review {
 	
 	
 	public static Aspect findAspect(String sentence) {
-		//TODO: jUnit tests for methods
-			
 		
-		for (int i=0; i>wordsForAppearance.size(); i++ ) {
-		if (sentence.toLowerCase().contains(wordsForAppearance.get(i))) {
+	
+		for (int i=0; i<getWordsForAppearance().size(); i++ ) {
+			
+		if (sentence.toLowerCase().contains(getWordsForAppearance().get(i))) {
 		
 			return Aspect.APPEARANCE; 
 		}
 		}
 			
-		for (int i=0; i>wordsForAroma.size(); i++ ) {
+		for (int i=0; i<wordsForAroma.size(); i++ ) {
 			if (sentence.toLowerCase().contains(wordsForAroma.get(i))) {
-			
+		
 				return Aspect.AROMA; 
 		}
 		}
 		
 		
-		for (int i=0; i>wordsForPalate.size(); i++ ) {
+		for (int i=0; i<wordsForPalate.size(); i++ ) {
 			if (sentence.toLowerCase().contains(wordsForPalate.get(i))) {
-			
+		
 				return Aspect.PALATE; 
 		}
 		}
 	
 		
-		for (int i=0; i>wordsForTaste.size(); i++ ) {
+		for (int i=0; i<wordsForTaste.size(); i++ ) {
 			if (sentence.toLowerCase().contains(wordsForTaste.get(i))) {
-			
+		
 				return Aspect.TASTE; 
 		}
 		}
 		
 		
-		for (int i=0; i>wordsForOverall.size(); i++ ) {
+		for (int i=0; i<wordsForOverall.size(); i++ ) {
 			if (sentence.toLowerCase().contains(wordsForOverall.get(i))) {
-			
+		
 				return Aspect.OVERALL; 
 		}
 		}
@@ -275,7 +276,7 @@ public class Review {
 				+ "," + time + "," + profileName + ",\"" + text + "\"";
 	}
 
-	public ArrayList<String> getWordsForAppearance() {
+	public static ArrayList<String> getWordsForAppearance() {
 		return wordsForAppearance;
 	}
 

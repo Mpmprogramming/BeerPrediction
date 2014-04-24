@@ -47,12 +47,30 @@ public class CorpusTest {
 		rev.analyze(co.getPipeline(), co.getProps());
 		assertEquals(6, rev.getSentences().size());
 	}
-	
+//	@Test
+//	public void testFindAspectsSimpleVersion() {
+//
+//		System.out.println("findaspect");
+//		System.out.println(Review.findAspect("Appearing"));
+		
 	@Test
 	public void testFindAspects() {
 		rev.setText("On tap at the Springfield, PA location. Poured a deep and cloudy orange (almost a copper) color with a small sized off white head. Aromas or oranges and all around citric. Tastes of oranges, light caramel and a very light grapefruit finish. I too would not believe the 80+ IBUs - I found this one to have a very light bitterness with a medium sweetness to it. Light lacing left on the glass.");
 		rev.analyze(co.getPipeline(), co.getProps());
-		assertTrue(Review.findAspect(rev.getText()).equals(Aspect.APPEARANCE));
+		System.out.println("The following sentences are analyzed:" + " "+ rev.getSentences());
+
+		
+		for (int i=0; i<rev.getSentences().size();i++) {
+		System.out.println(rev.findAspect(rev.getSentences().get(i))+ " : " +rev.getSentences().get(i));
+		}
+		assertTrue((rev.findAspect((rev.getSentences().get(0))).equals(Aspect.NONE)));
+		assertTrue((rev.findAspect((rev.getSentences().get(1))).equals(Aspect.APPEARANCE)));
+		assertTrue((rev.findAspect((rev.getSentences().get(2))).equals(Aspect.AROMA)));
+		
+		assertTrue((rev.findAspect((rev.getSentences().get(3))).equals(Aspect.TASTE)));
+		assertTrue((rev.findAspect((rev.getSentences().get(4))).equals(Aspect.TASTE)));
+		assertTrue((rev.findAspect((rev.getSentences().get(5))).equals(Aspect.NONE)));
+
 	}
 
 }
