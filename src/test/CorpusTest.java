@@ -10,12 +10,13 @@ import java.util.Properties;
 
 import models.Corpus;
 import models.Review;
+import models.Review.Aspect;
 
 import org.junit.Before;
 import org.junit.Test;
 
 /**
- * @author Michi
+ * @author Michi, Marc
  *
  */
 public class CorpusTest {
@@ -45,6 +46,13 @@ public class CorpusTest {
 		rev.setText("On tap at the Springfield, PA location. Poured a deep and cloudy orange (almost a copper) color with a small sized off white head. Aromas or oranges and all around citric. Tastes of oranges, light caramel and a very light grapefruit finish. I too would not believe the 80+ IBUs - I found this one to have a very light bitterness with a medium sweetness to it. Light lacing left on the glass.");
 		rev.analyze(co.getPipeline(), co.getProps());
 		assertEquals(6, rev.getSentences().size());
+	}
+	
+	@Test
+	public void testFindAspects() {
+		rev.setText("On tap at the Springfield, PA location. Poured a deep and cloudy orange (almost a copper) color with a small sized off white head. Aromas or oranges and all around citric. Tastes of oranges, light caramel and a very light grapefruit finish. I too would not believe the 80+ IBUs - I found this one to have a very light bitterness with a medium sweetness to it. Light lacing left on the glass.");
+		rev.analyze(co.getPipeline(), co.getProps());
+		assertTrue(Review.findAspect(rev.getText()).equals(Aspect.APPEARANCE));
 	}
 
 }

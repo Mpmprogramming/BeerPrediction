@@ -19,7 +19,7 @@ import edu.stanford.nlp.pipeline.StanfordCoreNLP;
 import edu.stanford.nlp.util.CoreMap;
 
 /**
- * @author Michi
+ * @author Michi, Marc
  * 
  */
 public class Review {
@@ -41,9 +41,34 @@ public class Review {
 	private int time;
 	private String profileName;
 	private String text;
-	private Boolean isLemmatized;
-	private Boolean isTokenized;
 	
+	//Arrays as collections for different aspects of the review
+	private static ArrayList<String> wordsForAppearance = new ArrayList<String>();
+	private static ArrayList<String> wordsForAroma = new ArrayList<String>();
+	private static ArrayList<String> wordsForPalate = new ArrayList<String>();
+	private static ArrayList<String> wordsForTaste = new ArrayList<String>();
+	private static ArrayList<String> wordsForOverall = new ArrayList<String>();
+	
+	static {
+		wordsForAppearance.add("appear");
+		wordsForAppearance.add("appearance");
+		wordsForAppearance.add("color");
+		wordsForAppearance.add("colour");
+		wordsForAppearance.add("look");
+		wordsForAppearance.add("head");
+		wordsForAppearance.add("pour");
+		wordsForAppearance.add("brown");
+		wordsForAppearance.add("red");
+		wordsForAroma.add("aroma");
+		wordsForPalate.add("palate");
+		wordsForTaste.add("taste");
+		wordsForTaste.add("flavor");
+		wordsForTaste.add("flavour");
+		wordsForTaste.add("sweet");
+		wordsForTaste.add("bitter");
+		wordsForOverall.add("overall");
+		wordsForOverall.add("general");
+	}
 
 	// NLP analyzed fields
 	private List<String> sentences = new ArrayList<String>();
@@ -81,63 +106,54 @@ public class Review {
 		return 0;
 	}
 
+	
+	
 	public static Aspect findAspect(String sentence) {
-		//TODO: switch to arraylist for each aspect (Marc)
-		
-		
-		if (sentence.toLowerCase().contains("overall".toLowerCase())) {
-		
-			return Aspect.OVERALL; 
+		//TODO: jUnit tests for methods
 			
+		
+		for (int i=0; i>wordsForAppearance.size(); i++ ) {
+		if (sentence.toLowerCase().contains(wordsForAppearance.get(i))) {
+		
+			return Aspect.APPEARANCE; 
+		}
 		}
 			
-		else if (sentence.toLowerCase().contains("general".toLowerCase())) {
+		for (int i=0; i>wordsForAroma.size(); i++ ) {
+			if (sentence.toLowerCase().contains(wordsForAroma.get(i))) {
 			
-			return Aspect.OVERALL; 
+				return Aspect.AROMA; 
+		}
+		}
+		
+		
+		for (int i=0; i>wordsForPalate.size(); i++ ) {
+			if (sentence.toLowerCase().contains(wordsForPalate.get(i))) {
 			
+				return Aspect.PALATE; 
+		}
 		}
 	
-
-			
-		else if (sentence.toLowerCase().contains("appear".toLowerCase())) {
-				
-			return Aspect.APPEARANCE; 
-				
-		}
-			
-		else if (sentence.toLowerCase().contains("color".toLowerCase())) {
-			
-			return Aspect.APPEARANCE; 
-				
-		}
-			
-			
-		else if (sentence.toLowerCase().contains("look".toLowerCase())) {
-			
-			return Aspect.APPEARANCE; 
-				
-		}
-			
-	
-		else if (sentence.toLowerCase().contains("palate".toLowerCase())) {
-			
-			return Aspect.PALATE; 
-				
-		}
-
-		else if (sentence.toLowerCase().contains("look".toLowerCase())) {
-		 
-		return Aspect.TASTE; 
 		
+		for (int i=0; i>wordsForTaste.size(); i++ ) {
+			if (sentence.toLowerCase().contains(wordsForTaste.get(i))) {
+			
+				return Aspect.TASTE; 
+		}
+		}
+		
+		
+		for (int i=0; i>wordsForOverall.size(); i++ ) {
+			if (sentence.toLowerCase().contains(wordsForOverall.get(i))) {
+			
+				return Aspect.OVERALL; 
+		}
 		}
 			
-		else {
+		
 			return Aspect.NONE;
-			
-		}
-		
-		
 	}
+	
 
 	public List<String> getSentences() {
 		return sentences;
@@ -257,6 +273,46 @@ public class Review {
 	public String toCSV() {
 		return name + "," + beerID + "," + brewerID + "," + ABV + "," + style + "," + appearance + "," + aroma + "," + palate + "," + taste + "," + overall
 				+ "," + time + "," + profileName + ",\"" + text + "\"";
+	}
+
+	public ArrayList<String> getWordsForAppearance() {
+		return wordsForAppearance;
+	}
+
+	public void setWordsForAppearance(ArrayList<String> wordsForApperance) {
+		Review.wordsForAppearance = wordsForApperance;
+	}
+
+	public ArrayList<String> getWordsForAroma() {
+		return wordsForAroma;
+	}
+
+	public void setWordsForAroma(ArrayList<String> wordsForAroma) {
+		Review.wordsForAroma = wordsForAroma;
+	}
+
+	public ArrayList<String> getWordsForPalate() {
+		return wordsForPalate;
+	}
+
+	public void setWordsForPalate(ArrayList<String> wordsForPalate) {
+		Review.wordsForPalate = wordsForPalate;
+	}
+
+	public ArrayList<String> getWordsForTaste() {
+		return wordsForTaste;
+	}
+
+	public void setWordsForTaste(ArrayList<String> wordsForTaste) {
+		Review.wordsForTaste = wordsForTaste;
+	}
+
+	public ArrayList<String> getWordsForOverall() {
+		return wordsForOverall;
+	}
+
+	public void setWordsForOverall(ArrayList<String> wordsForOverall) {
+		Review.wordsForOverall = wordsForOverall;
 	}
 
 }
