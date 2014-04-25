@@ -50,14 +50,13 @@ public class Review {
 	private static ArrayList<String> wordsForOverall = new ArrayList<String>();
 	
 	static {
-		wordsForAppearance.add("appear");
+//	could be disambiguous:	wordsForAppearance.add("appear");
 		wordsForAppearance.add("appearance");
 		wordsForAppearance.add("color");
 		wordsForAppearance.add("colour");
 		wordsForAppearance.add("look");
 		wordsForAppearance.add("head");
 		wordsForAppearance.add("pour");
-		wordsForAppearance.add("Poured");
 		wordsForAppearance.add("brown");
 		wordsForAppearance.add("red");
 		wordsForAroma.add("aroma");

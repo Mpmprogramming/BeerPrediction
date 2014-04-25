@@ -11,7 +11,7 @@ import models.Review.Aspect;
 import edu.stanford.nlp.pipeline.StanfordCoreNLP;
 
 /**
- * @author Michi
+ * @author Michi, Marc
  * 
  */
 public class Corpus {
@@ -27,7 +27,7 @@ public class Corpus {
 	}
 	
 	public Corpus getTopReviews(Aspect asp, String whichAspect, int minThreshold) {
-		//threshold included
+		//TODO: delete string as attribute, implement threshold as properties
 		
 		
 		if (whichAspect.toLowerCase() == "overall") {	
@@ -95,7 +95,7 @@ public class Corpus {
 	}
 	
 	public Corpus getTopReviews(Aspect asp, String whichAspect) {
-		//threshold included
+		//TODO: delete string as attribute
 		
 		
 	
@@ -166,7 +166,7 @@ public class Corpus {
 	
 
 	public Corpus getLowReviews(Aspect asp, String whichAspect, int maxThreshold) {
-		//threshold included
+		//TODO: delete string as attribute, implement threshold as properties
 		
 		
 	
@@ -236,7 +236,7 @@ public class Corpus {
 	}
 	
 	public Corpus getLowReviews(Aspect asp, String whichAspect) {
-		//threshold included
+		//TODO: delete string as attribute
 		
 		
 	
