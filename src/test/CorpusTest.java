@@ -109,7 +109,7 @@ public class CorpusTest {
 }
 	
 	@Test
-	public void testLowTopPalateReviews() {
+	public void testGetLowPalateReviews() {
 
 		co.loadFromFile("data/ratebeer.txt", 100);
 		co.getLowReviews(Aspect.PALATE);
