@@ -72,5 +72,119 @@ public class CorpusTest {
 		assertTrue((rev.findAspect((rev.getSentences().get(5))).equals(Aspect.NONE)));
 
 	}
+	@Test
+	public void testGetLowOverallReviews() {
 
+		co.loadFromFile("data/ratebeer.txt", 100);
+		System.out.println(co.getReviews().size() +" reviews were in the sample!");
+		co.getLowReviews(Aspect.OVERALL);
+		System.out.println("overall: " +co.getReviews().size() + " are low");
+		for (int i=9; i<=20; i++) {
+			assertFalse(co.getReviews().contains(i));
+		}
+		assertFalse(co.getReviews().contains(22));
+}
+	
+	@Test
+	public void testGetLowAppearanceReviews() {
+
+		co.loadFromFile("data/ratebeer.txt", 100);
+		co.getLowReviews(Aspect.APPEARANCE);
+		System.out.println("appearance: " +co.getReviews().size() + " are low");
+		assertFalse(co.getReviews().contains(3));
+		assertFalse(co.getReviews().contains(4));
+		assertFalse(co.getReviews().contains(5));
+		assertFalse(co.getReviews().contains(6));
+}
+	@Test
+	public void testGetLowAromaReviews() {
+
+		co.loadFromFile("data/ratebeer.txt", 100);
+		co.getLowReviews(Aspect.AROMA);
+		System.out.println("aroma: " +co.getReviews().size() + " are low");
+		for (int i=5; i<=10; i++) {
+			assertFalse(co.getReviews().contains(i));
+		}
+		assertFalse(co.getReviews().contains(13));
+}
+	
+	@Test
+	public void testLowTopPalateReviews() {
+
+		co.loadFromFile("data/ratebeer.txt", 100);
+		co.getLowReviews(Aspect.PALATE);
+		System.out.println("palate: " +co.getReviews().size() + " are low");
+		assertFalse(co.getReviews().contains(3));
+		assertFalse(co.getReviews().contains(4));
+		assertFalse(co.getReviews().contains(5));
+		assertFalse(co.getReviews().contains(6));
+}
+	@Test
+	public void testGetLowTasteReviews() {
+
+		co.loadFromFile("data/ratebeer.txt", 100);
+		co.getLowReviews(Aspect.TASTE);
+		System.out.println("taste: " +co.getReviews().size() + " are low");
+		for (int i=5; i<=10; i++) {
+			assertFalse(co.getReviews().contains(i));
+		}
+		assertFalse(co.getReviews().contains(13));
+}
+	
+	@Test
+	public void testGetTopOverallReviews() {
+
+		co.loadFromFile("data/ratebeer.txt", 100);
+		System.out.println(co.getReviews().size() +" reviews were in the sample!");
+		co.getTopReviews(Aspect.OVERALL);
+		System.out.println("overall: " +co.getReviews().size() + " are top");
+		for (int i=0; i<15; i++) {
+			assertFalse(co.getReviews().contains(i));
+		}
+		assertFalse(co.getReviews().contains(22));
+}
+	
+	@Test
+	public void testGetTopAppearanceReviews() {
+
+		co.loadFromFile("data/ratebeer.txt", 100);
+		co.getTopReviews(Aspect.APPEARANCE);
+		System.out.println("appearance: " +co.getReviews().size() + " are top");
+		assertFalse(co.getReviews().contains(2));
+		assertFalse(co.getReviews().contains(1));
+		assertFalse(co.getReviews().contains(5));
+}
+	@Test
+	public void testGetTopAromaReviews() {
+
+		co.loadFromFile("data/ratebeer.txt", 100);
+		co.getTopReviews(Aspect.AROMA);
+		System.out.println("aroma: " +co.getReviews().size() + " are top");
+		for (int i=0; i<7; i++) {
+			assertFalse(co.getReviews().contains(i));
+		}
+		assertFalse(co.getReviews().contains(13));
+}
+	
+	@Test
+	public void testGetTopPalateReviews() {
+
+		co.loadFromFile("data/ratebeer.txt", 100);
+		co.getTopReviews(Aspect.PALATE);
+		System.out.println("palate: " +co.getReviews().size() + " are top");
+		assertFalse(co.getReviews().contains(2));
+		assertFalse(co.getReviews().contains(1));
+		assertFalse(co.getReviews().contains(5));
+}
+	@Test
+	public void testGetTopTasteReviews() {
+
+		co.loadFromFile("data/ratebeer.txt", 100);
+		co.getTopReviews(Aspect.TASTE);
+		System.out.println("taste: " +co.getReviews().size() + " are top");
+		for (int i=0; i<7; i++) {
+			assertFalse(co.getReviews().contains(i));
+		}
+		assertFalse(co.getReviews().contains(13));
+}
 }

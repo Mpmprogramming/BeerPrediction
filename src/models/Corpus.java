@@ -17,6 +17,8 @@ import edu.stanford.nlp.pipeline.StanfordCoreNLP;
 public class Corpus {
 	
 	private ArrayList<Review> reviews = new ArrayList<Review>();
+	private ArrayList<Review> topReviews = new ArrayList<Review>();
+	private ArrayList<Review> lowReviews = new ArrayList<Review>();
 	StanfordCoreNLP pipeline;
 	Properties props;
 	
@@ -26,285 +28,6 @@ public class Corpus {
 		pipeline = new StanfordCoreNLP(props);
 	}
 	
-	public Corpus getTopReviews(Aspect asp, String whichAspect, int minThreshold) {
-		//TODO: delete string as attribute, implement threshold as properties
-		
-		
-		if (whichAspect.toLowerCase() == "overall") {	
-		
-			for (int i=0; i> reviews.size(); i++) {
-			
-				if (reviews.get(i).getOverall() <= minThreshold) 
-				{
-					reviews.remove(i);
-				}
-		}
-			return new Corpus(this.props);
-		}
-		
-		if (whichAspect.toLowerCase() == "palate") {	
-			
-			for (int i=0; i> reviews.size(); i++) {
-			
-				if (reviews.get(i).getPalate() <= minThreshold) 
-				{
-					reviews.remove(i);
-				}
-		}
-			return new Corpus(this.props);
-		}
-		
-		if (whichAspect.toLowerCase() == "taste") {	
-			
-			for (int i=0; i> reviews.size(); i++) {
-			
-				if (reviews.get(i).getTaste() <= minThreshold) 
-				{
-					reviews.remove(i);
-				}
-		}
-			return new Corpus(this.props);
-		}
-		
-		if (whichAspect.toLowerCase() == "aroma") {	
-			
-			for (int i=0; i> reviews.size(); i++) {
-			
-				if (reviews.get(i).getAroma() <= minThreshold) 
-				{
-					reviews.remove(i);
-				}
-		}
-			return new Corpus(this.props);
-		}
-		
-		if 	(whichAspect.toLowerCase() == "appearance") {	
-			
-			for (int i=0; i> reviews.size(); i++) {
-			
-				if (reviews.get(i).getAppearance() <= minThreshold) 
-				{
-					reviews.remove(i);
-				}
-		}
-			
-			return new Corpus(this.props);
-		}
-		
-		return new Corpus(this.props);
-	}
-	
-	public Corpus getTopReviews(Aspect asp, String whichAspect) {
-		//TODO: delete string as attribute
-		
-		
-	
-		
-		if (whichAspect.toLowerCase() == "overall") {	
-		
-			for (int i=0; i> reviews.size(); i++) {
-			
-				if (reviews.get(i).getOverall() <= 16) 
-				{
-					reviews.remove(i);
-				}
-		}
-			return new Corpus(this.props);
-		}
-		
-		if (whichAspect.toLowerCase() == "palate") {	
-			
-			for (int i=0; i> reviews.size(); i++) {
-			
-				if (reviews.get(i).getPalate() <= 3) 
-				{
-					reviews.remove(i);
-				}
-		}
-			return new Corpus(this.props);
-		}
-		
-		if (whichAspect.toLowerCase() == "taste") {	
-			
-			for (int i=0; i> reviews.size(); i++) {
-			
-				if (reviews.get(i).getTaste() <= 7) 
-				{
-					reviews.remove(i);
-				}
-		}
-			return new Corpus(this.props);
-		}
-		
-		if (whichAspect.toLowerCase() == "aroma") {	
-			
-			for (int i=0; i> reviews.size(); i++) {
-			
-				if (reviews.get(i).getAroma() <= 7) 
-				{
-					reviews.remove(i);
-				}
-		}
-			return new Corpus(this.props);
-		}
-		
-		if 	(whichAspect.toLowerCase() == "appearance") {	
-			
-			for (int i=0; i> reviews.size(); i++) {
-			
-				if (reviews.get(i).getAppearance() <= 3) 
-				{
-					reviews.remove(i);
-				}
-		}
-			
-			return new Corpus(this.props);
-		}
-		
-		return new Corpus(this.props);
-	}
-	
-
-	public Corpus getLowReviews(Aspect asp, String whichAspect, int maxThreshold) {
-		//TODO: delete string as attribute, implement threshold as properties
-		
-		
-	
-		
-		if (whichAspect.toLowerCase() == "overall") {	
-		
-			for (int i=0; i> reviews.size(); i++) {
-			
-				if (reviews.get(i).getOverall() >= maxThreshold) 
-				{
-					reviews.remove(i);
-				}
-		}
-			return new Corpus(this.props);
-		}
-		
-		if (whichAspect.toLowerCase() == "palate") {	
-			
-			for (int i=0; i> reviews.size(); i++) {
-			
-				if (reviews.get(i).getPalate() >= maxThreshold) 
-				{
-					reviews.remove(i);
-				}
-		}
-			return new Corpus(this.props);
-		}
-		
-		if (whichAspect.toLowerCase() == "taste") {	
-			
-			for (int i=0; i> reviews.size(); i++) {
-			
-				if (reviews.get(i).getTaste() >= maxThreshold) 
-				{
-					reviews.remove(i);
-				}
-		}
-			return new Corpus(this.props);
-		}
-		
-		if (whichAspect.toLowerCase() == "aroma") {	
-			
-			for (int i=0; i> reviews.size(); i++) {
-			
-				if (reviews.get(i).getAroma() >= maxThreshold) 
-				{
-					reviews.remove(i);
-				}
-		}
-			return new Corpus(this.props);
-		}
-		
-		if 	(whichAspect.toLowerCase() == "appearance") {	
-			
-			for (int i=0; i> reviews.size(); i++) {
-			
-				if (reviews.get(i).getAppearance() >= maxThreshold) 
-				{
-					reviews.remove(i);
-				}
-		}
-			
-			return new Corpus(this.props);
-		}
-		
-		return new Corpus(this.props);
-	}
-	
-	public Corpus getLowReviews(Aspect asp, String whichAspect) {
-		//TODO: delete string as attribute
-		
-		
-	
-		
-		if (whichAspect.toLowerCase() == "overall") {	
-		
-			for (int i=0; i> reviews.size(); i++) {
-			
-				if (reviews.get(i).getOverall() >= 16) 
-				{
-					reviews.remove(i);
-				}
-		}
-			return new Corpus(this.props);
-		}
-		
-		if (whichAspect.toLowerCase() == "palate") {	
-			
-			for (int i=0; i> reviews.size(); i++) {
-			
-				if (reviews.get(i).getPalate() >= 3) 
-				{
-					reviews.remove(i);
-				}
-		}
-			return new Corpus(this.props);
-		}
-		
-		if (whichAspect.toLowerCase() == "taste") {	
-			
-			for (int i=0; i> reviews.size(); i++) {
-			
-				if (reviews.get(i).getTaste() >= 7) 
-				{
-					reviews.remove(i);
-				}
-		}
-			return new Corpus(this.props);
-		}
-		
-		if (whichAspect.toLowerCase() == "aroma") {	
-			
-			for (int i=0; i> reviews.size(); i++) {
-			
-				if (reviews.get(i).getAroma() >= 7) 
-				{
-					reviews.remove(i);
-				}
-		}
-			return new Corpus(this.props);
-		}
-		
-		if 	(whichAspect.toLowerCase() == "appearance") {	
-			
-			for (int i=0; i> reviews.size(); i++) {
-			
-				if (reviews.get(i).getAppearance() >= 3) 
-				{
-					reviews.remove(i);
-				}
-		}
-			
-			return new Corpus(this.props);
-		}
-		
-		return new Corpus(this.props);
-	}
-
 	/**
 	 * Reads a corpus from a text file
 	 * 
@@ -451,6 +174,150 @@ public class Corpus {
 			}
 		}
 	}
+	
+
+		//TODO: delete string as attribute, implement threshold as properties
+
+	
+	public Corpus getTopReviews(Aspect asp) {
+		
+		if (asp.equals(Aspect.APPEARANCE)) {	
+			 
+			for (int i=0; i< reviews.size(); i++) {
+				if (reviews.get(i).getAppearance() > 3) 
+				{
+					topReviews.add(reviews.get(i));
+				}
+		}
+			reviews=topReviews;
+			return new Corpus(this.props);
+		}
+		
+		if (asp.equals(Aspect.AROMA)) {	
+			 
+			for (int i=0; i< reviews.size(); i++) {
+				if (reviews.get(i).getAroma() >= 7) 
+				{
+					topReviews.add(reviews.get(i));
+				}
+		}
+			reviews=topReviews;
+			return new Corpus(this.props);
+		}
+			
+		if (asp.equals(Aspect.PALATE)) {	
+			 
+			for (int i=0; i< reviews.size(); i++) {
+				if (reviews.get(i).getPalate() > 3) 
+				{
+					topReviews.add(reviews.get(i));
+				}
+		}
+			reviews=topReviews;
+			return new Corpus(this.props);
+		}
+		
+		if (asp.equals(Aspect.TASTE)) {	
+			 
+			for (int i=0; i< reviews.size(); i++) {
+				if (reviews.get(i).getTaste() >= 7) 
+				{
+					topReviews.add(reviews.get(i));
+				}
+		}
+			reviews=topReviews;
+			return new Corpus(this.props);
+		}
+		
+		if (asp.equals(Aspect.OVERALL)) {	
+		 
+		 
+			for (int i=0; i< reviews.size(); i++) {
+			
+				if (reviews.get(i).getOverall() >= 15) 
+				{
+					topReviews.add(reviews.get(i));
+					
+				}
+				
+		}
+			reviews=topReviews;
+			return new Corpus(this.props);
+		}
+		return new Corpus(this.props);
+	}
+	
+
+	
+public Corpus getLowReviews(Aspect asp) {
+		
+		if (asp.equals(Aspect.APPEARANCE)) {	
+			 
+			for (int i=0; i< reviews.size(); i++) {
+				if (reviews.get(i).getAppearance() < 3) 
+				{
+					lowReviews.add(reviews.get(i));
+				}
+		}
+			reviews=lowReviews;
+			return new Corpus(this.props);
+		}
+		
+		if (asp.equals(Aspect.AROMA)) {	
+			 
+			for (int i=0; i< reviews.size(); i++) {
+				if (reviews.get(i).getAroma() < 5) 
+				{
+					lowReviews.add(reviews.get(i));
+				}
+		}
+			reviews=lowReviews;
+			return new Corpus(this.props);
+		}
+			
+		if (asp.equals(Aspect.PALATE)) {	
+			 
+			for (int i=0; i< reviews.size(); i++) {
+				if (reviews.get(i).getPalate() < 3) 
+				{
+					lowReviews.add(reviews.get(i));
+				}
+		}
+			reviews=lowReviews;
+			return new Corpus(this.props);
+		}
+		
+		if (asp.equals(Aspect.TASTE)) {	
+			 
+			for (int i=0; i< reviews.size(); i++) {
+				if (reviews.get(i).getTaste() < 5) 
+				{
+					lowReviews.add(reviews.get(i));
+				}
+		}
+			reviews=lowReviews;
+			return new Corpus(this.props);
+		}
+		
+		if (asp.equals(Aspect.OVERALL)) {	
+		 
+		 
+			for (int i=0; i< reviews.size(); i++) {
+			
+				if (reviews.get(i).getOverall() < 9) 
+				{
+					lowReviews.add(reviews.get(i));
+					
+				}
+				
+		}
+			reviews=lowReviews;
+			return new Corpus(this.props);
+		}
+		return new Corpus(this.props);
+	}
+
+	
 
 	
 	public StanfordCoreNLP getPipeline() {
@@ -461,5 +328,30 @@ public class Corpus {
 	public Properties getProps() {
 		return props;
 	}
+	
+	public ArrayList<Review> getReviews() {
+		return reviews;
+	}
+
+	public void setWordsForTaste(ArrayList<Review> reviewsArray) {
+		this.reviews = reviewsArray;
+	}
+
+	public ArrayList<Review> getTopReviews() {
+		return topReviews;
+	}
+
+	public void setTopReviews(ArrayList<Review> topReviews) {
+		this.topReviews = topReviews;
+	}
+
+	public ArrayList<Review> getLowReviews() {
+		return lowReviews;
+	}
+
+	public void setLowReviews(ArrayList<Review> lowReviews) {
+		this.lowReviews = lowReviews;
+	}
+
 
 }
