@@ -19,6 +19,7 @@ public class Corpus {
 	private ArrayList<Review> reviews = new ArrayList<Review>();
 	private ArrayList<Review> topReviews = new ArrayList<Review>();
 	private ArrayList<Review> lowReviews = new ArrayList<Review>();
+
 	StanfordCoreNLP pipeline;
 	Properties props;
 	
@@ -304,7 +305,7 @@ public Corpus getLowReviews(Aspect asp) {
 		 
 			for (int i=0; i< reviews.size(); i++) {
 			
-				if (reviews.get(i).getOverall() < 9) 
+				if (reviews.get(i).getOverall() <= 8) 
 				{
 					lowReviews.add(reviews.get(i));
 					
