@@ -10,6 +10,13 @@ import java.util.Properties;
 import models.Review.Aspect;
 import edu.stanford.nlp.pipeline.StanfordCoreNLP;
 
+import java.util.ArrayList;
+
+import com.cybozu.labs.langdetect.Detector;
+import com.cybozu.labs.langdetect.DetectorFactory;
+import com.cybozu.labs.langdetect.LangDetectException;
+import com.cybozu.labs.langdetect.Language;
+
 /**
  * @author Michi, Marc
  * 
@@ -27,6 +34,7 @@ public class Corpus {
 	public Corpus(Properties props) {
 		this.props = props;
 		pipeline = new StanfordCoreNLP(props);
+		
 	}
 	
 	/**
@@ -117,16 +125,42 @@ public class Corpus {
 				if (line.startsWith("review/text")) {
 					String text = line.split(":", 2)[1].trim();
 					review.setText(text);
+					
+					//TODO: Done!? Filter reviews with missing values
+					
+				if (review.getText().length() > 1)	{
+					
+					
+					//TODO: Done!? Filter non-english reviews (Marc)
+					
+					try {
 
-					//TODO:Filter non-english reviews (Marc)
-					//if getLanguage != en, continue
-					//TODO:Filter reviews with missing values 
-					this.reviews.add(review);
+//						initLangDetection("profiles");
+//					
+						Detector detector = DetectorFactory.create();
+					       detector.append(review.getText());
+					       if (detectLanguage(review.getText()).equals("en")) {
+//					    	   System.out.println("text is "+review.getText());
+//					    	   System.out.println("lang is "+detector.detect());
+						
+						 
+						this.reviews.add(review);
+						}
+					       else {
+					    	   //this is very seldom, it happens once after parsing the 55300 review 
+					    	   System.out.println("help! other language");
+					       }
+					} catch (LangDetectException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+				}
+					
 					if (reviews.size() >= topX ) break;
 					
 					if (reviews.size() % 100 == 0 ) System.out.println("Reviews parsed so far: " + this.reviews.size());
 				}
-			}
+			} 
 			
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
@@ -176,6 +210,19 @@ public class Corpus {
 		}
 	}
 	
+	public void initLangDetection(String profileDirectory) throws LangDetectException {
+        DetectorFactory.loadProfile(profileDirectory);
+    }
+    public String detectLanguage(String text) throws LangDetectException {
+        Detector detector = DetectorFactory.create();
+        detector.append(text);
+        return detector.detect();
+    }
+    public ArrayList detectLanguages(String text) throws LangDetectException {
+        Detector detector = DetectorFactory.create();
+        detector.append(text);
+        return detector.getProbabilities();
+    }
 
 		//TODO: delete string as attribute, implement threshold as properties
 

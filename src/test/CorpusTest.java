@@ -15,6 +15,10 @@ import models.Review.Aspect;
 import org.junit.Before;
 import org.junit.Test;
 
+import com.cybozu.labs.langdetect.Detector;
+import com.cybozu.labs.langdetect.DetectorFactory;
+import com.cybozu.labs.langdetect.LangDetectException;
+
 /**
  * @author Michi, Marc
  *
@@ -189,4 +193,15 @@ public class CorpusTest {
 			assertTrue(co.getReviews().get(i).getTaste() <=10);
 			}
 	}
+//	@Test
+//	public void testDetectLanguageInGeneral() {
+//		try {
+//			co.initLangDetection("profiles");
+//			Detector detector = DetectorFactory.create();
+//		       detector.append("Willkommen in der wunderbaren NLP Welt!");
+//		} catch (LangDetectException e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		}
+//}
 }
