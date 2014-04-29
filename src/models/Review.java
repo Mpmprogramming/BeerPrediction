@@ -114,13 +114,15 @@ public class Review {
 			// traversing the words in the current sentence
 			// a CoreLabel is a CoreMap with additional token-specific methods
 			for (CoreLabel token : sentence.get(TokensAnnotation.class)) {
+				String text = token.get(TextAnnotation.class);
 				// this is the text of the token
 				String lemma = token.get(LemmaAnnotation.class);
 				// this is the POS tag of the token
 				String pos = token.get(PartOfSpeechAnnotation.class);
 				
 //				System.out.println("Adding: "+analyzedTokens.get(sentenceTopic)+" "+lemma);
-				this.analyzedTokens.put(sentenceTopic, analyzedTokens.get(sentenceTopic)+"\n"+lemma+""+pos);
+				this.analyzedTokens.put(sentenceTopic, analyzedTokens.get(sentenceTopic)+" "+text);
+//				System.out.println(sentenceTopic.name() +" "+analyzedTokens.get(sentenceTopic));
 				
 				//TODO:Filter stop words (Marc)
 				
