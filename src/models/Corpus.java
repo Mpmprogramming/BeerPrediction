@@ -12,10 +12,10 @@ import edu.stanford.nlp.pipeline.StanfordCoreNLP;
 
 import java.util.ArrayList;
 
-import com.cybozu.labs.langdetect.Detector;
-import com.cybozu.labs.langdetect.DetectorFactory;
-import com.cybozu.labs.langdetect.LangDetectException;
-import com.cybozu.labs.langdetect.Language;
+//import com.cybozu.labs.langdetect.Detector;
+//import com.cybozu.labs.langdetect.DetectorFactory;
+//import com.cybozu.labs.langdetect.LangDetectException;
+//import com.cybozu.labs.langdetect.Language;
 
 /**
  * @author Michi, Marc
@@ -24,17 +24,21 @@ import com.cybozu.labs.langdetect.Language;
 public class Corpus {
 	
 	private ArrayList<Review> reviews = new ArrayList<Review>();
-	private ArrayList<Review> topReviews = new ArrayList<Review>();
-	private ArrayList<Review> lowReviews = new ArrayList<Review>();
 
-	StanfordCoreNLP pipeline;
+//	StanfordCoreNLP pipeline;
 	Properties props;
 	
 	
 	public Corpus(Properties props) {
 		this.props = props;
-		pipeline = new StanfordCoreNLP(props);
+//		pipeline = new StanfordCoreNLP(props);
 		
+//		try {
+//			initLangDetection("profiles");
+//		} catch (LangDetectException e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		}
 	}
 	
 	/**
@@ -130,30 +134,30 @@ public class Corpus {
 					
 				if (review.getText().length() > 1)	{
 					
+					//TODO:Add inside lang filter when working
+					this.reviews.add(review);
+					
 					
 					//TODO: Done!? Filter non-english reviews (Marc)
 					
-					try {
-
-//						initLangDetection("profiles");
-//					
-						Detector detector = DetectorFactory.create();
-					       detector.append(review.getText());
-					       if (detectLanguage(review.getText()).equals("en")) {
-//					    	   System.out.println("text is "+review.getText());
-//					    	   System.out.println("lang is "+detector.detect());
-						
-						 
-						this.reviews.add(review);
-						}
-					       else {
-					    	   //this is very seldom, it happens once after parsing the 55300 review 
-					    	   System.out.println("help! other language");
-					       }
-					} catch (LangDetectException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					}
+//					try {
+//						Detector detector = DetectorFactory.create();
+//					       detector.append(review.getText());
+//					       if (detectLanguage(review.getText()).equals("en")) {
+////					    	   System.out.println("text is "+review.getText());
+////					    	   System.out.println("lang is "+detector.detect());
+//						
+//						 
+//						this.reviews.add(review);
+//						}
+//					       else {
+//					    	   //this is very seldom, it happens once after parsing the 55300 review 
+//					    	   System.out.println("help! other language");
+//					       }
+//					} catch (LangDetectException e) {
+//						// TODO Auto-generated catch block
+//						e.printStackTrace();
+//					}
 				}
 					
 					if (reviews.size() >= topX ) break;
@@ -210,24 +214,28 @@ public class Corpus {
 		}
 	}
 	
-	public void initLangDetection(String profileDirectory) throws LangDetectException {
-        DetectorFactory.loadProfile(profileDirectory);
-    }
-    public String detectLanguage(String text) throws LangDetectException {
-        Detector detector = DetectorFactory.create();
-        detector.append(text);
-        return detector.detect();
-    }
-    public ArrayList detectLanguages(String text) throws LangDetectException {
-        Detector detector = DetectorFactory.create();
-        detector.append(text);
-        return detector.getProbabilities();
-    }
+//	public void initLangDetection(String profileDirectory) throws LangDetectException {
+//        DetectorFactory.loadProfile(profileDirectory);
+//    }
+//    public String detectLanguage(String text) throws LangDetectException {
+//        Detector detector = DetectorFactory.create();
+//        detector.append(text);
+//        return detector.detect();
+//    }
+    
+//    public ArrayList detectLanguages(String text) throws LangDetectException {
+//        Detector detector = DetectorFactory.create();
+//        detector.append(text);
+//        return detector.getProbabilities();
+//    }
 
 		//TODO: delete string as attribute, implement threshold as properties
 
 	
 	public Corpus getTopReviews(Aspect asp) {
+		
+		 ArrayList<Review> topReviews = new ArrayList<Review>();
+		 Corpus result = new Corpus(this.props);
 		
 		if (asp.equals(Aspect.APPEARANCE)) {	
 			 
@@ -237,8 +245,8 @@ public class Corpus {
 					topReviews.add(reviews.get(i));
 				}
 		}
-			reviews=topReviews;
-			return new Corpus(this.props);
+			result.setReviews(topReviews);
+			return result;
 		}
 		
 		if (asp.equals(Aspect.AROMA)) {	
@@ -249,8 +257,8 @@ public class Corpus {
 					topReviews.add(reviews.get(i));
 				}
 		}
-			reviews=topReviews;
-			return new Corpus(this.props);
+			result.setReviews(topReviews);
+			return result;
 		}
 			
 		if (asp.equals(Aspect.PALATE)) {	
@@ -261,8 +269,8 @@ public class Corpus {
 					topReviews.add(reviews.get(i));
 				}
 		}
-			reviews=topReviews;
-			return new Corpus(this.props);
+			result.setReviews(topReviews);
+			return result;
 		}
 		
 		if (asp.equals(Aspect.TASTE)) {	
@@ -273,8 +281,8 @@ public class Corpus {
 					topReviews.add(reviews.get(i));
 				}
 		}
-			reviews=topReviews;
-			return new Corpus(this.props);
+			result.setReviews(topReviews);
+			return result;
 		}
 		
 		if (asp.equals(Aspect.OVERALL)) {	
@@ -289,15 +297,19 @@ public class Corpus {
 				}
 				
 		}
-			reviews=topReviews;
-			return new Corpus(this.props);
+			result.setReviews(topReviews);
+			return result;
 		}
-		return new Corpus(this.props);
+		
+		return null;
 	}
 	
 
 	
 public Corpus getLowReviews(Aspect asp) {
+	
+		ArrayList<Review> lowReviews = new ArrayList<Review>();
+		Corpus result = new Corpus(this.props);
 		
 		if (asp.equals(Aspect.APPEARANCE)) {	
 			 
@@ -307,8 +319,8 @@ public Corpus getLowReviews(Aspect asp) {
 					lowReviews.add(reviews.get(i));
 				}
 		}
-			reviews=lowReviews;
-			return new Corpus(this.props);
+			result.setReviews(lowReviews);
+			return result;
 		}
 		
 		if (asp.equals(Aspect.AROMA)) {	
@@ -319,8 +331,8 @@ public Corpus getLowReviews(Aspect asp) {
 					lowReviews.add(reviews.get(i));
 				}
 		}
-			reviews=lowReviews;
-			return new Corpus(this.props);
+			result.setReviews(lowReviews);
+			return result;
 		}
 			
 		if (asp.equals(Aspect.PALATE)) {	
@@ -331,8 +343,8 @@ public Corpus getLowReviews(Aspect asp) {
 					lowReviews.add(reviews.get(i));
 				}
 		}
-			reviews=lowReviews;
-			return new Corpus(this.props);
+			result.setReviews(lowReviews);
+			return result;
 		}
 		
 		if (asp.equals(Aspect.TASTE)) {	
@@ -343,8 +355,8 @@ public Corpus getLowReviews(Aspect asp) {
 					lowReviews.add(reviews.get(i));
 				}
 		}
-			reviews=lowReviews;
-			return new Corpus(this.props);
+			result.setReviews(lowReviews);
+			return result;
 		}
 		
 		if (asp.equals(Aspect.OVERALL)) {	
@@ -359,18 +371,18 @@ public Corpus getLowReviews(Aspect asp) {
 				}
 				
 		}
-			reviews=lowReviews;
-			return new Corpus(this.props);
+			result.setReviews(lowReviews);
+			return result;
 		}
-		return new Corpus(this.props);
+		return null;
 	}
 
 	
 
 	
-	public StanfordCoreNLP getPipeline() {
-		return pipeline;
-	}
+//	public StanfordCoreNLP getPipeline() {
+//		return pipeline;
+//	}
 
 
 	public Properties getProps() {
@@ -381,25 +393,14 @@ public Corpus getLowReviews(Aspect asp) {
 		return reviews;
 	}
 
-	public void setWordsForTaste(ArrayList<Review> reviewsArray) {
-		this.reviews = reviewsArray;
+	public void setReviews(ArrayList<Review> reviews) {
+		this.reviews = reviews;
 	}
 
-	public ArrayList<Review> getTopReviews() {
-		return topReviews;
-	}
-
-	public void setTopReviews(ArrayList<Review> topReviews) {
-		this.topReviews = topReviews;
-	}
-
-	public ArrayList<Review> getLowReviews() {
-		return lowReviews;
-	}
-
-	public void setLowReviews(ArrayList<Review> lowReviews) {
-		this.lowReviews = lowReviews;
-	}
+	//TODO:Wtf?
+//	public void setWordsForTaste(ArrayList<Review> reviewsArray) {
+//		this.reviews = reviewsArray;
+//	}
 
 
 }

@@ -56,16 +56,21 @@ public class Review {
 		wordsForAppearance.add("colour");
 		wordsForAppearance.add("look");
 		wordsForAppearance.add("head");
-		wordsForAppearance.add("pour");
-		wordsForAppearance.add("brown");
-		wordsForAppearance.add("red");
+		
+//		wordsForAppearance.add("pour");
+//		wordsForAppearance.add("brown");
+//		wordsForAppearance.add("red");
+		
 		wordsForAroma.add("aroma");
+		
 		wordsForPalate.add("palate");
+		
 		wordsForTaste.add("taste");
 		wordsForTaste.add("flavor");
 		wordsForTaste.add("flavour");
-		wordsForTaste.add("sweet");
-		wordsForTaste.add("bitter");
+//		wordsForTaste.add("sweet");
+//		wordsForTaste.add("bitter");
+		
 		wordsForOverall.add("overall");
 		wordsForOverall.add("general");
 	}
