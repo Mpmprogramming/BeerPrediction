@@ -24,14 +24,15 @@ import java.util.ArrayList;
 public class Corpus {
 	
 	private ArrayList<Review> reviews = new ArrayList<Review>();
+	private boolean analyzed = false;
 
-//	StanfordCoreNLP pipeline;
+	StanfordCoreNLP pipeline;
 	Properties props;
 	
 	
 	public Corpus(Properties props) {
 		this.props = props;
-//		pipeline = new StanfordCoreNLP(props);
+		pipeline = new StanfordCoreNLP(props);
 		
 //		try {
 //			initLangDetection("profiles");
@@ -39,6 +40,32 @@ public class Corpus {
 //			// TODO Auto-generated catch block
 //			e.printStackTrace();
 //		}
+	}
+	
+	public Corpus(Properties props, StanfordCoreNLP pipeline) {
+		this.props = props;
+		this.pipeline = pipeline;
+	}
+	
+	/**
+	 * Does the NLP processing for all reviews in the corpus
+	 */
+	public void analyze() {
+		System.out.println("Analyzing corpus; " + this.reviews.size() + " reviews found ...");
+		if (!analyzed) {
+			for (Review rev : reviews) {
+				rev.analyze(pipeline, props);
+			}
+			analyzed = true;
+		}
+	}
+	
+	public String getTokenConcatenation(Aspect aspect) {
+		String result = "";
+		for (Review rev : reviews) {
+			result += rev.getAnalyzedTokens(aspect);
+		}
+		return result;
 	}
 	
 	/**
@@ -162,7 +189,7 @@ public class Corpus {
 					
 					if (reviews.size() >= topX ) break;
 					
-					if (reviews.size() % 100 == 0 ) System.out.println("Reviews parsed so far: " + this.reviews.size());
+					if (reviews.size() % 1000 == 0 ) System.out.println("Reviews parsed so far: " + this.reviews.size());
 				}
 			} 
 			
@@ -235,7 +262,7 @@ public class Corpus {
 	public Corpus getTopReviews(Aspect asp) {
 		
 		 ArrayList<Review> topReviews = new ArrayList<Review>();
-		 Corpus result = new Corpus(this.props);
+		 Corpus result = new Corpus(this.props, this.pipeline);
 		
 		if (asp.equals(Aspect.APPEARANCE)) {	
 			 
@@ -309,7 +336,7 @@ public class Corpus {
 public Corpus getLowReviews(Aspect asp) {
 	
 		ArrayList<Review> lowReviews = new ArrayList<Review>();
-		Corpus result = new Corpus(this.props);
+		Corpus result = new Corpus(this.props, this.pipeline);
 		
 		if (asp.equals(Aspect.APPEARANCE)) {	
 			 

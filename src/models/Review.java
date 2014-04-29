@@ -8,6 +8,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Properties;
 
+import models.Review.Aspect;
 import edu.stanford.nlp.ling.CoreAnnotations.LemmaAnnotation;
 import edu.stanford.nlp.ling.CoreAnnotations.PartOfSpeechAnnotation;
 import edu.stanford.nlp.ling.CoreAnnotations.SentencesAnnotation;
@@ -41,6 +42,8 @@ public class Review {
 	private int time;
 	private String profileName;
 	private String text;
+	
+	private boolean isAnalyzed = false;
 	
 	//Arrays as collections for different aspects of the review
 	private static ArrayList<String> wordsForAppearance = new ArrayList<String>();
@@ -77,9 +80,20 @@ public class Review {
 
 	// NLP analyzed fields
 	private List<String> sentences = new ArrayList<String>();
-	private HashMap<Aspect, ArrayList<String>> analyzedTokens;
+	private HashMap<Aspect, String> analyzedTokens = new HashMap<Aspect, String>();
+	
+	public String getAnalyzedTokens(Aspect aspect) {
+		return analyzedTokens.get(aspect);
+	}
 
 	public int analyze(StanfordCoreNLP pipeline, Properties props) {
+		
+		if (isAnalyzed) return 0;
+		
+		//Initialize to avoid null strings
+		for(Aspect a: Aspect.values()) {
+			analyzedTokens.put(a, "");
+		}
 
 		// create an empty Annotation just with the given text
 		Annotation document = new Annotation(this.text);
@@ -93,7 +107,10 @@ public class Review {
 		List<CoreMap> sentences = document.get(SentencesAnnotation.class);
 
 		for (CoreMap sentence : sentences) {
-			this.sentences.add(sentence.get(TextAnnotation.class));
+			String sentenceText = sentence.get(TextAnnotation.class);
+			Aspect sentenceTopic = Review.findAspect(sentenceText);
+			this.sentences.add(sentenceText);
+			
 			// traversing the words in the current sentence
 			// a CoreLabel is a CoreMap with additional token-specific methods
 			for (CoreLabel token : sentence.get(TokensAnnotation.class)) {
@@ -102,13 +119,18 @@ public class Review {
 				// this is the POS tag of the token
 				String pos = token.get(PartOfSpeechAnnotation.class);
 				
+//				System.out.println("Adding: "+analyzedTokens.get(sentenceTopic)+" "+lemma);
+				this.analyzedTokens.put(sentenceTopic, analyzedTokens.get(sentenceTopic)+"\n"+lemma+""+pos);
+				
 				//TODO:Filter stop words (Marc)
 				
-				//TODO:Add analyzed tokens based on aspects (Marc)
 			}
 
 		}
-		return 0;
+		
+		isAnalyzed = true;
+
+		return 1;
 	}
 
 	
@@ -277,7 +299,7 @@ public class Review {
 
 	public String toCSV() {
 		return name + "," + beerID + "," + brewerID + "," + ABV + "," + style + "," + appearance + "," + aroma + "," + palate + "," + taste + "," + overall
-				+ "," + time + "," + profileName + ",\"" + text + "\"";
+				+ "," + time + "," + profileName + ",\"" + text.replaceAll("\"", "").replaceAll("[\\t\\n\\r]"," ").trim() + "\"";
 	}
 
 	public static ArrayList<String> getWordsForAppearance() {

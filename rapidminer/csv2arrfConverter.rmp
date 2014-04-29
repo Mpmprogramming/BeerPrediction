@@ -15,7 +15,7 @@
     <parameter key="parallelize_main_process" value="false"/>
     <process expanded="true">
       <operator activated="true" class="read_csv" compatibility="5.3.015" expanded="true" height="60" name="Read CSV" width="90" x="246" y="75">
-        <parameter key="csv_file" value="C:\Users\Michi\git\BeerPrediction\data\output\test.csv"/>
+        <parameter key="csv_file" value="C:\Users\Michi\git\BeerPrediction\data\output\ratebeer100K.csv"/>
         <parameter key="column_separators" value=","/>
         <parameter key="trim_lines" value="false"/>
         <parameter key="use_quotes" value="true"/>
@@ -54,7 +54,7 @@
         <parameter key="datamanagement" value="double_array"/>
       </operator>
       <operator activated="true" class="write_arff" compatibility="5.3.015" expanded="true" height="76" name="Write Arff" width="90" x="648" y="75">
-        <parameter key="example_set_file" value="C:\Users\Michi\git\BeerPrediction\data\output\first1000lines.arff"/>
+        <parameter key="example_set_file" value="C:\Users\Michi\git\BeerPrediction\data\output\ratebeer100K.arff"/>
         <parameter key="encoding" value="UTF-8"/>
       </operator>
       <connect from_op="Read CSV" from_port="output" to_op="Write Arff" to_port="input"/>
