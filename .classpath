@@ -13,6 +13,6 @@
 	<classpathentry kind="lib" path="libs/stanford-corenlp-full-2014-01-04/xom-1.2.10-src.jar"/>
 	<classpathentry kind="lib" path="libs/stanford-corenlp-full-2014-01-04/xom.jar"/>
 	<classpathentry kind="lib" path="jsonic-1.2.10.jar"/>
-	<classpathentry kind="lib" path="/sharedTask/libs/weka.jar" sourcepath="/sharedTask/libs/weka-src.jar"/>
+	<classpathentry kind="lib" path="libs/weka.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
