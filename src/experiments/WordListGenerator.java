@@ -13,6 +13,7 @@ import weka.core.Attribute;
 import weka.core.FastVector;
 import weka.core.Instance;
 import weka.core.Instances;
+import weka.core.SparseInstance;
 import weka.core.converters.ArffSaver;
 import weka.core.stemmers.SnowballStemmer;
 import weka.core.stemmers.Stemmer;
@@ -28,26 +29,30 @@ public class WordListGenerator {
 	/**
 	 * Maximum number of reviews to load
 	 */
-	public static int topX = 5000;
+	public static int topX = 10000;
 
 	/**
 	 * @param args
 	 * @throws Exception
 	 */
+	@SuppressWarnings({ "deprecation", "unchecked" })
 	public static void main(String[] args) throws Exception {
 
 		// Setup properties here
 		Properties props = new Properties();
-		props.put("posToKeep", "");// TODO not implemented yet
-		props.put("idfTransform", "true");
-		props.put("tfTransform", "true");
-		props.put("outputWordCounts", "false");
+		props.put("idfTransform", "false");
+		props.put("tfTransform", "false");
+		props.put("outputWordCounts", "true");
 		props.put("lowerCaseTokens", "false");
 		props.put("useStoplist", "true");
 		props.put("stopwordsFile", "data/english-stop-words-small.txt");
 		props.put("wordsToKeep", 1000);
 		props.put("minTermFreq", 3);
-		props.put("useLemma", "true");// Affects stanford core NLP
+		
+		// Affects stanford core 
+		props.put("posToKeep", "");// TODO not implemented yet
+		props.put("useLemma", "true");
+		props.put("includePOS", "false");//TODO: Will mess up word vector creation
 		props.put("annotators", "tokenize, ssplit, pos, lemma");
 		Corpus co = new Corpus(props);
 		
@@ -63,7 +68,7 @@ public class WordListGenerator {
 		Instances dataSet;
 		attributes = new FastVector();
 
-		attributes.addElement(new Attribute("id", (FastVector) null));
+		attributes.addElement(new Attribute("aspect_id", (FastVector) null));
 		attributes.addElement(new Attribute("tokens", (FastVector) null));
 
 		dataSet = new Instances("BeerAspects", attributes, 0);
@@ -82,7 +87,7 @@ public class WordListGenerator {
 			topReviews.analyze();
 			String tokens = topReviews.getTokenConcatenation(aspect);
 
-			Instance instance = new Instance(2);
+			Instance instance = new SparseInstance(2);
 			instance.setValue((Attribute) attributes.elementAt(0), aspect.name() + "_TOP");
 			instance.setValue((Attribute) attributes.elementAt(1), tokens);
 
@@ -93,7 +98,7 @@ public class WordListGenerator {
 			tokens = lowReviews.getTokenConcatenation(aspect);
 			// System.out.println(tokens);
 
-			instance = new Instance(2);
+			instance = new SparseInstance(2);
 			instance.setValue((Attribute) attributes.elementAt(0), aspect.name() + "_LOW");
 			instance.setValue((Attribute) attributes.elementAt(1), tokens);
 

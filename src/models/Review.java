@@ -32,7 +32,7 @@ public class Review {
 	private String name;
 	private String beerID;
 	private String brewerID;
-	private double ABV; //ABV= Alcohol by volume
+	private double ABV; // ABV= Alcohol by volume
 	private String style;
 	private int appearance;
 	private int aroma;
@@ -42,38 +42,38 @@ public class Review {
 	private int time;
 	private String profileName;
 	private String text;
-	
+
 	private boolean isAnalyzed = false;
-	
-	//Arrays as collections for different aspects of the review
+
+	// Arrays as collections for different aspects of the review
 	private static ArrayList<String> wordsForAppearance = new ArrayList<String>();
 	private static ArrayList<String> wordsForAroma = new ArrayList<String>();
 	private static ArrayList<String> wordsForPalate = new ArrayList<String>();
 	private static ArrayList<String> wordsForTaste = new ArrayList<String>();
 	private static ArrayList<String> wordsForOverall = new ArrayList<String>();
-	
+
 	static {
-//	could be disambiguous:	wordsForAppearance.add("appear");
+		// could be disambiguous: wordsForAppearance.add("appear");
 		wordsForAppearance.add("appearance");
 		wordsForAppearance.add("color");
 		wordsForAppearance.add("colour");
 		wordsForAppearance.add("look");
 		wordsForAppearance.add("head");
-		
-//		wordsForAppearance.add("pour");
-//		wordsForAppearance.add("brown");
-//		wordsForAppearance.add("red");
-		
+
+		// wordsForAppearance.add("pour");
+		// wordsForAppearance.add("brown");
+		// wordsForAppearance.add("red");
+
 		wordsForAroma.add("aroma");
-		
+
 		wordsForPalate.add("palate");
-		
+
 		wordsForTaste.add("taste");
 		wordsForTaste.add("flavor");
 		wordsForTaste.add("flavour");
-//		wordsForTaste.add("sweet");
-//		wordsForTaste.add("bitter");
-		
+		// wordsForTaste.add("sweet");
+		// wordsForTaste.add("bitter");
+
 		wordsForOverall.add("overall");
 		wordsForOverall.add("general");
 	}
@@ -81,17 +81,21 @@ public class Review {
 	// NLP analyzed fields
 	private List<String> sentences = new ArrayList<String>();
 	private HashMap<Aspect, String> analyzedTokens = new HashMap<Aspect, String>();
-	
+
 	public String getAnalyzedTokens(Aspect aspect) {
 		return analyzedTokens.get(aspect);
 	}
 
 	public int analyze(StanfordCoreNLP pipeline, Properties props) {
-		
-		if (isAnalyzed) return 0;
-		
-		//Initialize to avoid null strings
-		for(Aspect a: Aspect.values()) {
+
+		if (isAnalyzed)
+			return 0;
+
+		Boolean useLemma = Boolean.parseBoolean(props.getProperty("useLemma"));
+		Boolean includePOS = Boolean.parseBoolean(props.getProperty("includePOS"));
+
+		// Initialize to avoid null strings
+		for (Aspect a : Aspect.values()) {
 			analyzedTokens.put(a, "");
 		}
 
@@ -110,79 +114,74 @@ public class Review {
 			String sentenceText = sentence.get(TextAnnotation.class);
 			Aspect sentenceTopic = Review.findAspect(sentenceText);
 			this.sentences.add(sentenceText);
-			
+
 			// traversing the words in the current sentence
 			// a CoreLabel is a CoreMap with additional token-specific methods
 			for (CoreLabel token : sentence.get(TokensAnnotation.class)) {
+				String analyzedToken;
 				String text = token.get(TextAnnotation.class);
+				analyzedToken = text;
 				// this is the text of the token
-				String lemma = token.get(LemmaAnnotation.class);
+				if (useLemma)
+					analyzedToken = token.get(LemmaAnnotation.class);
 				// this is the POS tag of the token
 				String pos = token.get(PartOfSpeechAnnotation.class);
-				
-//				System.out.println("Adding: "+analyzedTokens.get(sentenceTopic)+" "+lemma);
-				this.analyzedTokens.put(sentenceTopic, analyzedTokens.get(sentenceTopic)+" "+text);
-//				System.out.println(sentenceTopic.name() +" "+analyzedTokens.get(sentenceTopic));
-				
-				//TODO:Filter stop words (Marc)
-				
+				if (includePOS) analyzedToken += pos;
+
+				// System.out.println("Adding: "+analyzedTokens.get(sentenceTopic)+" "+lemma);
+				this.analyzedTokens.put(sentenceTopic, analyzedTokens.get(sentenceTopic) + " " + analyzedToken);
+				// System.out.println(sentenceTopic.name()
+				// +" "+analyzedTokens.get(sentenceTopic));
+
 			}
 
 		}
-		
+
 		isAnalyzed = true;
 
 		return 1;
 	}
 
-	
-	
 	public static Aspect findAspect(String sentence) {
-		
-	
-		for (int i=0; i<getWordsForAppearance().size(); i++ ) {
-			
-		if (sentence.toLowerCase().contains(getWordsForAppearance().get(i))) {
-		
-			return Aspect.APPEARANCE; 
+
+		for (int i = 0; i < getWordsForAppearance().size(); i++) {
+
+			if (sentence.toLowerCase().contains(getWordsForAppearance().get(i))) {
+
+				return Aspect.APPEARANCE;
+			}
 		}
-		}
-			
-		for (int i=0; i<wordsForAroma.size(); i++ ) {
+
+		for (int i = 0; i < wordsForAroma.size(); i++) {
 			if (sentence.toLowerCase().contains(wordsForAroma.get(i))) {
-		
-				return Aspect.AROMA; 
+
+				return Aspect.AROMA;
+			}
 		}
-		}
-		
-		
-		for (int i=0; i<wordsForPalate.size(); i++ ) {
+
+		for (int i = 0; i < wordsForPalate.size(); i++) {
 			if (sentence.toLowerCase().contains(wordsForPalate.get(i))) {
-		
-				return Aspect.PALATE; 
+
+				return Aspect.PALATE;
+			}
 		}
-		}
-	
-		
-		for (int i=0; i<wordsForTaste.size(); i++ ) {
+
+		for (int i = 0; i < wordsForTaste.size(); i++) {
 			if (sentence.toLowerCase().contains(wordsForTaste.get(i))) {
-		
-				return Aspect.TASTE; 
+
+				return Aspect.TASTE;
+			}
 		}
-		}
-		
-		
-		for (int i=0; i<wordsForOverall.size(); i++ ) {
+
+		for (int i = 0; i < wordsForOverall.size(); i++) {
 			if (sentence.toLowerCase().contains(wordsForOverall.get(i))) {
-		
-				return Aspect.OVERALL; 
+
+				return Aspect.OVERALL;
+			}
 		}
-		}
-			
-		
-			return Aspect.NONE;
+
+		return Aspect.NONE;
 	}
-	
 
 	public List<String> getSentences() {
 		return sentences;
@@ -294,14 +293,15 @@ public class Review {
 
 	@Override
 	public String toString() {
-		return "Review [name=" + name + ", beerID=" + beerID + ", brewerID=" + brewerID + ", ABV=" + ABV + ", style=" + style + ", appearance=" + appearance
-				+ ", aroma=" + aroma + ", palate=" + palate + ", taste=" + taste + ", overall=" + overall + ", time=" + time + ", profileName=" + profileName
-				+ ", text=" + text + "]";
+		return "Review [name=" + name + ", beerID=" + beerID + ", brewerID=" + brewerID + ", ABV=" + ABV + ", style="
+				+ style + ", appearance=" + appearance + ", aroma=" + aroma + ", palate=" + palate + ", taste=" + taste
+				+ ", overall=" + overall + ", time=" + time + ", profileName=" + profileName + ", text=" + text + "]";
 	}
 
 	public String toCSV() {
-		return name + "," + beerID + "," + brewerID + "," + ABV + "," + style + "," + appearance + "," + aroma + "," + palate + "," + taste + "," + overall
-				+ "," + time + "," + profileName + ",\"" + text.replaceAll("\"", "").replaceAll("[\\t\\n\\r]"," ").trim() + "\"";
+		return name + "," + beerID + "," + brewerID + "," + ABV + "," + style + "," + appearance + "," + aroma + ","
+				+ palate + "," + taste + "," + overall + "," + time + "," + profileName + ",\""
+				+ text.replaceAll("\"", "").replaceAll("[\\t\\n\\r]", " ").trim() + "\"";
 	}
 
 	public static ArrayList<String> getWordsForAppearance() {
