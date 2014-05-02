@@ -3,8 +3,12 @@
  */
 package experiments;
 
+import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.OutputStreamWriter;
+import java.io.Writer;
 import java.util.Properties;
 
 import models.Corpus;
@@ -43,21 +47,23 @@ public class WordListGenerator {
 		props.put("idfTransform", "true");
 		props.put("tfTransform", "true");
 		props.put("outputWordCounts", "true");
-		props.put("lowerCaseTokens", "false");
+		props.put("lowerCaseTokens", "true");
 		props.put("useStoplist", "true");
 		props.put("stopwordsFile", "data/english-stop-words-small.txt");
-		props.put("wordsToKeep", 1000);
+		props.put("wordsToKeep", 2000);
 		props.put("minTermFreq", 3);
-		
-		// Affects stanford core 
-		props.put("posToKeep", "NN ADJ");// TODO not implemented yet (Marc) See Review.analyze()
-		props.put("useLemma", "true");//TODO:Check if lemma actually working
-		props.put("includePOS", "false");//TODO: Will mess up word vector creation
+
+		// Affects stanford core
+		props.put("posToKeep", "NN ADJ");// TODO not implemented yet (Marc) See
+											// Review.analyze()
+		props.put("useLemma", "true");// TODO:Check if lemma actually working
+		props.put("includePOS", "false");// TODO: Will mess up word vector
+											// creation
 		props.put("annotators", "tokenize, ssplit, pos, lemma");
 		Corpus co = new Corpus(props);
-		
+
 		System.out.println(props.toString().replaceAll(", ", "\n"));
-		
+
 		long startTime = System.currentTimeMillis();
 
 		int size = co.loadFromFile("data/ratebeer.txt", topX);
@@ -108,13 +114,14 @@ public class WordListGenerator {
 		// System.out.println(dataSet.toString());
 		Instances dataFiltered = transformToWordVector(dataSet, co.getProps());
 
-//		System.out.println(dataFiltered.toString());
-		
+		// System.out.println(dataFiltered.toString());
+		writeWordlists(dataFiltered, "data/output/wordlists/");
+
 		writeArffFile(dataFiltered, "data/output/wordvector.arff");
 
-	      long stopTime = System.currentTimeMillis();
-	      long elapsedTime = stopTime - startTime;
-	      System.out.println("Finished in: " + elapsedTime/1000 +" s");
+		long stopTime = System.currentTimeMillis();
+		long elapsedTime = stopTime - startTime;
+		System.out.println("Finished in: " + elapsedTime / 1000 + " s");
 
 	}
 
@@ -131,7 +138,8 @@ public class WordListGenerator {
 		Boolean useStoplist = Boolean.parseBoolean(props.getProperty("useStoplist"));
 		String stopwordsFile = props.getProperty("stopwordsFile");
 
-//		Boolean useStemmer = Boolean.parseBoolean(props.getProperty("useStemmer"));
+		// Boolean useStemmer =
+		// Boolean.parseBoolean(props.getProperty("useStemmer"));
 
 		int wordsToKeep = Integer.parseInt(props.getProperty("wordsToKeep", "1000"));
 		int minTermFreq = Integer.parseInt(props.getProperty("minTermFreq", "3"));
@@ -147,16 +155,16 @@ public class WordListGenerator {
 		filter.setMinTermFreq(minTermFreq);
 		filter.setLowerCaseTokens(lowerCaseTokens);
 
-		//We use lemmatization of coreNLP instead
-//		Stemmer stemmer = new SnowballStemmer();
-//		if (useStemmer)
-//			filter.setStemmer(stemmer);
-		
+		// We use lemmatization of coreNLP instead
+		// Stemmer stemmer = new SnowballStemmer();
+		// if (useStemmer)
+		// filter.setStemmer(stemmer);
+
 		if (stopwordsFile != null) {
 			filter.setStopwords(new File(stopwordsFile));
 			filter.setUseStoplist(useStoplist); // default stopword list
-		} else if (useStoplist) System.err.println("Not stopword list provided!");
-			
+		} else if (useStoplist)
+			System.err.println("Not stopword list provided!");
 
 		filter.setAttributeIndices("2");
 		try {
@@ -181,6 +189,89 @@ public class WordListGenerator {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+	}
+
+	/**
+	 * Generates one word list for each aspect
+	 * 
+	 * @param data
+	 * @return A String containing the path to all wordlists seperated by ";"
+	 */
+	public static String writeWordlists(Instances data, String directory) {
+
+		String[] wordLists = new String[4];
+		for (int j = 0; j < wordLists.length; j++) {
+			wordLists[j] = "";
+		}
+
+		// Loop over all tokens (attributes)
+		for (int i = 1; i < data.numAttributes(); i++) {
+			double[] scores = data.attributeToDoubleArray(i);
+			double[] aspectScores = new double[4];
+			String token = data.attribute(i).name();
+			System.out.println("Token: " + token);
+
+			// Calculate aspect score by summing top and low scores
+			aspectScores[0] = scores[0] + scores[1]; // Aroma
+			aspectScores[1] = scores[2] + scores[3]; // Palate
+			aspectScores[2] = scores[4] + scores[5]; // Taste
+			aspectScores[3] = scores[6] + scores[7]; // Appearance
+
+			int maxIndex = 0;
+			double maxScore = 0;
+			for (int j = 0; j < aspectScores.length; j++) {
+				if (aspectScores[j] > maxScore) {
+					maxScore = aspectScores[j];
+					maxIndex = j;
+					// TODO Implement min threshold to include
+				}
+			}
+			System.out.println("Max value and aspect: " + maxIndex + "/" + maxScore);
+
+			Double ratio = scores[maxIndex * 2] / scores[maxIndex * 2 + 1];
+			System.out.println("Score ratio: " + ratio);
+
+			// Word is positive wrt aspect
+			if (ratio > 1) // TODO: Configurable threshold
+				wordLists[maxIndex] += token + " " + scores[maxIndex * 2] + "\n";
+			// Word is negative wrt aspect
+			else if (ratio < 1)
+				wordLists[maxIndex] += token + " " + -1 * scores[maxIndex * 2 + 1] + "\n";
+
+			for (int j = 0; j < scores.length; j++) {
+				System.out.print(scores[j] + ",");
+			}
+			System.out.println();
+
+		}//End loop over attributes
+		
+		// Write lists to file
+		Writer out = null;
+		try {
+			for (int j = 0; j < wordLists.length; j++) {
+
+				String path = directory;
+				if (j==0) path += Aspect.AROMA.name();
+				if (j==1) path += Aspect.PALATE.name();
+				if (j==2) path += Aspect.TASTE.name();
+				if (j==3) path += Aspect.APPEARANCE.name();
+				path += ".txt";
+				out = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(path),
+						"UTF-8"));
+				out.write(wordLists[j]);
+				out.close();
+				System.out.println("Wordlist written to: " + path + " (" + wordLists[j].split("\n").length + ")");
+			}
+		} catch (IOException e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				out.close();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
+		return "";
 	}
 
 }

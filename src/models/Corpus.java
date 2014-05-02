@@ -73,7 +73,7 @@ public class Corpus {
 	 * 
 	 * @param path the file path
 	 * @param topX Maximum number of reviews to keep
-	 * @return Number of complete review instances parsed
+	 * @return Total number of complete review in the corpus
 	 */
 	public int loadFromFile(String path, int topX) {
 		Review review = null;
@@ -424,7 +424,6 @@ public Corpus getLowReviews(Aspect asp) {
 		this.reviews = reviews;
 	}
 
-	//TODO:Wtf?
 //	public void setWordsForTaste(ArrayList<Review> reviewsArray) {
 //		this.reviews = reviewsArray;
 //	}

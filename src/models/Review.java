@@ -142,6 +142,7 @@ public class Review {
 		return 1;
 	}
 
+	//TODO:Maybe handle ambiguous sentences?
 	public static Aspect findAspect(String sentence) {
 
 		for (int i = 0; i < getWordsForAppearance().size(); i++) {
