@@ -29,7 +29,7 @@ public class WordListGenerator {
 	/**
 	 * Maximum number of reviews to load
 	 */
-	public static int topX = 10000;
+	public static int topX = 5000;
 
 	/**
 	 * @param args
@@ -40,8 +40,8 @@ public class WordListGenerator {
 
 		// Setup properties here
 		Properties props = new Properties();
-		props.put("idfTransform", "false");
-		props.put("tfTransform", "false");
+		props.put("idfTransform", "true");
+		props.put("tfTransform", "true");
 		props.put("outputWordCounts", "true");
 		props.put("lowerCaseTokens", "false");
 		props.put("useStoplist", "true");
@@ -50,8 +50,8 @@ public class WordListGenerator {
 		props.put("minTermFreq", 3);
 		
 		// Affects stanford core 
-		props.put("posToKeep", "");// TODO not implemented yet
-		props.put("useLemma", "true");
+		props.put("posToKeep", "NN ADJ");// TODO not implemented yet (Marc) See Review.analyze()
+		props.put("useLemma", "true");//TODO:Check if lemma actually working
 		props.put("includePOS", "false");//TODO: Will mess up word vector creation
 		props.put("annotators", "tokenize, ssplit, pos, lemma");
 		Corpus co = new Corpus(props);

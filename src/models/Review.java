@@ -123,7 +123,7 @@ public class Review {
 				analyzedToken = text;
 				// this is the text of the token
 				if (useLemma)
-					analyzedToken = token.get(LemmaAnnotation.class);
+					analyzedToken = token.get(LemmaAnnotation.class);//TODO:Check here if really difference from text
 				// this is the POS tag of the token
 				String pos = token.get(PartOfSpeechAnnotation.class);
 				if (includePOS) analyzedToken += pos;
