@@ -14,16 +14,16 @@ import java.util.HashMap;
  * @author Michi
  *
  */
-public class SentiWordlist {
+public class SentiWordList {
 	
 	private HashMap<String, Double> wordlist;
 	
-	public SentiWordlist() {
+	public SentiWordList() {
 		this.wordlist = new HashMap<String, Double>();
 	}
 	
 	
-	public int loadFromFile(String path) {
+	public SentiWordList loadFromFile(String path) {
 		String line = null;
 		BufferedReader br = null;
 		try {
@@ -50,11 +50,15 @@ public class SentiWordlist {
 			}
 		}
 
-		return this.wordlist.size();
+		return this;
 	}
 	
 	public double getScore(String word) {
 		return wordlist.get(word);
+	}
+	
+	public int size() {
+		return this.wordlist.size();
 	}
 
 

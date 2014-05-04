@@ -7,7 +7,7 @@ import java.util.Properties;
 
 import models.Corpus;
 import models.Review.Aspect;
-import models.SentiWordlist;
+import models.SentiWordList;
 
 /**
  * @author Michi
@@ -37,8 +37,8 @@ public class TokensTest {
 		topTaste.analyze();
 		System.out.println(topTaste.getTokenConcatenation(Aspect.TASTE));
 		
-		SentiWordlist wl = new SentiWordlist();
-		int wordcount = wl.loadFromFile("data/output/wordlists/TASTE.txt");
+		SentiWordList wl = new SentiWordList();
+		int wordcount = wl.loadFromFile("data/output/wordlists/TASTE.txt").size();
 		System.out.println(wl.toString());
 		System.out.println(wordcount);
 		
