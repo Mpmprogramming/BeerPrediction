@@ -117,8 +117,8 @@ public class WordListGenerator {
 		// Boolean useStemmer =
 		// Boolean.parseBoolean(props.getProperty("useStemmer"));
 
-		int wordsToKeep = Integer.parseInt(props.getProperty("wordsToKeep", "1000"));
-		int minTermFreq = Integer.parseInt(props.getProperty("minTermFreq", "3"));
+		int wordsToKeep = Integer.parseInt(props.getProperty("wordsToKeep"));
+		int minTermFreq = Integer.parseInt(props.getProperty("minTermFreq"));
 
 		// //Apply StringToWord filter
 		// StringToWordVector filter = new

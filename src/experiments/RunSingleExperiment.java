@@ -5,27 +5,19 @@ package experiments;
 
 import java.util.Properties;
 
-import models.Corpus;
-import models.WordListGenerator;
+import edu.stanford.nlp.pipeline.StanfordCoreNLP;
+import models.Experiment;
 
 /**
- * @author Michi
+ * @author apfelbaum24
  *
  */
-public class GenerateWordLists {
-
-
-	/**
-	 * Maximum number of reviews to load
-	 */
-	public static int topX = 2000;
+public class RunSingleExperiment {
 
 	/**
 	 * @param args
-	 * @throws Exception
 	 */
-	public static void main(String[] args) throws Exception {
-
+	public static void main(String[] args) {
 		// Setup properties here
 		Properties props = new Properties();
 		props.put("idfTransform", "true");
@@ -34,8 +26,8 @@ public class GenerateWordLists {
 		props.put("lowerCaseTokens", "true");
 		props.put("useStoplist", "true");
 		props.put("stopwordsFile", "data/english-stop-words-small.txt");
-		props.put("wordsToKeep", 2000);
-		props.put("minTermFreq", 3);
+		props.put("wordsToKeep", "2000");
+		props.put("minTermFreq", "3");
 		props.put("minTopRatingscore", "0.9");
 		props.put("maxLowRatingscore", "0.4");
 
@@ -46,16 +38,9 @@ public class GenerateWordLists {
 		props.put("includePOS", "false");// TODO: Will mess up word vector
 											// creation
 		props.put("annotators", "tokenize, ssplit, pos, lemma");
-		Corpus co = new Corpus(props);
-
-		System.out.println(props.toString().replaceAll(", ", "\n"));
-
-		int size = co.loadFromFile("data/ratebeer.txt", topX);
-		System.out.println("Total amount of reviews loaded: " + size);
 		
-		WordListGenerator wlGenerator = new WordListGenerator("data/output/wordlists/");
-
-		wlGenerator.generateWordlists(co);
+		Experiment experiment = new Experiment(props, new StanfordCoreNLP(props));
+		experiment.run();
 
 	}
 

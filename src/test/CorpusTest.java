@@ -38,9 +38,11 @@ public class CorpusTest {
     { 
 		props = new Properties();
 	    props.put("annotators", "tokenize, ssplit, pos, lemma");
+	    props.put("minTopRatingscore", "0.9");
+		props.put("maxLowRatingscore", "0.4");
 		co = new Corpus(props);
 		pipeline = new StanfordCoreNLP(props);
-		assertEquals(co.loadFromFile("data/ratebeer.txt", 100), 100);
+		assertEquals(co.loadFromFile("data/ratebeer.txt", 500), 500);
     }
 	
 	@Before

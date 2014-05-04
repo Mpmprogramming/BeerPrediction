@@ -78,8 +78,9 @@ public class Review {
 		wordsForOverall.add("general");
 	}
 
+	private ArrayList<String> sentences = new ArrayList<String>();
 	// NLP analyzed fields
-	private List<String> sentences = new ArrayList<String>();
+	private String tokens = new String("");
 	private HashMap<Aspect, String> analyzedTokens = new HashMap<Aspect, String>();
 
 	public String getAnalyzedTokens(Aspect aspect) {
@@ -109,12 +110,11 @@ public class Review {
 		// a CoreMap is essentially a Map that uses class objects as keys and
 		// has values with custom types
 		List<CoreMap> sentences = document.get(SentencesAnnotation.class);
-
+		
 		for (CoreMap sentence : sentences) {
 			String sentenceText = sentence.get(TextAnnotation.class);
 			Aspect sentenceTopic = Review.findAspect(sentenceText);
 			this.sentences.add(sentenceText);
-
 			// traversing the words in the current sentence
 			// a CoreLabel is a CoreMap with additional token-specific methods
 			for (CoreLabel token : sentence.get(TokensAnnotation.class)) {
@@ -129,6 +129,7 @@ public class Review {
 				if (includePOS) analyzedToken += pos;
 
 				// System.out.println("Adding: "+analyzedTokens.get(sentenceTopic)+" "+lemma);
+				this.tokens += analyzedToken+" ";
 				this.analyzedTokens.put(sentenceTopic, analyzedTokens.get(sentenceTopic) + " " + analyzedToken);
 				// System.out.println(sentenceTopic.name()
 				// +" "+analyzedTokens.get(sentenceTopic));
@@ -140,6 +141,10 @@ public class Review {
 		isAnalyzed = true;
 
 		return 1;
+	}
+
+	public ArrayList<String> getSentences() {
+		return sentences;
 	}
 
 	//TODO:Maybe handle ambiguous sentences?
@@ -184,8 +189,12 @@ public class Review {
 		return Aspect.NONE;
 	}
 
-	public List<String> getSentences() {
-		return sentences;
+	/**
+	 * Returns the analyzed tokens as a string concatenation
+	 * @return
+	 */
+	public String getTokens() {
+		return tokens;
 	}
 
 	public String getName() {

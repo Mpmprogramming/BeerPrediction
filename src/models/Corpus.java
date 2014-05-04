@@ -261,13 +261,16 @@ public class Corpus {
 	
 	public Corpus getTopReviews(Aspect asp) {
 		
+		double minTopRatingscore = Double.parseDouble(props.getProperty("minTopRatingscore"));
+
+		
 		 ArrayList<Review> topReviews = new ArrayList<Review>();
 		 Corpus result = new Corpus(this.props, this.pipeline);
 		
 		if (asp.equals(Aspect.APPEARANCE)) {	
 			 
 			for (int i=0; i< reviews.size(); i++) {
-				if (reviews.get(i).getAppearance() > 3) 
+				if (reviews.get(i).getAppearance()/5.0 >= minTopRatingscore) 
 				{
 					topReviews.add(reviews.get(i));
 				}
@@ -279,7 +282,7 @@ public class Corpus {
 		if (asp.equals(Aspect.AROMA)) {	
 			 
 			for (int i=0; i< reviews.size(); i++) {
-				if (reviews.get(i).getAroma() >= 7) 
+				if (reviews.get(i).getAroma()/10.0 >= minTopRatingscore) 
 				{
 					topReviews.add(reviews.get(i));
 				}
@@ -291,7 +294,7 @@ public class Corpus {
 		if (asp.equals(Aspect.PALATE)) {	
 			 
 			for (int i=0; i< reviews.size(); i++) {
-				if (reviews.get(i).getPalate() > 3) 
+				if (reviews.get(i).getPalate()/5.0 >= minTopRatingscore) 
 				{
 					topReviews.add(reviews.get(i));
 				}
@@ -303,7 +306,7 @@ public class Corpus {
 		if (asp.equals(Aspect.TASTE)) {	
 			 
 			for (int i=0; i< reviews.size(); i++) {
-				if (reviews.get(i).getTaste() >= 7) 
+				if (reviews.get(i).getTaste()/10.0 >= minTopRatingscore) 
 				{
 					topReviews.add(reviews.get(i));
 				}
@@ -317,7 +320,7 @@ public class Corpus {
 		 
 			for (int i=0; i< reviews.size(); i++) {
 			
-				if (reviews.get(i).getOverall() >= 15) 
+				if (reviews.get(i).getOverall()/20.0 >= minTopRatingscore) 
 				{
 					topReviews.add(reviews.get(i));
 					
@@ -337,11 +340,13 @@ public Corpus getLowReviews(Aspect asp) {
 	
 		ArrayList<Review> lowReviews = new ArrayList<Review>();
 		Corpus result = new Corpus(this.props, this.pipeline);
+		double maxLowRatingscore = Double.parseDouble(props.getProperty("maxLowRatingscore"));
+
 		
 		if (asp.equals(Aspect.APPEARANCE)) {	
 			 
 			for (int i=0; i< reviews.size(); i++) {
-				if (reviews.get(i).getAppearance() < 3) 
+				if (reviews.get(i).getAppearance()/5.0 <= maxLowRatingscore) 
 				{
 					lowReviews.add(reviews.get(i));
 				}
@@ -353,7 +358,7 @@ public Corpus getLowReviews(Aspect asp) {
 		if (asp.equals(Aspect.AROMA)) {	
 			 
 			for (int i=0; i< reviews.size(); i++) {
-				if (reviews.get(i).getAroma() < 5) 
+				if (reviews.get(i).getAroma()/10.0 <= maxLowRatingscore) 
 				{
 					lowReviews.add(reviews.get(i));
 				}
@@ -365,7 +370,7 @@ public Corpus getLowReviews(Aspect asp) {
 		if (asp.equals(Aspect.PALATE)) {	
 			 
 			for (int i=0; i< reviews.size(); i++) {
-				if (reviews.get(i).getPalate() < 3) 
+				if (reviews.get(i).getPalate()/5.0 <= maxLowRatingscore) 
 				{
 					lowReviews.add(reviews.get(i));
 				}
@@ -377,7 +382,7 @@ public Corpus getLowReviews(Aspect asp) {
 		if (asp.equals(Aspect.TASTE)) {	
 			 
 			for (int i=0; i< reviews.size(); i++) {
-				if (reviews.get(i).getTaste() < 5) 
+				if (reviews.get(i).getTaste()/10.0 <= maxLowRatingscore) 
 				{
 					lowReviews.add(reviews.get(i));
 				}
@@ -391,7 +396,7 @@ public Corpus getLowReviews(Aspect asp) {
 		 
 			for (int i=0; i< reviews.size(); i++) {
 			
-				if (reviews.get(i).getOverall() <= 8) 
+				if (reviews.get(i).getOverall()/20.0 <= maxLowRatingscore) 
 				{
 					lowReviews.add(reviews.get(i));
 					

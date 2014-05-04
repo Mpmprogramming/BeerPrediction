@@ -54,7 +54,9 @@ public class SentiWordList {
 	}
 	
 	public double getScore(String word) {
-		return wordlist.get(word);
+		if (wordlist.get(word) != null) {
+			return wordlist.get(word);
+		} else return 0.0;
 	}
 	
 	public int size() {
