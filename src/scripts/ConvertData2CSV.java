@@ -16,7 +16,7 @@ public class ConvertData2CSV {
 	/**
 	 * Maximum number of reviews to keep
 	 */
-	public static int topX = 100000;
+	public static int topX = Integer.MAX_VALUE;
 
 	/**
 	 * @param args
@@ -28,9 +28,9 @@ public class ConvertData2CSV {
 	    props.put("annotators", "tokenize");
 		Corpus co = new Corpus(props);
 		
-		int size = co.loadFromFile("data/ratebeer.txt", topX);
+		int size = co.loadFromFile("data/test.txt", topX);
 		System.out.println("Amount of reviews loaded: " + size);
-		co.writeToCSV("data/output/ratebeer100K.csv");
+		co.writeToCSV("data/output/test.csv");
 		System.out.println("Output written.");
 	}
 

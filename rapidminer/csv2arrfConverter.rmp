@@ -15,7 +15,7 @@
     <parameter key="parallelize_main_process" value="false"/>
     <process expanded="true">
       <operator activated="true" class="read_csv" compatibility="5.3.015" expanded="true" height="60" name="Read CSV" width="90" x="246" y="75">
-        <parameter key="csv_file" value="C:\Users\Michi\git\BeerPrediction\data\output\ratebeer100K.csv"/>
+        <parameter key="csv_file" value="C:\Users\Michi\git\BeerPrediction\data\output\test.csv"/>
         <parameter key="column_separators" value=","/>
         <parameter key="trim_lines" value="false"/>
         <parameter key="use_quotes" value="true"/>

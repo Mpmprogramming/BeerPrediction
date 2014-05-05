@@ -110,7 +110,7 @@ public class Review {
 		// a CoreMap is essentially a Map that uses class objects as keys and
 		// has values with custom types
 		List<CoreMap> sentences = document.get(SentencesAnnotation.class);
-		
+
 		for (CoreMap sentence : sentences) {
 			String sentenceText = sentence.get(TextAnnotation.class);
 			Aspect sentenceTopic = Review.findAspect(sentenceText);
@@ -123,13 +123,20 @@ public class Review {
 				analyzedToken = text;
 				// this is the text of the token
 				if (useLemma)
-					analyzedToken = token.get(LemmaAnnotation.class);//TODO:Check here if really difference from text
+					analyzedToken = token.get(LemmaAnnotation.class);// TODO:Check
+																		// here
+																		// if
+																		// really
+																		// difference
+																		// from
+																		// text
 				// this is the POS tag of the token
 				String pos = token.get(PartOfSpeechAnnotation.class);
-				if (includePOS) analyzedToken += pos;
+				if (includePOS)
+					analyzedToken += pos;
 
 				// System.out.println("Adding: "+analyzedTokens.get(sentenceTopic)+" "+lemma);
-				this.tokens += analyzedToken+" ";
+				this.tokens += analyzedToken + " ";
 				this.analyzedTokens.put(sentenceTopic, analyzedTokens.get(sentenceTopic) + " " + analyzedToken);
 				// System.out.println(sentenceTopic.name()
 				// +" "+analyzedTokens.get(sentenceTopic));
@@ -147,7 +154,48 @@ public class Review {
 		return sentences;
 	}
 
-	//TODO:Maybe handle ambiguous sentences?
+	/**
+	 * Checks if a review is top wrt an aspect and a given percentage threshold
+	 * @param aspect
+	 * @param threshold
+	 * @return
+	 */
+	public boolean isTop(Aspect aspect, double threshold) {
+		if (this.getRelativeScore(aspect) >= threshold)
+			return true;
+		else
+			return false;
+	}
+
+	public int getScore(Aspect aspect) {
+		if (aspect.equals(Aspect.APPEARANCE))
+			return this.getAppearance();
+		if (aspect.equals(Aspect.AROMA))
+			return this.getAroma();
+		if (aspect.equals(Aspect.TASTE))
+			return this.getTaste();
+		if (aspect.equals(Aspect.PALATE))
+			return this.getPalate();
+		if (aspect.equals(Aspect.OVERALL))
+			return this.getOverall();
+		return 0;
+	}
+
+	public double getRelativeScore(Aspect aspect) {
+		if (aspect.equals(Aspect.APPEARANCE))
+			return this.getAppearance() / 5.0;
+		if (aspect.equals(Aspect.AROMA))
+			return this.getAroma() / 10.0;
+		if (aspect.equals(Aspect.TASTE))
+			return this.getTaste() / 10.0;
+		if (aspect.equals(Aspect.PALATE))
+			return this.getPalate() / 5.0;
+		if (aspect.equals(Aspect.OVERALL))
+			return this.getOverall() / 20.0;
+		return 0;
+	}
+
+	// TODO:Maybe handle ambiguous sentences?
 	public static Aspect findAspect(String sentence) {
 
 		for (int i = 0; i < getWordsForAppearance().size(); i++) {
@@ -191,6 +239,7 @@ public class Review {
 
 	/**
 	 * Returns the analyzed tokens as a string concatenation
+	 * 
 	 * @return
 	 */
 	public String getTokens() {
@@ -303,15 +352,14 @@ public class Review {
 
 	@Override
 	public String toString() {
-		return "Review [name=" + name + ", beerID=" + beerID + ", brewerID=" + brewerID + ", ABV=" + ABV + ", style="
-				+ style + ", appearance=" + appearance + ", aroma=" + aroma + ", palate=" + palate + ", taste=" + taste
-				+ ", overall=" + overall + ", time=" + time + ", profileName=" + profileName + ", text=" + text + "]";
+		return "Review [name=" + name + ", beerID=" + beerID + ", brewerID=" + brewerID + ", ABV=" + ABV + ", style=" + style + ", appearance=" + appearance
+				+ ", aroma=" + aroma + ", palate=" + palate + ", taste=" + taste + ", overall=" + overall + ", time=" + time + ", profileName=" + profileName
+				+ ", text=" + text + "]";
 	}
 
 	public String toCSV() {
-		return name + "," + beerID + "," + brewerID + "," + ABV + "," + style + "," + appearance + "," + aroma + ","
-				+ palate + "," + taste + "," + overall + "," + time + "," + profileName + ",\""
-				+ text.replaceAll("\"", "").replaceAll("[\\t\\n\\r]", " ").trim() + "\"";
+		return name + "," + beerID + "," + brewerID + "," + ABV + "," + style + "," + appearance + "," + aroma + "," + palate + "," + taste + "," + overall
+				+ "," + time + "," + profileName + ",\"" + text.replaceAll("\"", "").replaceAll("[\\t\\n\\r]", " ").trim() + "\"";
 	}
 
 	public static ArrayList<String> getWordsForAppearance() {

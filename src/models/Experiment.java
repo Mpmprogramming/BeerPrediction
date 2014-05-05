@@ -18,7 +18,7 @@ import models.Review.Aspect;
 public class Experiment {
 
 	Properties props;
-	int topX = 2000;//TODO Replace with train set files
+	int topX = 5000;//TODO Replace with train set files
 	HashMap<Aspect, SentiWordList> wordlists = new HashMap<Aspect, SentiWordList>();
 	String id;
 	
@@ -27,19 +27,29 @@ public class Experiment {
 	public Experiment(Properties props, StanfordCoreNLP pipeline) {
 		this.props = props;
 		this.pipeline = pipeline;
-		this.id = "data/experiments/" + System.getProperty("user.name") + "-" + new Date().toString().replace(" ", "-");
+		this.id = "data/experiments/" + System.getProperty("user.name") + "-" + new Date().toString().replace(" ", "-").replace(":", "-");
 	}
 
 	public void run() {
+		
+		double minTopClassScore = Double.parseDouble(props.getProperty("minTopClassScore"));
+		double minSentimentTopScore = Double.parseDouble(props.getProperty("minSentimentTopScore"));
 		
 		//Setup output folders
 		new File(id+"/wordlists/").mkdirs();
 		
 		Corpus co = new Corpus(props);
+		//Evaluation scores
+		double totalInstances = 0.0;
+		int tp = 0;
+		int tn = 0;
+		int fp = 0;
+		int fn = 0;
+		int butCounter = 0;
 
 		System.out.println("Running experiment with following settings: "+props.toString());
 
-		int size = co.loadFromFile("data/ratebeer.txt", topX);
+		int size = co.loadFromFile("data/training.txt", topX);
 		System.out.println("Total amount of reviews loaded: " + size);
 
 		WordListGenerator wlGenerator = new WordListGenerator(id+"/wordlists/");
@@ -49,10 +59,34 @@ public class Experiment {
 		
 		
 		Corpus testSet = new Corpus(props);
-		testSet.loadFromFile("data/ratebeer.txt", topX);
+		testSet.loadFromFile("data/test.txt", topX);
+		
 		for(Review r: testSet.getReviews()) {
-			System.out.println(this.getOverallSentiScore(r));
+			double overallSentiScore = this.getOverallSentiScore(r); //TODO:Maybe in relation to word count in review?
+			boolean predictTopOverall = overallSentiScore >= minSentimentTopScore;
+			boolean isTopOverall = r.isTop(Aspect.OVERALL, minTopClassScore);
+			totalInstances++;
+			if (predictTopOverall && isTopOverall) tp++;
+			if (!predictTopOverall && !isTopOverall) tn++;
+			if (!predictTopOverall && isTopOverall) {
+				fn++;
+				System.out.println(overallSentiScore +" => predictingtop? "+predictTopOverall+" - isTop? " +isTopOverall);
+				System.out.println(r.toString());
+			}
+			if (predictTopOverall && !isTopOverall) {
+				fp++;
+				System.out.println(overallSentiScore +" => predictingtop? "+predictTopOverall+" - isTop? " +isTopOverall);
+				System.out.println(r.toString());
+				if (r.getText().contains("but")) butCounter++;
+			}
 		}
+		
+		System.out.println("True positives: "+tp);
+		System.out.println("True negatives: "+tn);
+		System.out.println("False negatives: "+fn);
+		System.out.println("False positives: "+fp);
+		System.out.println("Accuracy: "+(tp+tn)/totalInstances);
+		System.out.println("BUT-% in FP instances: "+(double)butCounter/fp);
 	}
 
 	public void loadWordlists(String[] wlFiles) {
