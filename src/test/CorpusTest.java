@@ -16,6 +16,8 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
+import scripts.SplitDataSet;
+
 import com.cybozu.labs.langdetect.Detector;
 import com.cybozu.labs.langdetect.DetectorFactory;
 import com.cybozu.labs.langdetect.LangDetectException;
@@ -32,6 +34,7 @@ public class CorpusTest {
 	private static Corpus co;
 	static Review rev;
 	static StanfordCoreNLP pipeline;
+	private static SplitDataSet splitDataSet;
 	
 	@BeforeClass
 	public static void setUpBeforeClass() throws Exception
@@ -42,7 +45,9 @@ public class CorpusTest {
 		props.put("maxLowRatingscore", "0.4");
 		co = new Corpus(props);
 		pipeline = new StanfordCoreNLP(props);
+		splitDataSet= new SplitDataSet();
 		assertEquals(co.loadFromFile("data/ratebeer.txt", 500), 500);
+		assertEquals(splitDataSet.splitDataSet("data/ratebeer.txt", 100), 100);
     }
 	
 	@Before
