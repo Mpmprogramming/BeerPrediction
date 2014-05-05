@@ -111,6 +111,7 @@ public class Review {
 		// has values with custom types
 		List<CoreMap> sentences = document.get(SentencesAnnotation.class);
 
+		//TODO:Maybe exclude numbers?
 		for (CoreMap sentence : sentences) {
 			String sentenceText = sentence.get(TextAnnotation.class);
 			Aspect sentenceTopic = Review.findAspect(sentenceText);

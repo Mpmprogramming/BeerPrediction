@@ -111,6 +111,10 @@ public class Experiment {
 		System.out.println("BUT-% in FP instances: "+(double)butCounter/fp);
 	}
 
+	public Result getFinalResult() {
+		return finalResult;
+	}
+
 	public void loadWordlists(String[] wlFiles) {
 		for (String file : wlFiles) {
 			if (file.contains(Aspect.APPEARANCE.name()))

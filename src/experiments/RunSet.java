@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import java.util.Properties;
 
 import models.Experiment;
+import models.Result;
 import edu.stanford.nlp.pipeline.StanfordCoreNLP;
 
 /**
@@ -15,6 +16,8 @@ import edu.stanford.nlp.pipeline.StanfordCoreNLP;
  *
  */
 public class RunSet {
+	
+	public static ArrayList<Experiment> finishedExperiments = new ArrayList<Experiment>();
 	
 	public static Properties generateMasterProperties() {
 		// Setup standard properties here
@@ -39,9 +42,8 @@ public class RunSet {
 		masterProps.put("stopwordsFile", "data/english-stop-words-small.txt");
 		masterProps.put("wordsToKeep", "5000");
 		masterProps.put("minTermFreq", "5");
-
 		masterProps.put("minTopRatingscore", "1.0");//actual aspect ration / MAX(Aspect)
-		masterProps.put("maxLowRatingscore", "0.3");
+		masterProps.put("maxLowRatingscore", "0.35");
 
 
 		//Evaluation parameters
@@ -55,8 +57,15 @@ public class RunSet {
 	
 	public static ArrayList<Properties> generatesProperties() {
 		ArrayList<Properties> configs = new ArrayList<Properties>();
+		
+		//Add standard config
 		configs.add(generateMasterProperties());
-		//TODO fill array list
+		
+		Properties woLowercase = generateMasterProperties();
+		woLowercase.put("lowerCaseTokens", "false");
+		configs.add(woLowercase);
+		
+		//TODO fill array list with more configs
 		return configs;
 	}
 	
@@ -69,6 +78,7 @@ public class RunSet {
 			Experiment experiment = new Experiment(configs.get(i), new StanfordCoreNLP(configs.get(i)));
 			try {
 				experiment.run();
+				finishedExperiments.add(experiment);
 			} catch (IOException e) {
 				e.printStackTrace();
 			}

@@ -61,8 +61,8 @@ public class Result {
 
 	@Override
 	public String toString() {
-		return "Result [TP=" + TP + "\n TN=" + TN + "\n FN=" + FN + "\nFP=" + FP + "\n Accuracy=" + getAccuracy() + "\n Precision=" + getPrecision()
-				+ "\n Recall=" + getRecall() + "\n FMeasure=" + getFMeasure() + "]";
+		return "Result [\nTP=" + TP + "\nTN=" + TN + "\nFN=" + FN + "\nFP=" + FP + "\nAccuracy=" + getAccuracy() + "\nPrecision=" + getPrecision()
+				+ "\nRecall=" + getRecall() + "\nFMeasure=" + getFMeasure() + "]";
 	}
 	
 	
