@@ -27,7 +27,7 @@ public class SentiWordList {
 		String line = null;
 		BufferedReader br = null;
 		try {
-			System.out.println("Attempt loading wordlist: " + path);
+			System.out.print("Attempt loading wordlist: " + path);
 			br = new BufferedReader(new InputStreamReader(new FileInputStream(path), "UTF-8"));
 
 			while ((line = br.readLine()) != null) {
@@ -44,7 +44,7 @@ public class SentiWordList {
 		finally {
 			try {
 				br.close();
-				System.out.println("Finished loading wordlist.");
+				System.out.println(" DONE!");
 			} catch (IOException e) {
 				e.printStackTrace();
 			}

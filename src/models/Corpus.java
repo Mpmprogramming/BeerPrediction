@@ -80,7 +80,7 @@ public class Corpus {
 		String line = null;
 		BufferedReader br = null;
 		try {
-			System.out.println("Attempt loading file: " + path);
+			System.out.print("Attempt loading file: " + path + " ");
 			br = new BufferedReader(new InputStreamReader(new FileInputStream(path), "UTF-8"));
 
 			while ((line = br.readLine()) != null) {
@@ -189,7 +189,7 @@ public class Corpus {
 					
 					if (reviews.size() >= topX ) break;
 					
-					if (reviews.size() % 1000 == 0 ) System.out.println("Reviews parsed so far: " + this.reviews.size());
+					if (reviews.size() % 10000 == 0 ) System.out.print(".");
 				}
 			} 
 			
@@ -202,7 +202,7 @@ public class Corpus {
 		finally {
 			try {
 				br.close();
-				System.out.println("Finished reading file.");
+				System.out.println("DONE!");
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
