@@ -27,8 +27,8 @@ public class RunSingleExperiment {
 		
 		// Affects stanford core
 //		props.put("posToKeep", "NN ADJ");
-		props.put("posToKeep", "NN JJ");// TODO not implemented yet (Marc) See Review.analyze()
-		props.put("useLemma", "true");// TODO:Check if lemma actually working
+		props.put("posToKeep", "NN JJ");
+		props.put("useLemma", "true");
 		props.put("includePOS", "false");// TODO: Will mess up word vector
 		props.put("annotators", "tokenize, ssplit, pos, lemma");
 		

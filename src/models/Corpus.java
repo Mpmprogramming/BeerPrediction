@@ -157,7 +157,7 @@ public class Corpus {
 					String text = line.split(":", 2)[1].trim();
 					review.setText(text);
 					
-					//TODO: Done!? Filter reviews with missing values
+			
 					
 				if (review.getText().length() > 1)	{
 					
