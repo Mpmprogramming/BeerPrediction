@@ -29,7 +29,7 @@ public class RunSet {
 		Properties masterProps = new Properties();
 
 		//TODO:Adjust for final experiments
-		masterProps.put("maxLoad", "100000");
+		masterProps.put("maxLoad", "50000");
 		
 		// Affects stanford core
 //		masterProps.put("posToKeep", "NN ADJ");
@@ -56,7 +56,7 @@ public class RunSet {
 		
 		//Evaluation parameters
 		masterProps.put("minTopClassScore", "0.8");//[0-1]actual aspect ration / MAX(Aspect); correlates with: fp++ fn--
-		masterProps.put("minSentimentTopScore", "0.1");//Correlates with: fn++ fp--
+		masterProps.put("minSentimentTopScore", "0.01");//Correlates with: fn++ fp--
 		
 		
 		return masterProps;
@@ -69,9 +69,13 @@ public class RunSet {
 		//Add standard config
 		configs.add(generateMasterProperties());
 		
-		Properties change1 = generateMasterProperties();
-		change1.put("minSentimentTopScore", "0.001");
-		configs.add(change1);
+//		Properties change1 = generateMasterProperties();
+//		change1.put("minSentimentTopScore", "0.001");
+//		configs.add(change1);
+//		
+//		Properties change2 = generateMasterProperties();
+//		change2.put("maxLowRatingscore", "0.3");
+//		configs.add(change2);
 		
 		//TODO fill array list with more configs
 		return configs;
