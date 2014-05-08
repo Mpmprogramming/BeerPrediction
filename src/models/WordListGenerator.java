@@ -208,10 +208,10 @@ public class WordListGenerator {
 
 			// Word is positive wrt aspect
 			if (ratio > 1) // TODO: Configurable threshold
-				wordLists[maxIndex] += token + " " + scores[maxIndex * 2] + "\n";
+				wordLists[maxIndex] += token + " " + (scores[maxIndex * 2]-scores[maxIndex * 2 + 1]) + "\n";
 			// Word is negative wrt aspect
 			else if (ratio < 1)
-				wordLists[maxIndex] += token + " " + -1 * scores[maxIndex * 2 + 1] + "\n";
+				wordLists[maxIndex] += token + " " + -1 * (scores[maxIndex * 2 + 1]-scores[maxIndex * 2]) + "\n";
 
 //			for (int j = 0; j < scores.length; j++) {
 //				System.out.print(scores[j] + ",");

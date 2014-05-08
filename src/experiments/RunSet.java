@@ -29,15 +29,16 @@ public class RunSet {
 		Properties masterProps = new Properties();
 
 		//TODO:Adjust for final experiments
-		masterProps.put("maxLoad", "10000");
-
+		masterProps.put("maxLoad", "100000");
+		
 		// Affects stanford core
-		masterProps.put("posToKeep", "NN JJ");
-		masterProps.put("useLemma", "true");
-		masterProps.put("includePOS", "true");// TODO: Will mess up word vector
+//		masterProps.put("posToKeep", "NN ADJ");
+		masterProps.put("posToKeep", "NN JJ");//Fix this to nn jj adv!
+		masterProps.put("useLemma", "true");//Try!
+		masterProps.put("includePOS", "false");// TODO: Will mess up word vector
 		masterProps.put("annotators", "tokenize, ssplit, pos, lemma");
-
-
+		
+		
 		//Wordlist creation parameters
 		masterProps.put("idfTransform", "true");
 		masterProps.put("tfTransform", "true");
@@ -47,13 +48,15 @@ public class RunSet {
 		masterProps.put("stopwordsFile", "data/english-stop-words-small.txt");
 		masterProps.put("wordsToKeep", "5000");
 		masterProps.put("minTermFreq", "10");
+		
+		//For optimization focus on thresholds
 		masterProps.put("minTopRatingscore", "1.0");//actual aspect ration / MAX(Aspect)
-		masterProps.put("maxLowRatingscore", "0.4");//actual aspect ration / MAX(Aspect)
-
-
+		masterProps.put("maxLowRatingscore", "0.4");
+		
+		
 		//Evaluation parameters
-		masterProps.put("minTopClassScore", "0.7");//[0-1]actual aspect ration / MAX(Aspect); correlates with: fp++ fn--
-		masterProps.put("minSentimentTopScore", "0.9");//Correlates with: fn++ fp--
+		masterProps.put("minTopClassScore", "0.8");//[0-1]actual aspect ration / MAX(Aspect); correlates with: fp++ fn--
+		masterProps.put("minSentimentTopScore", "0.1");//Correlates with: fn++ fp--
 		
 		
 		return masterProps;
@@ -66,9 +69,9 @@ public class RunSet {
 		//Add standard config
 		configs.add(generateMasterProperties());
 		
-//		Properties change1 = generateMasterProperties();
-//		change1.put("minSentimentTopScore", "1.0");
-//		configs.add(change1);
+		Properties change1 = generateMasterProperties();
+		change1.put("minSentimentTopScore", "0.001");
+		configs.add(change1);
 		
 		//TODO fill array list with more configs
 		return configs;
@@ -89,6 +92,7 @@ public class RunSet {
 				e.printStackTrace();
 			}
 		}
+		writeResultSummary();
 		
 	}
 	
@@ -96,10 +100,10 @@ public class RunSet {
 		//TODO write csv and console output
 		Writer out = null;
 		try {
-			out = new BufferedWriter(new OutputStreamWriter(new FileOutputStream("data/experiments/"+ new Date().toString().replace(" ", "-").replace(":", "-")+".csv"), "UTF-8"));
+			out = new BufferedWriter(new OutputStreamWriter(new FileOutputStream("data/experiments/summary_"+ new Date().toString().replace(" ", "-").replace(":", "-")+".csv"), "UTF-8"));
 			
-			out.write("name,beerId,brewerId,ABV,style,appearance,aroma,palate,taste,overall,time,profileName,text");
-			out.write("\r\n");
+//			out.write("name,beerId,brewerId,ABV,style,appearance,aroma,palate,taste,overall,time,profileName,text");
+//			out.write("\r\n");
 			
 			for (Experiment exp : finishedExperiments) {
 				out.write(exp.toCSV());
