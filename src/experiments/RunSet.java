@@ -32,9 +32,12 @@ public class RunSet {
 		masterProps.put("maxLoad", "200000");
 
 		// Affects stanford core
-		masterProps.put("posToKeep", "NN ADJ");// TODO not implemented yet (Marc) See Review.analyze()
+		masterProps.put("posToKeep", "NN ADJ");
+		masterProps.put("posToKeep", "NN");
+		masterProps.put("posToKeep", "JJ");
+		masterProps.put("posToKeep", "ADJ");// TODO not implemented yet (Marc) See Review.analyze()
 		masterProps.put("useLemma", "true");// TODO:Check if lemma actually working
-		masterProps.put("includePOS", "false");// TODO: Will mess up word vector
+		masterProps.put("includePOS", "true");// TODO: Will mess up word vector
 		masterProps.put("annotators", "tokenize, ssplit, pos, lemma");
 
 

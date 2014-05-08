@@ -19,7 +19,7 @@ import models.Corpus;
 import models.Review;
 
 /**
- * @author apfelbaum24
+ * @author Marc, Michi
  * 
  */
 public class SplitDataSet {
@@ -33,7 +33,7 @@ public class SplitDataSet {
 	 * @param args
 	 */
 	public static void main(String[] args) {
-		// TODO Code splitting (Marc)
+		
 		// tempCorp.getReviews();
 		new SplitDataSet().splitDataSet("data/ratebeer.txt", Integer.MAX_VALUE);
 
@@ -141,6 +141,7 @@ public class SplitDataSet {
 
 					if (line.startsWith("review/text")) {
 						writerTraining.write(line);
+						//TODO: exclude numbers from textual review
 						writerTraining.write("\r\n");
 						writerTraining.write("\r\n");
 						// writeTraining=false;
@@ -160,7 +161,7 @@ public class SplitDataSet {
 
 				// if (tempCount % 3==0)
 				else {
-					// System.out.println("in writeTest");
+				
 
 					if (line.startsWith("beer/name")) {
 						writerTest.write(line);

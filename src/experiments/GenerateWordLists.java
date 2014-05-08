@@ -40,10 +40,10 @@ public class GenerateWordLists {
 		props.put("maxLowRatingscore", "0.4");
 
 		// Affects stanford core
-		props.put("posToKeep", "NN ADJ");// TODO not implemented yet (Marc) See
+		props.put("posToKeep", "NN JJ");// TODO not implemented yet (Marc) See
 											// Review.analyze()
 		props.put("useLemma", "true");// TODO:Check if lemma actually working
-		props.put("includePOS", "false");// TODO: Will mess up word vector
+		props.put("includePOS", "true");// TODO: Will mess up word vector
 											// creation
 		props.put("annotators", "tokenize, ssplit, pos, lemma");
 		Corpus co = new Corpus(props);
