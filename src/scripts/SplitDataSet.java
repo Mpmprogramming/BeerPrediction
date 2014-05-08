@@ -14,6 +14,10 @@ import java.io.OutputStreamWriter;
 import java.io.Writer;
 import java.util.Properties;
 
+import com.cybozu.labs.langdetect.Detector;
+import com.cybozu.labs.langdetect.DetectorFactory;
+import com.cybozu.labs.langdetect.LangDetectException;
+
 import edu.stanford.nlp.pipeline.StanfordCoreNLP;
 import models.Corpus;
 import models.Review;
@@ -27,16 +31,30 @@ public class SplitDataSet {
 	static Properties props;
 	static Review reviews;
 	static StanfordCoreNLP pipeline;
-//	private static Corpus tempCorp;
+
+	// private static Corpus tempCorp;
 
 	/**
 	 * @param args
+	 * @throws LangDetectException 
 	 */
-	public static void main(String[] args) {
-		
+	public static void main(String[] args) throws LangDetectException {
+
 		// tempCorp.getReviews();
+		DetectorFactory.loadProfile("profiles");
 		new SplitDataSet().splitDataSet("data/ratebeer.txt", Integer.MAX_VALUE);
 
+	}
+
+	public String detect(String text) {
+		try {
+			Detector detector = DetectorFactory.create();
+			detector.append(text);
+			return detector.detect();
+		} catch (LangDetectException e) {
+			e.printStackTrace();
+		}
+		return "";
 	}
 
 	public int splitDataSet(String path, int topX) {
@@ -49,11 +67,14 @@ public class SplitDataSet {
 
 		try {
 			System.out.println("Attempt loading file: " + path);
-			br = new BufferedReader(new InputStreamReader(new FileInputStream(path), "UTF-8"));
-			OutputStream outputStreamTraining = new FileOutputStream("data/training.txt");
+			br = new BufferedReader(new InputStreamReader(new FileInputStream(
+					path), "UTF-8"));
+			OutputStream outputStreamTraining = new FileOutputStream(
+					"data/training.txt");
 			Writer writerTraining = new OutputStreamWriter(outputStreamTraining);
 
-			OutputStream outputStreamTest = new FileOutputStream("data/test.txt");
+			OutputStream outputStreamTest = new FileOutputStream(
+					"data/test.txt");
 			Writer writerTest = new OutputStreamWriter(outputStreamTest);
 
 			// Boolean writeTraining =true;
@@ -140,16 +161,25 @@ public class SplitDataSet {
 					}
 
 					if (line.startsWith("review/text")) {
+
+						if (!detect(line).equals("en")) {
+							System.err.println("Non english review filtered");
+							continue;
+						}
+
 						writerTraining.write(line);
-						//TODO: exclude numbers from textual review
+						// TODO: exclude numbers from textual review
+						// TODO: filter language
 						writerTraining.write("\r\n");
 						writerTraining.write("\r\n");
 						// writeTraining=false;
-						// writeTest=true;
+						// writeTest=true
+
 						tempCount++;
 						numOfReviews++;
 						numOfTrainings++;
-						System.out.println("Parsed reviews so far: " +numOfReviews );
+						System.out.println("Parsed reviews so far: "
+								+ numOfReviews);
 					}
 				}
 
@@ -161,7 +191,6 @@ public class SplitDataSet {
 
 				// if (tempCount % 3==0)
 				else {
-				
 
 					if (line.startsWith("beer/name")) {
 						writerTest.write(line);
@@ -237,6 +266,12 @@ public class SplitDataSet {
 					}
 
 					if (line.startsWith("review/text")) {
+
+						if (!detect(line).equals("en")) {
+							System.err.println("Non english review filtered");
+							continue;
+						}
+
 						writerTest.write(line);
 						writerTest.write("\r\n");
 						writerTest.write("\r\n");
@@ -248,7 +283,6 @@ public class SplitDataSet {
 
 					}
 				}
-				
 
 				// else {
 				// writeTraining=true;
@@ -300,9 +334,10 @@ public class SplitDataSet {
 
 			writerTraining.close();
 			writerTest.close();
-			
-			System.out.println("Dataset of " + numOfReviews + " Reviews" + " has been split into " + numOfTrainings + " " + "Trainings- and "
-					+ numOfTests + " " + "Testitems!");
+
+			System.out.println("Dataset of " + numOfReviews + " Reviews"
+					+ " has been split into " + numOfTrainings + " "
+					+ "Trainings- and " + numOfTests + " " + "Testitems!");
 
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();

@@ -15,5 +15,6 @@
 	<classpathentry kind="lib" path="libs/stanford-corenlp-full-2014-01-04/stanford-corenlp-3.3.1-sources.jar"/>
 	<classpathentry kind="lib" path="libs/stanford-corenlp-full-2014-01-04/stanford-corenlp-3.3.1.jar"/>
 	<classpathentry kind="lib" path="libs/weka-src.jar"/>
+	<classpathentry kind="lib" path="libs/langdetect.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
