@@ -48,8 +48,8 @@ public class RunSingleExperiment {
 		
 		
 		//Evaluation parameters
-		props.put("minTopClassScore", "0.8");//[0-1]actual aspect ration / MAX(Aspect); correlates with: fp++ fn--
-		props.put("minSentimentTopScore", "0.0001");//Correlates with: fn++ fp--
+		props.put("minTopClassScore", "0.71");//[0-1]actual aspect ration / MAX(Aspect); correlates with: fp++ fn--
+		props.put("minSentimentTopScore", "2.1");//Correlates with: fn++ fp--
 		
 		Experiment experiment = new Experiment(props, new StanfordCoreNLP(props));
 		try {
