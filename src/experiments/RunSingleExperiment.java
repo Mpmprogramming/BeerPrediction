@@ -23,7 +23,7 @@ public class RunSingleExperiment {
 		Properties props = new Properties();
 		
 		//TODO:Adjust for final experiments
-		props.put("maxLoad", "100000");
+		props.put("maxLoad", "10000");
 		
 		// Affects stanford core
 //		props.put("posToKeep", "NN ADJ");
