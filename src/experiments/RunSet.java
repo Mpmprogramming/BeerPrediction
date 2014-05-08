@@ -24,7 +24,7 @@ public class RunSet {
 		Properties masterProps = new Properties();
 
 		//TODO:Adjust for final experiments
-		masterProps.put("maxLoad", "100000");
+		masterProps.put("maxLoad", "10000");
 
 		// Affects stanford core
 		masterProps.put("posToKeep", "NN ADJ");
@@ -64,9 +64,9 @@ public class RunSet {
 		//Add standard config
 		configs.add(generateMasterProperties());
 		
-		Properties woLowercase = generateMasterProperties();
-		woLowercase.put("lowerCaseTokens", "false");
-		configs.add(woLowercase);
+//		Properties woLowercase = generateMasterProperties();
+//		woLowercase.put("lowerCaseTokens", "false");
+//		configs.add(woLowercase);
 		
 		//TODO fill array list with more configs
 		return configs;
