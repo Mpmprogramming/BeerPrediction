@@ -64,6 +64,7 @@ public class SplitDataSet {
 		int numOfReviews = 0;
 		int numOfTrainings = 0;
 		int numOfTests = 0;
+		int amountNonEnglishReviews= 0;
 
 		try {
 			System.out.println("Attempt loading file: " + path);
@@ -164,6 +165,7 @@ public class SplitDataSet {
 
 						if (!detect(line).equals("en")) {
 							System.err.println("Non english review filtered");
+							amountNonEnglishReviews++;
 							continue;
 						}
 
@@ -269,6 +271,7 @@ public class SplitDataSet {
 
 						if (!detect(line).equals("en")) {
 							System.err.println("Non english review filtered");
+							amountNonEnglishReviews++;
 							continue;
 						}
 
@@ -338,6 +341,7 @@ public class SplitDataSet {
 			System.out.println("Dataset of " + numOfReviews + " Reviews"
 					+ " has been split into " + numOfTrainings + " "
 					+ "Trainings- and " + numOfTests + " " + "Testitems!");
+			System.out.println("Number of non-english reviews:" +amountNonEnglishReviews);
 
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
