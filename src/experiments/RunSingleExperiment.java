@@ -23,12 +23,12 @@ public class RunSingleExperiment {
 		Properties props = new Properties();
 		
 		//TODO:Adjust for final experiments
-		props.put("maxLoad", "50000");
+		props.put("maxLoad", "100000");
 		
 		// Affects stanford core
 //		props.put("posToKeep", "NN ADJ");
-		props.put("posToKeep", "NN JJ");
-		props.put("useLemma", "true");
+		props.put("posToKeep", "NN JJ");//Fix this to nn jj adv!
+		props.put("useLemma", "true");//Try!
 		props.put("includePOS", "false");// TODO: Will mess up word vector
 		props.put("annotators", "tokenize, ssplit, pos, lemma");
 		
@@ -43,13 +43,14 @@ public class RunSingleExperiment {
 		props.put("wordsToKeep", "5000");
 		props.put("minTermFreq", "10");
 		
+		//For optimization focus on thresholds
 		props.put("minTopRatingscore", "1.0");//actual aspect ration / MAX(Aspect)
 		props.put("maxLowRatingscore", "0.4");
 		
 		
 		//Evaluation parameters
 		props.put("minTopClassScore", "0.8");//[0-1]actual aspect ration / MAX(Aspect); correlates with: fp++ fn--
-		props.put("minSentimentTopScore", "2.1");//Correlates with: fn++ fp--
+		props.put("minSentimentTopScore", "1.9");//Correlates with: fn++ fp--
 		
 		Experiment experiment = new Experiment(props, new StanfordCoreNLP(props));
 		try {

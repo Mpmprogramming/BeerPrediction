@@ -70,7 +70,7 @@ public class Experiment {
 		
 		
 		Corpus testSet = new Corpus(props, this.pipeline);
-		testSet.loadFromFile("data/test.txt", maxLoad);
+		testSet.loadFromFile("data/test.txt", maxLoad/2);
 		testSet.analyze();
 		
 		for(Review r: testSet.getReviews()) {
@@ -133,18 +133,24 @@ public class Experiment {
 	
 	public double getOverallSentiScore(Review review) {
 		double score = 0.0;
-		int sentWordsCount = 0;
+		int sentWordsCount = 1;
 		review.analyze(pipeline, props);
 		String[] tokens = review.getTokens().split(" ");
 		for(String token: tokens) {
 			double tmp = score;
 			 score += wordlists.get(Aspect.APPEARANCE).getScore(token);
+			 if (tmp != score) sentWordsCount++;
+			 tmp = score;
 			 score += wordlists.get(Aspect.TASTE).getScore(token);
+			 if (tmp != score) sentWordsCount++;
+			 tmp = score;
 			 score += wordlists.get(Aspect.AROMA).getScore(token);
+			 if (tmp != score) sentWordsCount++;
+			 tmp = score;
 			 score += wordlists.get(Aspect.PALATE).getScore(token);
 			 if (tmp != score) sentWordsCount++;
 		}
-		return score/(sentWordsCount+1);//TODO:Currently dividing by senti words count; Other weightening possible
+		return score/(sentWordsCount);//TODO:Currently dividing by senti words count; Other weightening possible
 	}
 	
 	public String toCSV() {
