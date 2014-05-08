@@ -15,7 +15,7 @@
     <parameter key="parallelize_main_process" value="false"/>
     <process expanded="true">
       <operator activated="true" class="read_arff" compatibility="5.3.015" expanded="true" height="60" name="Read ARFF" width="90" x="246" y="165">
-        <parameter key="data_file" value="C:\Users\Michi\git\BeerPrediction\data\experiments\Michi-Mon-May-05-17-20-07-CEST-2014\wordlists\wordvector.arff"/>
+        <parameter key="data_file" value="C:\Users\Michi\git\BeerPrediction\data\experiments\Michi-Tue-May-06-11-49-16-CEST-2014\wordlists\wordvector.arff"/>
         <parameter key="encoding" value="UTF-8"/>
         <parameter key="read_not_matching_values_as_missings" value="true"/>
         <list key="data_set_meta_data_information"/>
@@ -25,7 +25,7 @@
         <parameter key="grouping_character" value=","/>
       </operator>
       <operator activated="true" class="read_csv" compatibility="5.3.015" expanded="true" height="60" name="Read CSV" width="90" x="313" y="300">
-        <parameter key="csv_file" value="C:\Users\Michi\git\BeerPrediction\data\experiments\Michi-Mon-May-05-17-20-07-CEST-2014\wordlists\APPEARANCE.txt"/>
+        <parameter key="csv_file" value="C:\Users\Michi\git\BeerPrediction\data\experiments\Michi-Tue-May-06-11-49-16-CEST-2014\wordlists\TASTE.txt"/>
         <parameter key="column_separators" value="\s"/>
         <parameter key="trim_lines" value="false"/>
         <parameter key="use_quotes" value="true"/>
