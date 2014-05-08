@@ -144,7 +144,7 @@ public class Experiment {
 			 score += wordlists.get(Aspect.PALATE).getScore(token);
 			 if (tmp != score) sentWordsCount++;
 		}
-		return score/sentWordsCount;//TODO:Currently dividing by senti words count; Other weightening possible
+		return score/(sentWordsCount+1);//TODO:Currently dividing by senti words count; Other weightening possible
 	}
 	
 	public String toCSV() {

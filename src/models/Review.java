@@ -224,8 +224,6 @@ public class Review {
 		return 0;
 	}
 
-	// TODO: DONE: Maybe handle ambiguous sentences? --> current implementation
-	// leads to a high majority of NONE attributes...
 	// TODO: Instead of sentence-based, change it to on a word-based?!
 	public static Aspect findAspect(String sentence) {
 		int countAppearance = 0;

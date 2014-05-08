@@ -171,7 +171,6 @@ public class SplitDataSet {
 
 						writerTraining.write(line);
 						// TODO: exclude numbers from textual review
-						// TODO: filter language
 						writerTraining.write("\r\n");
 						writerTraining.write("\r\n");
 						// writeTraining=false;
@@ -286,42 +285,6 @@ public class SplitDataSet {
 
 					}
 				}
-
-				// else {
-				// writeTraining=true;
-				// writeTest=false;
-				// // countTestAttributes=0;
-				// }
-
-				// TODO: Done!? Filter reviews with missing values
-
-				// if (review.getText().length() > 1) {
-				//
-				// //TODO:Add inside lang filter when working
-				// this.reviews.add(review);
-				//
-
-				// TODO: Done!? Filter non-english reviews (Marc)
-
-				// try {
-				// Detector detector = DetectorFactory.create();
-				// detector.append(review.getText());
-				// if (detectLanguage(review.getText()).equals("en")) {
-				// // System.out.println("text is "+review.getText());
-				// // System.out.println("lang is "+detector.detect());
-				//
-				//
-				// this.reviews.add(review);
-				// }
-				// else {
-				// //this is very seldom, it happens once after parsing the
-				// 55300 review
-				// System.out.println("help! other language");
-				// }
-				// } catch (LangDetectException e) {
-				// // TODO Auto-generated catch block
-				// e.printStackTrace();
-				// }
 
 				if (numOfReviews >= topX)
 

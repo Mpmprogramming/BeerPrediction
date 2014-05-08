@@ -23,7 +23,7 @@ public class RunSingleExperiment {
 		Properties props = new Properties();
 		
 		//TODO:Adjust for final experiments
-		props.put("maxLoad", "10000");
+		props.put("maxLoad", "50000");
 		
 		// Affects stanford core
 //		props.put("posToKeep", "NN ADJ");
@@ -41,14 +41,14 @@ public class RunSingleExperiment {
 		props.put("useStoplist", "true");
 		props.put("stopwordsFile", "data/english-stop-words-small.txt");
 		props.put("wordsToKeep", "5000");
-		props.put("minTermFreq", "5");
+		props.put("minTermFreq", "10");
 		
 		props.put("minTopRatingscore", "1.0");//actual aspect ration / MAX(Aspect)
-		props.put("maxLowRatingscore", "0.3");
+		props.put("maxLowRatingscore", "0.4");
 		
 		
 		//Evaluation parameters
-		props.put("minTopClassScore", "0.71");//[0-1]actual aspect ration / MAX(Aspect); correlates with: fp++ fn--
+		props.put("minTopClassScore", "0.8");//[0-1]actual aspect ration / MAX(Aspect); correlates with: fp++ fn--
 		props.put("minSentimentTopScore", "2.1");//Correlates with: fn++ fp--
 		
 		Experiment experiment = new Experiment(props, new StanfordCoreNLP(props));

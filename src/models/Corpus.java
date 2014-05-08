@@ -161,30 +161,8 @@ public class Corpus {
 					
 				if (review.getText().length() > 1)	{
 					
-					//TODO:Add inside lang filter when working
 					this.reviews.add(review);
 					
-					
-					//TODO: Done!? Filter non-english reviews (Marc)
-					
-//					try {
-//						Detector detector = DetectorFactory.create();
-//					       detector.append(review.getText());
-//					       if (detectLanguage(review.getText()).equals("en")) {
-////					    	   System.out.println("text is "+review.getText());
-////					    	   System.out.println("lang is "+detector.detect());
-//						
-//						 
-//						this.reviews.add(review);
-//						}
-//					       else {
-//					    	   //this is very seldom, it happens once after parsing the 55300 review 
-//					    	   System.out.println("help! other language");
-//					       }
-//					} catch (LangDetectException e) {
-//						// TODO Auto-generated catch block
-//						e.printStackTrace();
-//					}
 				}
 					
 					if (reviews.size() >= topX ) break;
@@ -240,23 +218,6 @@ public class Corpus {
 			}
 		}
 	}
-	
-//	public void initLangDetection(String profileDirectory) throws LangDetectException {
-//        DetectorFactory.loadProfile(profileDirectory);
-//    }
-//    public String detectLanguage(String text) throws LangDetectException {
-//        Detector detector = DetectorFactory.create();
-//        detector.append(text);
-//        return detector.detect();
-//    }
-    
-//    public ArrayList detectLanguages(String text) throws LangDetectException {
-//        Detector detector = DetectorFactory.create();
-//        detector.append(text);
-//        return detector.getProbabilities();
-//    }
-
-		//TODO: delete string as attribute, implement threshold as properties
 
 	
 	public Corpus getTopReviews(Aspect asp) {
