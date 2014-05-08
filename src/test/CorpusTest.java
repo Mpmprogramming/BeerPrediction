@@ -22,6 +22,7 @@ import com.cybozu.labs.langdetect.Detector;
 import com.cybozu.labs.langdetect.DetectorFactory;
 import com.cybozu.labs.langdetect.LangDetectException;
 
+import edu.stanford.nlp.ling.CoreAnnotations.PartOfSpeechAnnotation;
 import edu.stanford.nlp.pipeline.StanfordCoreNLP;
 
 /**
@@ -205,10 +206,19 @@ public class CorpusTest {
 	    Corpus topTaste = co.getTopReviews(Aspect.TASTE);
 		System.out.println("taste: " +topTaste.getReviews().size() + " are top");
 		for (int i=0; i<topTaste.getReviews().size(); i++) {
+		
 			assertTrue(topTaste.getReviews().get(i).getTaste() >=7);
 //			assertTrue(co.getReviews().get(i).getTaste() <=10);
 			}
 	}
+	
+//	@Test
+//	public void testPOS() {
+//		System.out.println("in TestPOS");
+//		rev.setText("On tap at the Springfield, PA location. Poured a deep and cloudy orange (almost a copper) color with a small sized off white head. Aromas or oranges and all around citric. Tastes of oranges, light caramel and a very light grapefruit finish. I too would not believe the 80+ IBUs - I found this one to have a very light bitterness with a medium sweetness to it. Light lacing left on the glass.");
+//		rev.analyze(pipeline, co.getProps());
+	//String pos = token.get(PartOfSpeechAnnotation.class);
+//	}
 //	@Test
 //	public void testDetectLanguageInGeneral() {
 //		try {

@@ -17,6 +17,7 @@ import edu.stanford.nlp.ling.CoreAnnotations.TokensAnnotation;
 import edu.stanford.nlp.ling.CoreLabel;
 import edu.stanford.nlp.pipeline.Annotation;
 import edu.stanford.nlp.pipeline.StanfordCoreNLP;
+import edu.stanford.nlp.tagger.maxent.MaxentTagger;
 import edu.stanford.nlp.util.CoreMap;
 
 /**
@@ -94,6 +95,7 @@ public class Review {
 
 		Boolean useLemma = Boolean.parseBoolean(props.getProperty("useLemma"));
 		Boolean includePOS = Boolean.parseBoolean(props.getProperty("includePOS"));
+		String posToKeep = props.getProperty("posToKeep");
 
 		// Initialize to avoid null strings
 		for (Aspect a : Aspect.values()) {
@@ -110,40 +112,82 @@ public class Review {
 		// a CoreMap is essentially a Map that uses class objects as keys and
 		// has values with custom types
 		List<CoreMap> sentences = document.get(SentencesAnnotation.class);
-
-		//TODO:Maybe exclude numbers?
+		
+//		//from stanford simpleparser
+//		ArrayList<String> parsedSentences = new ArrayList<String>();
+//		int sentid = 0;
+		
+		
+		//TODO:DONE: Maybe exclude numbers? -> numbers are continued, thus the error must mean something else...
 		for (CoreMap sentence : sentences) {
+			
 			String sentenceText = sentence.get(TextAnnotation.class);
+			System.out.println("SentenceText: "+ sentenceText);
 			Aspect sentenceTopic = Review.findAspect(sentenceText);
+			
+//			sentenceText.replaceAll("\\d*$", "");
 			this.sentences.add(sentenceText);
+		
 			// traversing the words in the current sentence
 			// a CoreLabel is a CoreMap with additional token-specific methods
 			for (CoreLabel token : sentence.get(TokensAnnotation.class)) {
+				
+				
 				String analyzedToken;
 				String text = token.get(TextAnnotation.class);
+				
 				analyzedToken = text;
-				// this is the text of the token
+				
+				if (isInteger(analyzedToken)) {
+					System.out.println("is a number");
+					continue;
+				}
+//				text.replaceAll("\\d*$", "a");
+//				analyzedToken.replaceAll("\\d*$", "a");
+				
+				
 				if (useLemma)
-					analyzedToken = token.get(LemmaAnnotation.class);// TODO:Check
+					System.out.println("Analyzed Token: "+analyzedToken);
+					analyzedToken = token.get(LemmaAnnotation.class);// TODO: DONE:Check
 																		// here
 																		// if
 																		// really
 																		// difference
 																		// from
 																		// text
+				System.out.println("In lemma: " + analyzedToken);
+				
 				// this is the POS tag of the token
 				String pos = token.get(PartOfSpeechAnnotation.class);
-				if (includePOS)
+//				System.out.println("This is the real POS currently analyzed: " +pos);
+				if (includePOS) {
+					if (posToKeep== "NN JJ") {
+					if (token.get(PartOfSpeechAnnotation.class).toString().equals("NN") ||token.get(PartOfSpeechAnnotation.class).toString().equals("JJ"))  {
+						System.out.println ("In POS only NN and JJ: " +token.get(PartOfSpeechAnnotation.class) +analyzedToken);
 					analyzedToken += pos;
-
+//					System.out.println ("In POS only NN and JJ: " +token.get(PartOfSpeechAnnotation.class) +analyzedToken);
+					}
+					}
+				}
+				// this is the text of the token
+				
+//				MaxentTagger tagger= new MaxentTagger(); 
+				
+				if (posToKeep== "NN JJ") {
+					if (token.get(PartOfSpeechAnnotation.class).toString().equals("NN") ||token.get(PartOfSpeechAnnotation.class).toString().equals("JJ"))  {
+						System.out.println ("In POS only NN and JJ: " +token.get(PartOfSpeechAnnotation.class));
+//					analyzedToken += pos;
+					
 				// System.out.println("Adding: "+analyzedTokens.get(sentenceTopic)+" "+lemma);
+				System.out.println("Adding: "+analyzedTokens.get(sentenceTopic)+" "+pos);
 				this.tokens += analyzedToken + " ";
 				this.analyzedTokens.put(sentenceTopic, analyzedTokens.get(sentenceTopic) + " " + analyzedToken);
-				// System.out.println(sentenceTopic.name()
+				 System.out.println(sentenceTopic.name());
 				// +" "+analyzedTokens.get(sentenceTopic));
 
 			}
-
+				}
+			}
 		}
 
 		isAnalyzed = true;
@@ -196,43 +240,61 @@ public class Review {
 		return 0;
 	}
 
-	// TODO:Maybe handle ambiguous sentences?
+	// TODO: DONE: Maybe handle ambiguous sentences? --> current implementation leads to a high majority of NONE attributes...
+	//TODO: Instead of sentence-based, change it to on a word-based?!
 	public static Aspect findAspect(String sentence) {
-
+		int countAppearance = 0;
+		int countAroma = 0;
+		int countPalate = 0;
+		int countTaste = 0;
+		int countOverall = 0;
+		
 		for (int i = 0; i < getWordsForAppearance().size(); i++) {
 
 			if (sentence.toLowerCase().contains(getWordsForAppearance().get(i))) {
-
-				return Aspect.APPEARANCE;
+				countAppearance++;
+				
 			}
 		}
 
 		for (int i = 0; i < wordsForAroma.size(); i++) {
 			if (sentence.toLowerCase().contains(wordsForAroma.get(i))) {
-
-				return Aspect.AROMA;
+				countAroma++;
+//				return Aspect.AROMA;
 			}
 		}
 
 		for (int i = 0; i < wordsForPalate.size(); i++) {
 			if (sentence.toLowerCase().contains(wordsForPalate.get(i))) {
-
-				return Aspect.PALATE;
+				countPalate++;
+//				return Aspect.PALATE;
 			}
 		}
 
 		for (int i = 0; i < wordsForTaste.size(); i++) {
 			if (sentence.toLowerCase().contains(wordsForTaste.get(i))) {
-
-				return Aspect.TASTE;
+				countTaste++;
+//				return Aspect.TASTE;
 			}
 		}
 
 		for (int i = 0; i < wordsForOverall.size(); i++) {
 			if (sentence.toLowerCase().contains(wordsForOverall.get(i))) {
-
-				return Aspect.OVERALL;
+				countOverall++;
+//				return Aspect.OVERALL;
 			}
+		}
+		if (countAppearance !=0 && countAroma == 0 && countPalate ==0 && countTaste ==0  ) {
+			return Aspect.APPEARANCE;
+		}
+		if (countAppearance ==0 && countAroma != 0 && countPalate ==0 && countTaste ==0  ) {
+			return Aspect.AROMA;
+		}
+		if (countAppearance ==0 && countAroma == 0 && countPalate !=0 && countTaste ==0  ) {
+			return Aspect.PALATE;
+		}
+		if (countAppearance ==0 && countAroma == 0 && countPalate ==0 && countTaste !=0  ) {
+			return Aspect.TASTE;
 		}
 
 		return Aspect.NONE;
@@ -401,6 +463,14 @@ public class Review {
 
 	public void setWordsForOverall(ArrayList<String> wordsForOverall) {
 		Review.wordsForOverall = wordsForOverall;
+	}
+	
+	public boolean isInteger(String str) {
+	    try {
+	        Integer.parseInt(str);
+	        return true;
+	    } catch (NumberFormatException nfe) {}
+	    return false;
 	}
 
 }
