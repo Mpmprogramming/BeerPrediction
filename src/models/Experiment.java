@@ -46,6 +46,7 @@ public class Experiment {
 		new File(id+"/wordlists/").mkdirs();
 		
 		Writer errorWriter = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(this.id+"/errors.txt"), "UTF-8"));
+		Writer resultsWriter = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(this.id+"/results.txt"), "UTF-8"));
 		
 		Corpus co = new Corpus(props, this.pipeline);
 		//Evaluation scores
@@ -93,6 +94,8 @@ public class Experiment {
 		
 		errorWriter.close();
 		this.finalResult = new Result(tp, tn, fn, fp);
+		resultsWriter.write(this.toCSV());
+		resultsWriter.close();
 		
 		long stopTime = System.currentTimeMillis();
 		long elapsedTime = stopTime - startTime;
@@ -142,6 +145,19 @@ public class Experiment {
 			 if (tmp != score) sentWordsCount++;
 		}
 		return score/sentWordsCount;//TODO:Currently dividing by senti words count; Other weightening possible
+	}
+	
+	public String toCSV() {
+		return this.id + "," 
+				+ this.props.toString() + "," 
+				+ finalResult.getTP() + "," 
+				+ finalResult.getTN() + "," 
+				+ finalResult.getFN() + "," 
+				+ finalResult.getFP() + "," 
+				+ finalResult.getAccuracy() + "," 
+				+ finalResult.getPrecision() + "," 
+				+ finalResult.getRecall() + "," 
+				+ finalResult.getFMeasure();
 	}
 
 }
