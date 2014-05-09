@@ -5,11 +5,9 @@ package models;
 
 import java.io.BufferedWriter;
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
-import java.io.UnsupportedEncodingException;
 import java.io.Writer;
 import java.util.Date;
 import java.util.HashMap;
@@ -48,37 +46,38 @@ public class Experiment {
 		Writer errorWriter = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(this.id+"/errors.txt"), "UTF-8"));
 		Writer resultsWriter = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(this.id+"/results.txt"), "UTF-8"));
 		
-		Corpus co = new Corpus(props, this.pipeline);
 		//Evaluation scores
 		int tp = 0;
 		int tn = 0;
 		int fp = 0;
 		int fn = 0;
 		int butCounter = 0;
+		double sentCounter = 0.0;
+		double avgSentScore;
 
 		System.out.println("Running experiment with following settings: "+props.toString());
 		long startTime = System.currentTimeMillis();
 
-		int size = co.loadFromFile("data/training.txt", maxLoad);
-		System.out.println("Total amount of reviews loaded: " + size);
 
-		WordListGenerator wlGenerator = new WordListGenerator(id+"/wordlists/");
 
-		//TODO: Possible wl improvements: Filter out: numbers as tokens and aspect key words, make sure lemmatization works
-		String[] wlFiles = wlGenerator.generateWordlists(co).split(";");
-		this.loadWordlists(wlFiles);
+		//TODO: Possible wl improvements: Filter out: numbers as tokens and aspect key words
+		String[] wlFiles = this.generateWordlists().split(";");
+		System.gc();
 		
+		this.loadWordlists(wlFiles);
 		
 		Corpus testSet = new Corpus(props, this.pipeline);
 		testSet.loadFromFile("data/test.txt", maxLoad/2);
+		int testSize = testSet.getReviews().size();
 //		testSet.analyze();
 		
 		System.out.println("Starting validation with " + testSet.getReviews().size() +" instances");
 //		for(Review r: testSet.getReviews()) {
-		for (int i=testSet.getReviews().size()-1; i > 0; i--) { //Loop backwards in order to free memory of processed instances
+		for (int i=testSize-1; i > 0; i--) { //Loop backwards in order to free memory of processed instances
 			Review r = testSet.getReviews().get(i);
 			r.analyze(pipeline, props);
 			double overallSentiScore = this.getOverallSentiScore(r); 
+			sentCounter += overallSentiScore;
 			boolean predictTopOverall = overallSentiScore >= minSentimentTopScore;
 			boolean isTopOverall = r.isTop(Aspect.OVERALL, minTopClassScore);
 			if (predictTopOverall && isTopOverall) tp++;
@@ -97,8 +96,10 @@ public class Experiment {
 			testSet.getReviews().remove(i);
 		}
 		
+		avgSentScore = (double) sentCounter/testSize;
+		
 		errorWriter.close();
-		this.finalResult = new Result(tp, tn, fn, fp);
+		this.finalResult = new Result(tp, tn, fn, fp, avgSentScore);
 		resultsWriter.write(this.toCSV());
 		resultsWriter.close();
 		
@@ -117,6 +118,23 @@ public class Experiment {
 //		System.out.println("Accuracy: "+result.getAccuracy());
 		System.out.println(finalResult);
 		System.out.println("BUT-% in FP instances: "+(double)butCounter/fp);
+	}
+	
+	public String generateWordlists() {
+		int maxLoad = Integer.parseInt(props.getProperty("maxLoad"));
+		
+		//Setup output folders
+		new File(id+"/wordlists/").mkdirs();
+		
+		Corpus co = new Corpus(props, this.pipeline);
+
+		int size = co.loadFromFile("data/training.txt", maxLoad);
+		System.out.println("Total amount of reviews loaded: " + size);
+
+		WordListGenerator wlGenerator = new WordListGenerator(id+"/wordlists/");
+
+		//TODO: Possible wl improvements: Filter out: numbers as tokens and aspect key words
+		return wlGenerator.generateWordlists(co);
 	}
 
 	public Result getFinalResult() {
@@ -144,14 +162,8 @@ public class Experiment {
 		for(String token: tokens) {
 			double tmp = score;
 			 score += wordlists.get(Aspect.APPEARANCE).getScore(token);
-//			 if (tmp != score) sentWordsCount++;
-//			 tmp = score;
 			 score += wordlists.get(Aspect.TASTE).getScore(token);
-//			 if (tmp != score) sentWordsCount++;
-//			 tmp = score;
 			 score += wordlists.get(Aspect.AROMA).getScore(token);
-//			 if (tmp != score) sentWordsCount++;
-//			 tmp = score;
 			 score += wordlists.get(Aspect.PALATE).getScore(token);
 			 if (tmp != score) sentWordsCount++;
 		}
@@ -168,6 +180,7 @@ public class Experiment {
 				+ finalResult.getAccuracy() + "," 
 				+ finalResult.getPrecision() + "," 
 				+ finalResult.getRecall() + "," 
+				+ finalResult.getAvgSentScore() + "," 
 				+ finalResult.getFMeasure();
 	}
 

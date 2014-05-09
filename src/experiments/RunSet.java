@@ -13,7 +13,6 @@ import java.util.Date;
 import java.util.Properties;
 
 import models.Experiment;
-import models.Review;
 import edu.stanford.nlp.pipeline.StanfordCoreNLP;
 
 /**
@@ -55,8 +54,8 @@ public class RunSet {
 		
 		
 		//Evaluation parameters
-		masterProps.put("minTopClassScore", "0.8");//[0-1]actual aspect ration / MAX(Aspect); correlates with: fp++ fn--
-		masterProps.put("minSentimentTopScore", "0.01");//Correlates with: fn++ fp--
+		masterProps.put("minTopClassScore", "0.71");//[0-1]actual aspect ration / MAX(Aspect); correlates with: fp++ fn--
+		masterProps.put("minSentimentTopScore", "0.3");//Correlates with: fn++ fp--
 		
 		
 		return masterProps;

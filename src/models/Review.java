@@ -8,7 +8,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Properties;
 
-import models.Review.Aspect;
 import edu.stanford.nlp.ling.CoreAnnotations.LemmaAnnotation;
 import edu.stanford.nlp.ling.CoreAnnotations.PartOfSpeechAnnotation;
 import edu.stanford.nlp.ling.CoreAnnotations.SentencesAnnotation;
@@ -17,7 +16,6 @@ import edu.stanford.nlp.ling.CoreAnnotations.TokensAnnotation;
 import edu.stanford.nlp.ling.CoreLabel;
 import edu.stanford.nlp.pipeline.Annotation;
 import edu.stanford.nlp.pipeline.StanfordCoreNLP;
-import edu.stanford.nlp.tagger.maxent.MaxentTagger;
 import edu.stanford.nlp.util.CoreMap;
 
 /**
@@ -230,7 +228,7 @@ public class Review {
 		int countAroma = 0;
 		int countPalate = 0;
 		int countTaste = 0;
-		int countOverall = 0;
+//		int countOverall = 0;
 
 		for (int i = 0; i < getWordsForAppearance().size(); i++) {
 
@@ -261,12 +259,12 @@ public class Review {
 			}
 		}
 
-		for (int i = 0; i < wordsForOverall.size(); i++) {
-			if (sentence.toLowerCase().contains(wordsForOverall.get(i))) {
-				countOverall++;
-				// return Aspect.OVERALL;
-			}
-		}
+//		for (int i = 0; i < wordsForOverall.size(); i++) {
+//			if (sentence.toLowerCase().contains(wordsForOverall.get(i))) {
+//				countOverall++;
+//				// return Aspect.OVERALL;
+//			}
+//		}
 		if (countAppearance != 0 && countAroma == 0 && countPalate == 0
 				&& countTaste == 0) {
 			return Aspect.APPEARANCE;

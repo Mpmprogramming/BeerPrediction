@@ -13,13 +13,15 @@ public class Result {
 	private int TN;
 	private int FN;
 	private int FP;
+	private double avgSentScore;
 	
 	
-	public Result(int tP, int tN, int fN, int fP) {
+	public Result(int tP, int tN, int fN, int fP, double avgSentScore) {
 		TP = tP;
 		TN = tN;
 		FN = fN;
 		FP = fP;
+		this.avgSentScore = avgSentScore;
 	}
 
 
@@ -62,7 +64,12 @@ public class Result {
 	@Override
 	public String toString() {
 		return "Result [\nTP=" + TP + "\nTN=" + TN + "\nFN=" + FN + "\nFP=" + FP + "\nAccuracy=" + getAccuracy() + "\nPrecision=" + getPrecision()
-				+ "\nRecall=" + getRecall() + "\nFMeasure=" + getFMeasure() + "]";
+				+ "\nRecall=" + getRecall() + "\nFMeasure=" + getFMeasure() + "\nAvgSentScore=" + avgSentScore +"]";
+	}
+
+
+	public double getAvgSentScore() {
+		return avgSentScore;
 	}
 	
 	
