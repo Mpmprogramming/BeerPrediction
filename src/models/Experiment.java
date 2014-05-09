@@ -71,9 +71,13 @@ public class Experiment {
 		
 		Corpus testSet = new Corpus(props, this.pipeline);
 		testSet.loadFromFile("data/test.txt", maxLoad/2);
-		testSet.analyze();
+//		testSet.analyze();
 		
-		for(Review r: testSet.getReviews()) {
+		System.out.println("Starting validation with " + testSet.getReviews().size() +" instances");
+//		for(Review r: testSet.getReviews()) {
+		for (int i=testSet.getReviews().size()-1; i > 0; i--) { //Loop backwards in order to free memory of processed instances
+			Review r = testSet.getReviews().get(i);
+			r.analyze(pipeline, props);
 			double overallSentiScore = this.getOverallSentiScore(r); 
 			boolean predictTopOverall = overallSentiScore >= minSentimentTopScore;
 			boolean isTopOverall = r.isTop(Aspect.OVERALL, minTopClassScore);
@@ -90,6 +94,7 @@ public class Experiment {
 				errorWriter.write(r.toString()+"\n");
 				if (r.getText().contains("but")) butCounter++;
 			}
+			testSet.getReviews().remove(i);
 		}
 		
 		errorWriter.close();
@@ -99,7 +104,7 @@ public class Experiment {
 		
 		long stopTime = System.currentTimeMillis();
 		long elapsedTime = stopTime - startTime;
-		System.out.println("Finished experiment in " + elapsedTime / 1000 + " s");
+		System.out.println("Finished experiment in " + elapsedTime / (1000*60) + " min");
 		System.out.println("Config: "+props);
 		
 		
@@ -139,14 +144,14 @@ public class Experiment {
 		for(String token: tokens) {
 			double tmp = score;
 			 score += wordlists.get(Aspect.APPEARANCE).getScore(token);
-			 if (tmp != score) sentWordsCount++;
-			 tmp = score;
+//			 if (tmp != score) sentWordsCount++;
+//			 tmp = score;
 			 score += wordlists.get(Aspect.TASTE).getScore(token);
-			 if (tmp != score) sentWordsCount++;
-			 tmp = score;
+//			 if (tmp != score) sentWordsCount++;
+//			 tmp = score;
 			 score += wordlists.get(Aspect.AROMA).getScore(token);
-			 if (tmp != score) sentWordsCount++;
-			 tmp = score;
+//			 if (tmp != score) sentWordsCount++;
+//			 tmp = score;
 			 score += wordlists.get(Aspect.PALATE).getScore(token);
 			 if (tmp != score) sentWordsCount++;
 		}
