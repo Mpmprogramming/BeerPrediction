@@ -29,7 +29,7 @@ public class RunSet {
 		Properties masterProps = new Properties();
 
 		//TODO:Adjust for final experiments
-		masterProps.put("maxLoad", "50000");
+		masterProps.put("maxLoad", "100000");
 		
 		// Affects stanford core
 //		masterProps.put("posToKeep", "NN ADJ");
