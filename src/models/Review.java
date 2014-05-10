@@ -152,8 +152,8 @@ public class Review {
 					analyzedToken += pos;
 				}
 
-				if (posToKeep == "NN JJ") {
-					if (pos.contains("NN") || pos.contains("JJ")) {
+				if (posToKeep == "NN JJ RB") {
+					if (pos.contains("NN") || pos.contains("JJ") || pos.contains("RB")) {
 						// System.out.println ("In POS only NN and JJ: "
 						// +token.get(PartOfSpeechAnnotation.class)
 						// +analyzedToken);

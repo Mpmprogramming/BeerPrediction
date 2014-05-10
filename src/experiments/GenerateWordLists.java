@@ -40,7 +40,7 @@ public class GenerateWordLists {
 		props.put("maxLowRatingscore", "0.4");
 
 		// Affects stanford core
-		props.put("posToKeep", "NN JJ");
+		props.put("posToKeep", "NN JJ RB"); //TODO: DONE: include adverbs
 		props.put("useLemma", "true");// 
 		props.put("includePOS", "true");// TODO: Will mess up word vector
 											// creation

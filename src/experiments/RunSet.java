@@ -31,8 +31,8 @@ public class RunSet {
 		masterProps.put("maxLoad", "100000");
 		
 		// Affects stanford core
-//		masterProps.put("posToKeep", "NN ADJ");
-		masterProps.put("posToKeep", "NN JJ");//Fix this to nn jj adv!
+
+		masterProps.put("posToKeep", "NN JJ RB");//TODO: DONE: Fix this to nn jj adv!
 		masterProps.put("useLemma", "true");//Try!
 		masterProps.put("includePOS", "false");// TODO: Will mess up word vector
 		masterProps.put("annotators", "tokenize, ssplit, pos, lemma");
