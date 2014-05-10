@@ -49,13 +49,13 @@ public class RunSet {
 		masterProps.put("minTermFreq", "10");
 		
 		//For optimization focus on thresholds
-		masterProps.put("minTopRatingscore", "1.0");//actual aspect ration / MAX(Aspect)
-		masterProps.put("maxLowRatingscore", "0.4");
+		masterProps.put("minTopRatingscore", "0.8");//actual aspect ration / MAX(Aspect)
+		masterProps.put("maxLowRatingscore", "0.5");
 		
 		
 		//Evaluation parameters
-		masterProps.put("minTopClassScore", "0.71");//[0-1]actual aspect ration / MAX(Aspect); correlates with: fp++ fn--
-		masterProps.put("minSentimentTopScore", "0.3");//Correlates with: fn++ fp--
+		masterProps.put("minTopClassScore", "0.70");//[0-1]actual aspect ration / MAX(Aspect); correlates with: fp++ fn--
+		masterProps.put("minSentimentTopScore", "0.966");//Correlates with: fn++ fp--
 		
 		
 		return masterProps;
