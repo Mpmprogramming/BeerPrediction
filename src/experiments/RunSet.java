@@ -5,8 +5,10 @@ package experiments;
 
 import java.io.BufferedWriter;
 import java.io.FileOutputStream;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
+import java.io.PrintWriter;
 import java.io.Writer;
 import java.util.ArrayList;
 import java.util.Date;
@@ -28,11 +30,11 @@ public class RunSet {
 		Properties masterProps = new Properties();
 
 		//TODO:Adjust for final experiments
-		masterProps.put("maxLoad", "100000");
+		masterProps.put("maxLoad", "1000000");
 		
 		// Affects stanford core
 
-		masterProps.put("posToKeep", "NN JJ RB");//TODO: DONE: Fix this to nn jj adv!
+		masterProps.put("posToKeep", "");//TODO: DONE: Fix this to nn jj adv!
 		masterProps.put("useLemma", "true");//Try!
 		masterProps.put("includePOS", "false");// TODO: Will mess up word vector
 		masterProps.put("annotators", "tokenize, ssplit, pos, lemma");
@@ -49,13 +51,13 @@ public class RunSet {
 		masterProps.put("minTermFreq", "10");
 		
 		//For optimization focus on thresholds
-		masterProps.put("minTopRatingscore", "0.8");//actual aspect ration / MAX(Aspect)
-		masterProps.put("maxLowRatingscore", "0.5");
+		masterProps.put("minTopRatingscore", "0.9");//actual aspect ration / MAX(Aspect)
+		masterProps.put("maxLowRatingscore", "0.4");
 		
 		
 		//Evaluation parameters
 		masterProps.put("minTopClassScore", "0.70");//[0-1]actual aspect ration / MAX(Aspect); correlates with: fp++ fn--
-		masterProps.put("minSentimentTopScore", "0.966");//Correlates with: fn++ fp--
+		masterProps.put("minSentimentTopScore", "-0.13");//Correlates with: fn++ fp--
 		
 		
 		return masterProps;
@@ -102,8 +104,11 @@ public class RunSet {
 	public static void writeResultSummary() {
 		//TODO write csv and console output
 		Writer out = null;
+		PrintWriter sumOut = null;
 		try {
 			out = new BufferedWriter(new OutputStreamWriter(new FileOutputStream("data/experiments/summary_"+ new Date().toString().replace(" ", "-").replace(":", "-")+".csv"), "UTF-8"));
+			
+			sumOut = new PrintWriter(new BufferedWriter(new FileWriter("data/experiments/SUMMARY_ALL.csv", true)));
 			
 //			out.write("name,beerId,brewerId,ABV,style,appearance,aroma,palate,taste,overall,time,profileName,text");
 //			out.write("\r\n");
@@ -111,6 +116,7 @@ public class RunSet {
 			for (Experiment exp : finishedExperiments) {
 				out.write(exp.toCSV());
 				out.write("\r\n");
+				sumOut.println(exp.toCSV());
 			}
 			
 		} 
@@ -120,6 +126,7 @@ public class RunSet {
 		finally {
 			try {
 				out.close();
+				sumOut.close();
 			} catch (IOException e) {
 				e.printStackTrace();
 			}

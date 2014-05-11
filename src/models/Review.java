@@ -157,7 +157,6 @@ public class Review {
 						// System.out.println ("In POS only NN and JJ: "
 						// +token.get(PartOfSpeechAnnotation.class)
 						// +analyzedToken);
-						
 						this.tokens += analyzedToken + " ";
 						this.analyzedTokens.put(sentenceTopic,
 								analyzedTokens.get(sentenceTopic) + " "
@@ -167,6 +166,11 @@ public class Review {
 						// +token.get(PartOfSpeechAnnotation.class)
 						// +analyzedToken);
 					}
+				} else {
+					this.tokens += analyzedToken + " ";
+					this.analyzedTokens.put(sentenceTopic,
+							analyzedTokens.get(sentenceTopic) + " "
+									+ analyzedToken);
 				}
 			}
 		}
