@@ -177,7 +177,6 @@ public class SplitDataSet {
 						}
 
 						writerTraining.write(line);
-						// TODO: exclude numbers from textual review
 						writerTraining.write("\r\n");
 						writerTraining.write("\r\n");
 						// writeTraining=false;

@@ -34,7 +34,7 @@ public class RunSet {
 		
 		// Affects stanford core
 
-		masterProps.put("posToKeep", "");//TODO: DONE: Fix this to nn jj adv!
+		masterProps.put("posToKeep", "");
 		masterProps.put("useLemma", "true");//Try!
 		masterProps.put("includePOS", "false");// TODO: Will mess up word vector
 		masterProps.put("annotators", "tokenize, ssplit, pos, lemma");

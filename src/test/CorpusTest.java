@@ -226,7 +226,7 @@ public class CorpusTest {
 //			Detector detector = DetectorFactory.create();
 //		       detector.append("Willkommen in der wunderbaren NLP Welt!");
 //		} catch (LangDetectException e) {
-//			// TODO Auto-generated catch block
+//			
 //			e.printStackTrace();
 //		}
 //}
