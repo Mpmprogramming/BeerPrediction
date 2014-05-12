@@ -43,6 +43,7 @@ public class SplitDataSet {
 		// tempCorp.getReviews();
 		DetectorFactory.loadProfile("profiles");
 		new SplitDataSet().splitDataSet("data/ratebeer.txt", Integer.MAX_VALUE);
+//		new SplitDataSet().splitDataSet("data/ratebeer.txt", 10000);
 
 	}
 
@@ -65,6 +66,8 @@ public class SplitDataSet {
 		int numOfTrainings = 0;
 		int numOfTests = 0;
 		int amountNonEnglishReviews= 0;
+		double sumOverall =0.00;
+		double ratioNonEnglish =0.00;
 
 		try {
 			System.out.println("Attempt loading file: " + path);
@@ -83,6 +86,7 @@ public class SplitDataSet {
 			// Boolean writeTest = false;
 			// int countTestAttributes = 0;
 			int tempCount = 1;
+			
 
 			while ((line = br.readLine()) != null) {
 
@@ -146,6 +150,9 @@ public class SplitDataSet {
 					if (line.startsWith("review/overall")) {
 						writerTraining.write(line);
 						writerTraining.write("\r\n");
+						
+						String overall = line.split(":", 2)[1].split("/", 2)[0].trim();
+						sumOverall += Integer.parseInt(overall);
 
 					}
 
@@ -251,6 +258,8 @@ public class SplitDataSet {
 					if (line.startsWith("review/overall")) {
 						writerTest.write(line);
 						writerTest.write("\r\n");
+						String overall = line.split(":", 2)[1].split("/", 2)[0].trim();
+						sumOverall += Integer.parseInt(overall);
 
 					}
 
@@ -304,7 +313,8 @@ public class SplitDataSet {
 			System.out.println("Dataset of " + numOfReviews + " Reviews"
 					+ " has been split into " + numOfTrainings + " "
 					+ "Trainings- and " + numOfTests + " " + "Testitems!");
-			System.out.println("Number of non-english reviews:" +amountNonEnglishReviews);
+			System.out.println("Average score for overall is: " +sumOverall/numOfReviews +" " +"sum: " +sumOverall);
+			System.out.println("Number of non-english reviews:" +amountNonEnglishReviews +" percentage of non-english reviews: " +((double)amountNonEnglishReviews)/numOfReviews);
 
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
