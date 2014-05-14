@@ -37,7 +37,7 @@ public class Corpus {
 //		try {
 //			initLangDetection("profiles");
 //		} catch (LangDetectException e) {
-//			// TODO Auto-generated catch block
+//	
 //			e.printStackTrace();
 //		}
 	}

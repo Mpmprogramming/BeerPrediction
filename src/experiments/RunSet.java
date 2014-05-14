@@ -30,11 +30,12 @@ public class RunSet {
 		Properties masterProps = new Properties();
 
 		//TODO:Adjust for final experiments
-		masterProps.put("maxLoad", "1000000");
+		masterProps.put("maxLoad", "500000");
 		
 		// Affects stanford core
 
 		masterProps.put("posToKeep", "NN JJ RB");//TODO: DONE: Fix this to nn jj adv!
+		masterProps.put("posToKeep", "");
 		masterProps.put("useLemma", "true");//Try!
 		masterProps.put("includePOS", "false");// TODO: Will mess up word vector
 		masterProps.put("annotators", "tokenize, ssplit, pos, lemma");
@@ -48,7 +49,7 @@ public class RunSet {
 		masterProps.put("useStoplist", "true");
 		masterProps.put("stopwordsFile", "data/english-stop-words-small.txt");
 		masterProps.put("wordsToKeep", "5000");
-		masterProps.put("minTermFreq", "50");
+		masterProps.put("minTermFreq", "20");
 		
 		//For optimization focus on thresholds
 		masterProps.put("minTopRatingscore", "0.9");//actual aspect ration / MAX(Aspect)
@@ -57,7 +58,7 @@ public class RunSet {
 		
 		//Evaluation parameters
 		masterProps.put("minTopClassScore", "0.70");//[0-1]actual aspect ration / MAX(Aspect); correlates with: fp++ fn--
-		masterProps.put("minSentimentTopScore", "-0.15094111372");//Correlates with: fn++ fp--
+		masterProps.put("minSentimentTopScore", "0.0");//Correlates with: fn++ fp--
 		
 		
 		return masterProps;

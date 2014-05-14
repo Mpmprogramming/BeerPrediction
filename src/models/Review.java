@@ -113,8 +113,7 @@ public class Review {
 		// has values with custom types
 		List<CoreMap> sentences = document.get(SentencesAnnotation.class);
 
-		// TODO:DONE: Maybe exclude numbers? -> numbers are continued, thus the
-		// error must mean something else...
+
 		for (CoreMap sentence : sentences) {
 
 			String sentenceText = sentence.get(TextAnnotation.class);
