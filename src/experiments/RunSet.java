@@ -30,7 +30,7 @@ public class RunSet {
 		Properties masterProps = new Properties();
 
 		//TODO:Adjust for final experiments
-		masterProps.put("maxLoad", "100000");
+		masterProps.put("maxLoad", "10000");
 		
 		// Affects stanford core
 
@@ -58,10 +58,8 @@ public class RunSet {
 		
 		//Evaluation parameters
 		masterProps.put("minTopClassScore", "0.70");//[0-1]actual aspect ration / MAX(Aspect); correlates with: fp++ fn--
-		masterProps.put("minSentimentTopScore", "-0.1505189");//Correlates with: fn++ fp--
-		masterProps.put("butMultiplier", "1.0");//1.0 => do nothing
-		
-		
+		masterProps.put("minSentimentTopScore", "-0.131329");//Correlates with: fn++ fp--
+		masterProps.put("butMultiplier", "0.0");//1.0 => do nothing
 		
 		return masterProps;
 

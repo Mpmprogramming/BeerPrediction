@@ -27,6 +27,8 @@ public class Experiment {
 	String id;
 	Result finalResult;
 	StanfordCoreNLP pipeline;
+	int butCounter = 0;
+	int testSize;
 	
 	public Experiment(Properties props, StanfordCoreNLP pipeline) {
 		this.props = props;
@@ -51,7 +53,6 @@ public class Experiment {
 		int tn = 0;
 		int fp = 0;
 		int fn = 0;
-		int butCounter = 0;
 		double sentCounter = 0.0;
 		double avgSentScore;
 
@@ -68,7 +69,7 @@ public class Experiment {
 		
 		Corpus testSet = new Corpus(props, this.pipeline);
 		testSet.loadFromFile("data/test.txt", maxLoad/2);
-		int testSize = testSet.getReviews().size();
+		testSize = testSet.getReviews().size();
 //		testSet.analyze();
 		
 		System.out.println("Starting validation with " + testSet.getReviews().size() +" instances");
@@ -91,7 +92,6 @@ public class Experiment {
 				fp++;
 				errorWriter.write(overallSentiScore +" => predictingtop? "+predictTopOverall+" - isTop? " +isTopOverall+"\n");
 				errorWriter.write(r.toString()+"\n");
-				if (r.getText().contains("but")) butCounter++;
 			}
 			testSet.getReviews().remove(i);
 		}
@@ -117,7 +117,7 @@ public class Experiment {
 //		System.out.println("Accuracy: "+(tp+tn)/totalInstances);
 //		System.out.println("Accuracy: "+result.getAccuracy());
 		System.out.println(finalResult);
-		System.out.println("BUT-% in FP instances: "+(double)butCounter/fp);
+		System.out.println("BUT-% in all instances: "+(double)butCounter/testSize);
 	}
 	
 	public String generateWordlists() {
@@ -171,7 +171,10 @@ public class Experiment {
 //					 || token.equalsIgnoreCase("however")
 //					 || token.equalsIgnoreCase("yet")
 //					 || token.equalsIgnoreCase("still")
-					 ) score *= butMultiplier;
+					 ) {
+				 score *= butMultiplier;
+				 butCounter++;
+			 }
 		}
 		return score/(sentWordsCount);//TODO:Currently dividing by senti words count; Other weightening possible
 	}
@@ -187,7 +190,8 @@ public class Experiment {
 				+ finalResult.getPrecision() + ";" 
 				+ finalResult.getRecall() + ";" 
 				+ finalResult.getAvgSentScore() + ";" 
-				+ finalResult.getFMeasure();
+				+ finalResult.getFMeasure() + ";" 
+				+ (double)this.butCounter/testSize;
 	}
 
 }
