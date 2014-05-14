@@ -155,6 +155,7 @@ public class Experiment {
 	}
 	
 	public double getOverallSentiScore(Review review) {
+		double butMultiplier = Double.parseDouble(props.getProperty("butMultiplier"));
 		double score = 0.0;
 		int sentWordsCount = 1;
 		review.analyze(pipeline, props);
@@ -166,21 +167,26 @@ public class Experiment {
 			 score += wordlists.get(Aspect.AROMA).getScore(token);
 			 score += wordlists.get(Aspect.PALATE).getScore(token);
 			 if (tmp != score) sentWordsCount++;
+			 if (token.equalsIgnoreCase("but") 
+//					 || token.equalsIgnoreCase("however")
+//					 || token.equalsIgnoreCase("yet")
+//					 || token.equalsIgnoreCase("still")
+					 ) score *= butMultiplier;
 		}
 		return score/(sentWordsCount);//TODO:Currently dividing by senti words count; Other weightening possible
 	}
 	
 	public String toCSV() {
-		return this.id + "," 
-				+ this.props.toString() + "," 
-				+ finalResult.getTP() + "," 
-				+ finalResult.getTN() + "," 
-				+ finalResult.getFN() + "," 
-				+ finalResult.getFP() + "," 
-				+ finalResult.getAccuracy() + "," 
-				+ finalResult.getPrecision() + "," 
-				+ finalResult.getRecall() + "," 
-				+ finalResult.getAvgSentScore() + "," 
+		return this.id + ";" 
+				+ this.props.toString() + ";" 
+				+ finalResult.getTP() + ";" 
+				+ finalResult.getTN() + ";" 
+				+ finalResult.getFN() + ";" 
+				+ finalResult.getFP() + ";" 
+				+ finalResult.getAccuracy() + ";" 
+				+ finalResult.getPrecision() + ";" 
+				+ finalResult.getRecall() + ";" 
+				+ finalResult.getAvgSentScore() + ";" 
 				+ finalResult.getFMeasure();
 	}
 
