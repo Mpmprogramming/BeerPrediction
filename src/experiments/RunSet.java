@@ -30,7 +30,8 @@ public class RunSet {
 		Properties masterProps = new Properties();
 
 		//TODO:Adjust for final experiments
-		masterProps.put("maxLoad", "200000");
+		masterProps.put("maxLoad", "100000");
+		masterProps.put("dataSets", "123");//First two for training, last one for testing
 		
 		// Affects stanford core
 
@@ -50,16 +51,16 @@ public class RunSet {
 		masterProps.put("stopwordsFile", "data/english-stop-words-small.txt");
 		masterProps.put("wordsToKeep", "5000");
 		masterProps.put("minTermFreq", "50");
-		
+
 		//For optimization focus on thresholds
-		masterProps.put("minTopRatingscore", "0.8");//actual aspect ration / MAX(Aspect)
-		masterProps.put("maxLowRatingscore", "0.5");
+		masterProps.put("minTopRatingscore", "0.9");//actual aspect ration / MAX(Aspect)
+		masterProps.put("maxLowRatingscore", "0.4");
 		
 		
 		//Evaluation parameters
 		masterProps.put("minTopClassScore", "0.70");//[0-1]actual aspect ration / MAX(Aspect); correlates with: fp++ fn--
 		masterProps.put("minSentimentTopScore", "0.0");//Correlates with: fn++ fp--
-		masterProps.put("butMultiplier", "0.0");//1.0 => do nothing
+		masterProps.put("butMultiplier", "-0.7");//1.0 => do nothing
 		
 		return masterProps;
 
@@ -70,14 +71,14 @@ public class RunSet {
 		
 		//Add standard config
 		configs.add(generateMasterProperties());
-		
-		Properties change1 = generateMasterProperties();
-		change1.put("butMultiplier", "-1.0");
-		configs.add(change1);
-		
-		Properties change2 = generateMasterProperties();
-		change2.put("butMultiplier", "-0.5");
-		configs.add(change2);
+//		
+//		Properties change1 = generateMasterProperties();
+//		change1.put("butMultiplier", "-1.0");
+//		configs.add(change1);
+//		
+//		Properties change2 = generateMasterProperties();
+//		change2.put("maxLowRatingscore", "0.3");
+//		configs.add(change2);
 		
 		//TODO fill array list with more configs
 		return configs;

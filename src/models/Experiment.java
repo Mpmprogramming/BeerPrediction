@@ -41,6 +41,7 @@ public class Experiment {
 		double minTopClassScore = Double.parseDouble(props.getProperty("minTopClassScore"));
 		double minSentimentTopScore = Double.parseDouble(props.getProperty("minSentimentTopScore"));
 		int maxLoad = Integer.parseInt(props.getProperty("maxLoad"));
+		String dataSets = props.getProperty("dataSets");
 		
 		//Setup output folders
 		new File(id+"/wordlists/").mkdirs();
@@ -68,14 +69,16 @@ public class Experiment {
 		this.loadWordlists(wlFiles);
 		
 		Corpus testSet = new Corpus(props, this.pipeline);
-		testSet.loadFromFile("data/test.txt", maxLoad/2);
+		testSet.loadFromFile("data/split" + dataSets.charAt(0) +".txt", maxLoad/2);
 		testSize = testSet.getReviews().size();
 //		testSet.analyze();
 		
-		System.out.println("Starting validation with " + testSet.getReviews().size() +" instances");
+		System.out.println("Starting validation with " + testSize +" instances");
 //		for(Review r: testSet.getReviews()) {
 		for (int i=testSize-1; i > 0; i--) { //Loop backwards in order to free memory of processed instances
 			Review r = testSet.getReviews().get(i);
+			//Leave out middle class
+			if (r.getOverall() <=14 && r.getOverall() >=12 ) continue;
 			r.analyze(pipeline, props);
 			double overallSentiScore = this.getOverallSentiScore(r); 
 			sentCounter += overallSentiScore;
@@ -96,6 +99,7 @@ public class Experiment {
 			testSet.getReviews().remove(i);
 		}
 		
+		System.out.println("Skipped middle class instances: " +testSet.getReviews().size());
 		avgSentScore = (double) sentCounter/testSize;
 		
 		errorWriter.close();
@@ -127,8 +131,10 @@ public class Experiment {
 		new File(id+"/wordlists/").mkdirs();
 		
 		Corpus co = new Corpus(props, this.pipeline);
+		String dataSets = props.getProperty("dataSets");
 
-		int size = co.loadFromFile("data/training.txt", maxLoad);
+		int size = co.loadFromFile("data/split" + dataSets.charAt(0) +".txt", maxLoad/2);
+		size = co.loadFromFile("data/split" + dataSets.charAt(1) +".txt", maxLoad/2);
 		System.out.println("Total amount of reviews loaded: " + size);
 
 		WordListGenerator wlGenerator = new WordListGenerator(id+"/wordlists/");

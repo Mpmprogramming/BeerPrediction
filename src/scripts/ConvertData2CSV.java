@@ -28,9 +28,9 @@ public class ConvertData2CSV {
 	    props.put("annotators", "tokenize");
 		Corpus co = new Corpus(props);
 		
-		int size = co.loadFromFile("data/test.txt", topX);
+		int size = co.loadFromFile("data/Ratebeer.txt", topX);
 		System.out.println("Amount of reviews loaded: " + size);
-		co.writeToCSV("data/output/test.csv");
+		co.writeToCSV("data/output/numeric_data.csv", true);
 		System.out.println("Output written.");
 	}
 

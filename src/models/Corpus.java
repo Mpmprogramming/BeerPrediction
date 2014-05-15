@@ -79,6 +79,7 @@ public class Corpus {
 		Review review = null;
 		String line = null;
 		BufferedReader br = null;
+		int cLoaded = 0;
 		try {
 			System.out.print("Attempt loading file: " + path + " ");
 			br = new BufferedReader(new InputStreamReader(new FileInputStream(path), "UTF-8"));
@@ -162,12 +163,13 @@ public class Corpus {
 				if (review.getText().length() > 1)	{
 					
 					this.reviews.add(review);
+					cLoaded++;
 					
 				}
 					
-					if (reviews.size() >= topX ) break;
+					if (cLoaded >= topX ) break;
 					
-					if (reviews.size() % 10000 == 0 ) System.out.print(".");
+					if (cLoaded % 10000 == 0 ) System.out.print(".");
 				}
 			} 
 			
@@ -193,16 +195,18 @@ public class Corpus {
 	 * Write the whole corpus in CSV format to disc
 	 * @param file The file path
 	 */
-	public void writeToCSV(String file) {
+	public void writeToCSV(String file, boolean numericOnly) {
 		Writer out = null;
 		try {
 			out = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(file), "UTF-8"));
 			
-			out.write("name,beerId,brewerId,ABV,style,appearance,aroma,palate,taste,overall,time,profileName,text");
+			if (numericOnly) out.write("name,beerId,brewerId,ABV,style,appearance,aroma,palate,taste,overall");
+			if (!numericOnly) out.write("name,beerId,brewerId,ABV,style,appearance,aroma,palate,taste,overall,time,profileName,text");
 			out.write("\r\n");
 			
 			for (Review rev : this.reviews) {
-				out.write(rev.toCSV());
+				if (numericOnly) out.write(rev.toNumericCSV());
+				else out.write(rev.toCSV());
 				out.write("\r\n");
 			}
 			

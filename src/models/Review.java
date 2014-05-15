@@ -439,6 +439,28 @@ public class Review {
 				+ text.replaceAll("\"", "").replaceAll("[\\t\\n\\r]", " ")
 						.trim() + "\"";
 	}
+	
+	public String toNumericCSV() {
+		return name
+				+ ","
+				+ beerID
+				+ ","
+				+ brewerID
+				+ ","
+				+ ABV
+				+ ","
+				+ style
+				+ ","
+				+ appearance
+				+ ","
+				+ aroma
+				+ ","
+				+ palate
+				+ ","
+				+ taste
+				+ ","
+				+ overall;
+	}
 
 	public static ArrayList<String> getWordsForAppearance() {
 		return wordsForAppearance;
