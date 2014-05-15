@@ -76,6 +76,7 @@ public class Experiment {
 //		for(Review r: testSet.getReviews()) {
 		for (int i=testSize-1; i > 0; i--) { //Loop backwards in order to free memory of processed instances
 			Review r = testSet.getReviews().get(i);
+			if (r.getOverall() <=14 && r.getOverall() >=12 ) continue;
 			r.analyze(pipeline, props);
 			double overallSentiScore = this.getOverallSentiScore(r); 
 			sentCounter += overallSentiScore;
@@ -96,6 +97,7 @@ public class Experiment {
 			testSet.getReviews().remove(i);
 		}
 		
+		System.out.println("Skipped middle class instances: " +testSet.getReviews().size());
 		avgSentScore = (double) sentCounter/testSize;
 		
 		errorWriter.close();

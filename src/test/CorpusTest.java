@@ -59,7 +59,7 @@ public class CorpusTest {
 
 	@Test
 	public void testReadFile() {
-		co.writeToCSV("data/output/first100.csv");
+		co.writeToCSV("data/output/first100.csv", false);
 		assertTrue(new File("data/output/first100.csv").exists());
 	}
 	

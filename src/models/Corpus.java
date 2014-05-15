@@ -193,16 +193,18 @@ public class Corpus {
 	 * Write the whole corpus in CSV format to disc
 	 * @param file The file path
 	 */
-	public void writeToCSV(String file) {
+	public void writeToCSV(String file, boolean numericOnly) {
 		Writer out = null;
 		try {
 			out = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(file), "UTF-8"));
 			
-			out.write("name,beerId,brewerId,ABV,style,appearance,aroma,palate,taste,overall,time,profileName,text");
+			if (numericOnly) out.write("name,beerId,brewerId,ABV,style,appearance,aroma,palate,taste,overall");
+			if (!numericOnly) out.write("name,beerId,brewerId,ABV,style,appearance,aroma,palate,taste,overall,time,profileName,text");
 			out.write("\r\n");
 			
 			for (Review rev : this.reviews) {
-				out.write(rev.toCSV());
+				if (numericOnly) out.write(rev.toNumericCSV());
+				else out.write(rev.toCSV());
 				out.write("\r\n");
 			}
 			
