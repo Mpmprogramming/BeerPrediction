@@ -49,11 +49,11 @@ public class RunSet {
 		masterProps.put("useStoplist", "true");
 		masterProps.put("stopwordsFile", "data/english-stop-words-small.txt");
 		masterProps.put("wordsToKeep", "5000");
-		masterProps.put("minTermFreq", "20");
+		masterProps.put("minTermFreq", "50");
 		
 		//For optimization focus on thresholds
-		masterProps.put("minTopRatingscore", "0.9");//actual aspect ration / MAX(Aspect)
-		masterProps.put("maxLowRatingscore", "0.4");
+		masterProps.put("minTopRatingscore", "0.8");//actual aspect ration / MAX(Aspect)
+		masterProps.put("maxLowRatingscore", "0.5");
 		
 		
 		//Evaluation parameters
@@ -74,10 +74,10 @@ public class RunSet {
 		Properties change1 = generateMasterProperties();
 		change1.put("butMultiplier", "-1.0");
 		configs.add(change1);
-//		
-//		Properties change2 = generateMasterProperties();
-//		change2.put("maxLowRatingscore", "0.3");
-//		configs.add(change2);
+		
+		Properties change2 = generateMasterProperties();
+		change2.put("butMultiplier", "-0.5");
+		configs.add(change2);
 		
 		//TODO fill array list with more configs
 		return configs;
