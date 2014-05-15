@@ -30,12 +30,12 @@ public class RunSet {
 		Properties masterProps = new Properties();
 
 		//TODO:Adjust for final experiments
-		masterProps.put("maxLoad", "10000");
+		masterProps.put("maxLoad", "200000");
 		
 		// Affects stanford core
 
 		masterProps.put("posToKeep", "NN JJ RB");//TODO: DONE: Fix this to nn jj adv!
-		masterProps.put("posToKeep", "");
+//		masterProps.put("posToKeep", "");
 		masterProps.put("useLemma", "true");//Try!
 		masterProps.put("includePOS", "false");// TODO: Will mess up word vector
 		masterProps.put("annotators", "tokenize, ssplit, pos, lemma");
@@ -58,7 +58,7 @@ public class RunSet {
 		
 		//Evaluation parameters
 		masterProps.put("minTopClassScore", "0.70");//[0-1]actual aspect ration / MAX(Aspect); correlates with: fp++ fn--
-		masterProps.put("minSentimentTopScore", "-0.131329");//Correlates with: fn++ fp--
+		masterProps.put("minSentimentTopScore", "0.0");//Correlates with: fn++ fp--
 		masterProps.put("butMultiplier", "0.0");//1.0 => do nothing
 		
 		return masterProps;
@@ -71,9 +71,9 @@ public class RunSet {
 		//Add standard config
 		configs.add(generateMasterProperties());
 		
-//		Properties change1 = generateMasterProperties();
-//		change1.put("minSentimentTopScore", "0.001");
-//		configs.add(change1);
+		Properties change1 = generateMasterProperties();
+		change1.put("butMultiplier", "-1.0");
+		configs.add(change1);
 //		
 //		Properties change2 = generateMasterProperties();
 //		change2.put("maxLowRatingscore", "0.3");

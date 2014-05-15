@@ -168,9 +168,9 @@ public class Experiment {
 			 score += wordlists.get(Aspect.PALATE).getScore(token);
 			 if (tmp != score) sentWordsCount++;
 			 if (token.equalsIgnoreCase("but") 
-//					 || token.equalsIgnoreCase("however")
-//					 || token.equalsIgnoreCase("yet")
-//					 || token.equalsIgnoreCase("still")
+					 || token.equalsIgnoreCase("however")
+					 || token.equalsIgnoreCase("yet")
+					 || token.equalsIgnoreCase("still")
 					 ) {
 				 score *= butMultiplier;
 				 butCounter++;
