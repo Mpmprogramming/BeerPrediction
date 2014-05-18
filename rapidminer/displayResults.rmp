@@ -15,7 +15,7 @@
     <parameter key="parallelize_main_process" value="false"/>
     <process expanded="true">
       <operator activated="true" class="read_csv" compatibility="5.3.008" expanded="true" height="60" name="Read CSV" width="90" x="179" y="165">
-        <parameter key="csv_file" value="/Users/apfelbaum24/git/BeerPrediction/data/experiments/summary_Fri-May-09-00-45-26-CEST-2014.csv"/>
+        <parameter key="csv_file" value="/Users/apfelbaum24/git/BeerPrediction/data/output/numeric_data.csv"/>
         <parameter key="column_separators" value=","/>
         <parameter key="trim_lines" value="false"/>
         <parameter key="use_quotes" value="true"/>
@@ -36,55 +36,24 @@
         <parameter key="locale" value="English (United States)"/>
         <parameter key="encoding" value="UTF-8"/>
         <list key="data_set_meta_data_information">
-          <parameter key="0" value="data/experiments/apfelbaum24-Fri-May-09-00-36-03-CEST-2014.true.attribute_value.attribute"/>
-          <parameter key="1" value="{minTopClassScore=0\.8.true.attribute_value.attribute"/>
-          <parameter key="2" value="tfTransform=true.true.attribute_value.attribute"/>
-          <parameter key="3" value="maxLowRatingscore=0\.4.true.attribute_value.attribute"/>
-          <parameter key="4" value="stopwordsFile=data/english-stop-words-small\.txt.true.attribute_value.attribute"/>
-          <parameter key="5" value="outputWordCounts=true.true.attribute_value.attribute"/>
-          <parameter key="6" value="useStoplist=true.true.attribute_value.attribute"/>
-          <parameter key="7" value="lowerCaseTokens=true.true.attribute_value.attribute"/>
-          <parameter key="8" value="annotators=tokenize.true.attribute_value.attribute"/>
-          <parameter key="9" value="ssplit.true.attribute_value.attribute"/>
-          <parameter key="10" value="pos.true.attribute_value.attribute"/>
-          <parameter key="11" value="lemma.true.attribute_value.attribute"/>
-          <parameter key="12" value="posToKeep=NN JJ.true.attribute_value.attribute"/>
-          <parameter key="13" value="minSentimentTopScore=0\.01.true.attribute_value.attribute"/>
-          <parameter key="14" value="minTopRatingscore=1\.0.true.attribute_value.attribute"/>
-          <parameter key="15" value="maxLoad=50000.true.attribute_value.attribute"/>
-          <parameter key="16" value="includePOS=false.true.attribute_value.attribute"/>
-          <parameter key="17" value="wordsToKeep=5000.true.attribute_value.attribute"/>
-          <parameter key="18" value="useLemma=true.true.attribute_value.attribute"/>
-          <parameter key="19" value="minTermFreq=10.true.attribute_value.attribute"/>
-          <parameter key="20" value="idfTransform=true}.true.attribute_value.attribute"/>
-          <parameter key="21" value="871.true.attribute_value.attribute"/>
-          <parameter key="22" value="17142.true.attribute_value.attribute"/>
-          <parameter key="23" value="5790.true.attribute_value.attribute"/>
-          <parameter key="24" value="1197.true.attribute_value.attribute"/>
-          <parameter key="25" value="0\.72052.true.attribute_value.attribute"/>
-          <parameter key="26" value="0\.4211798839458414.true.attribute_value.attribute"/>
-          <parameter key="27" value="0\.1307611469749287.true.attribute_value.attribute"/>
-          <parameter key="28" value="0\.1995646694924963.true.attribute_value.attribute"/>
+          <parameter key="0" value="name.true.polynominal.attribute"/>
+          <parameter key="1" value="beerId.true.integer.attribute"/>
+          <parameter key="2" value="brewerId.true.integer.attribute"/>
+          <parameter key="3" value="ABV.true.real.attribute"/>
+          <parameter key="4" value="style.false.polynominal.attribute"/>
+          <parameter key="5" value="appearance.true.integer.attribute"/>
+          <parameter key="6" value="aroma.true.integer.attribute"/>
+          <parameter key="7" value="palate.true.integer.attribute"/>
+          <parameter key="8" value="taste.true.integer.attribute"/>
+          <parameter key="9" value="overall.true.integer.attribute"/>
         </list>
         <parameter key="read_not_matching_values_as_missings" value="true"/>
         <parameter key="datamanagement" value="double_array"/>
       </operator>
-      <operator activated="true" class="read_arff" compatibility="5.3.008" expanded="true" height="60" name="Read ARFF" width="90" x="380" y="300">
-        <parameter key="data_file" value="/Users/apfelbaum24/git/BeerPrediction/data/experiments/apfelbaum24-Wed-May-14-14-56-51-CEST-2014/wordlists/wordvector.arff"/>
-        <parameter key="encoding" value="SYSTEM"/>
-        <parameter key="read_not_matching_values_as_missings" value="true"/>
-        <list key="data_set_meta_data_information"/>
-        <parameter key="attribute_names_already_defined" value="false"/>
-        <parameter key="decimal_character" value="."/>
-        <parameter key="grouped_digits" value="false"/>
-        <parameter key="grouping_character" value=","/>
-      </operator>
       <connect from_op="Read CSV" from_port="output" to_port="result 1"/>
-      <connect from_op="Read ARFF" from_port="output" to_port="result 2"/>
       <portSpacing port="source_input 1" spacing="0"/>
       <portSpacing port="sink_result 1" spacing="0"/>
       <portSpacing port="sink_result 2" spacing="0"/>
-      <portSpacing port="sink_result 3" spacing="0"/>
     </process>
   </operator>
 </process>

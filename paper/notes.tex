@@ -1,0 +1,44 @@
+Welche Gewichtung für Wordlist (tf-idf?)
+Wie finalen sentiment score berechnen? (Differenz, relativ ...)
+
+Wie Klassen einteilen / Top-Low Thresholds, jeweils zum Learning und Predicten
+Mögliches Problem: Top-Klassen überrepresentiert?
+
+Fokus nur auf "echte Aspekte"? (Ohne overall und NONE-Aspekt)
+
+Beim predicten von ungesehen reviews auch Sätze nach Aspekten splitten? (Dann werden nicht alle möglich sein)
+
+Wie validieren? Mit Weka möglich oder selbst implementieren?
+
+
+
+
+Test/Trainingdata split so ok?
+
+Thresholds für tf-idf scores noch implementieren?
+
+Relativer threshold für top-class so ok?
+
+BUT-Problematik bei FPs.
+
+Results will get worse with more training data -> due to different kinds of beers?
+
+
+TODO:
+Ambigous sentences mehrfach labeln
+Median / 
+Mittelklasse rauslassen (!) 13 +/-1
+
+
+
+//Possible enhancements:
+Threshold for word->aspect assignemnt
+Threshold for word->pos/neg assignment
+Use N-Grams
+More NLP features for prediction (See But-problems)
+More weight on aspect-words if aspect in sentences detected during prediction
+Weighting of aspects (Taste most important one??)
+For aspect determination: sub clause instead sentence level
+Maybe better handling for numbers in reviews
+Take users avg rating into account
+Threshold for sentiment score
