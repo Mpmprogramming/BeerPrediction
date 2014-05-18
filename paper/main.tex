@@ -300,52 +300,55 @@ Afterwards the final sentiment score of the word $S_w$ is calculated by the form
 
 In the following we will describe our approach to predict the overall rating of an unseen review by using our created sentiment lexica to calculate a sentiment score of the review's text. This, on the one hand can be seen as an evaluation of the quality of our compiled sentiment lexica, but on the other hand is a challenging task in general. Therefore we describe our approach in detail. The results and the overall evaluation can then be found in chapter TODO.\\
 In the scope of this project we handle the rating prediction task as a two-class classification problem, i.e. we introduce a binary label \emph{IS\_OVERALL\_TOP} for a review $r$ according to the following formula:
-\[ Label(r) = \left\{ 
+\[ IS\_OVERALL\_TOP(r) = \left\{ 
   \begin{array}{l l}
-    true & \quad \text{if $n$}\\
-    false & \quad \text{if $n$}
+    true & \quad \text{if $S_{O}(r) > \varnothing S_{O}$}\\
+    false & \quad \text{if $S_{O}(r) \leq \varnothing S_{O}$}
   \end{array} \right.\]
+Given that $S_{O}(r)$ denotes to the overall score of the specific review and $\varnothing S_{O}$ the average score given by $$\varnothing S_{O} = \frac{\sum_{n=1}^{N}S_{O}(r_n)}{N}  $$
+$$ N:\text{Number of reviews in the training set} $$
 
-For each unseen review we take only the review's freetext into account. NLP-wise we apply the same pre-processing steps to this text as we applied for the lexicon creation step, i.e. especially 
+For each unseen review we take only the review's freetext into account. NLP-wise we apply the same pre-processing steps to this text as we applied for the lexicon creation step, especially tokenization and lemmatization. Then the sentiment score ($Sent$) for the review text is computed by the follow expression:
+
+$$ Sent(r) =  \frac{\sum_{i=1}^{I}Sent(token_i)}{S}$$
+$$ I = \text{Number of tokens in the text}$$
+$$ S = \text{Number of tokens with sentiment score} \neq 0$$
+
+In addition we implemented the possibility to weight all tokens preceding specific tokens, which indicate a possible inversion of the sentiment of these parts like \emph{but} (TODO:List of keywords) (TODO:Ref zu literature dazu).\\
+The final classification is subsequently performed by checking if the resulting sentiment score of the reviews exceeds a given threshold. For the actual values of these weighting and threshold parameters see the following chapter.
 
 \section{Experiments}
-TODO:Describe experiment setup and configuration parameters ...\\
+As the performance of the lexica induction as well as the rating prediction relies heavily on the combination of different configurable parameters, we run several experiments in order to determine the empirically best combination. An overview of all parameters, including values ranges for our experiments, is given in table~\ref{tab:parameters}. Capitalization indicates that we used a fixed value for this parameter in the scope of this project, but variations could impact the performance.\\
 
-
-%Michi:Würde hier nur die wirklich für die wordlist induction relevanten parameter auflisten
-As with pre-processing, we intentionally implemented all parameters on a flexible basis, to be able to determine best settings in multiple experiments. A complete list of parameters are depicted in table 2.1.
+Settings for parameters of each experiment are determined manually, but logged automatically to record performance deviations for re-adjustment of parameters. For each experiment we measure accuracy, precision, recall, f1-score, average sentiment and the percentage of the special case of but-occurrences using a three-fold cross validation.
 
 %Michi:Eventuell generell nur für experimmente relevante parameter auflisten
 \begin{table}[h]
-\label{tab:Parameters for Testing}
-\begin{center}
-
-\begin{tabular}{|l|l|}
+\label{tab:parameters}
+\resizebox{\textwidth}{!}{
+\begin{tabular}{|l|l|l|}
 \hline
-Number of reviews loaded           & max. 2,886,144           \\ \hline
-Text Analysis          &      \\ \hline
-POS tags                   & which POS to include               \\ \hline
-useLemma                  & true or false          \\ \hline
-includePOS                  & true or false          \\ \hline
-Annotators     & tokenize, ssplit, pos, lemma                  \\ \hline
-Wordlist creation parameters     &                \\ \hline
-idfTransform                           & true or false \\ \hline
-outputWordCounts                            & true or false\\ \hline
-lowerCaseTokens                   & true or false \\ \hline
-useStoplist                & true or false \\ \hline
-stopwordsFile                     & path to .txt \\ \hline
-wordsToKeep                     & max. amount of words for all 4 dictionaries \\ \hline
-minTermFreq                    & specifies min threshold a word has to occur \\ \hline
-Thresholds                   &  \\ \hline
-minTopRatingScore                  & specifies min threshold for top class in per cent \\ \hline
-maxLowRatingScore                  & specifies max threshold for low class in per cent \\ \hline
-Evaluation Parameters                   &  \\ \hline
-minTopClassScore                  & 0.7 to match average rating of 13.37 for aspect overall \\ \hline
-minSentimentTopScore                  & 0.0 to demonstrate equal distribution of dictionaries\\ \hline
-butMultiplier                 & specifies an amplifier for but-occurrences \\ \hline
+\textbf{NLP-wise  }            \\ \hline
+POS tags                   & which POS to include       & *       \\ \hline
+useLemma                  & Lemmatization of tokens & true, false          \\ \hline
+includePOS                & Wether to add POS tag to the word  & true, false          \\ \hline
+\textbf{Wordlist creation parameters}        \\ \hline
+lowerCaseTokens               &  Wether to lower case all tokens  & TRUE\\ \hline
+useStoplist              & Wether to use a stop word list  & TRUE \\ \hline
+stopwordsFile                     & Path to stop word list file & -\\ \hline
+wordsToKeep                     & max. amount of words for all 4 dictionaries  & [100, 5000] \\ \hline
+minTermFreq                    & specifies absolute min threshold a word has to occur & [1,100]\\ \hline
+minTopRatingScore                  & specifies relative min threshold for top class per aspect & [0.5,1.0]\\ \hline
+maxLowRatingScore                  & specifies relative max threshold for low class per aspect & [0.1,0.5]\\ \hline
+\textbf{Evaluation Parameters}                    \\ \hline
+minTopClassScore                  & Relative threshold for class labeling & 0.7** \\ \hline
+minSentimentTopScore          & Min. sent. score for top class prediction        & [-1,1]\\ \hline
+butMultiplier                 & Weighting after special tokens & [-1,1] \\ \hline
 \end{tabular}
+}
+\footnotesize * See Stanford CoreNLP documentation\\
+** With regards to the average overall score, as described above
 \caption{Parameters for Experiments}
-\end{center}
 
 \end{table}
 
