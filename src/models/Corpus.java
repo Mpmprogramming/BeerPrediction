@@ -10,12 +10,6 @@ import java.util.Properties;
 import models.Review.Aspect;
 import edu.stanford.nlp.pipeline.StanfordCoreNLP;
 
-import java.util.ArrayList;
-
-//import com.cybozu.labs.langdetect.Detector;
-//import com.cybozu.labs.langdetect.DetectorFactory;
-//import com.cybozu.labs.langdetect.LangDetectException;
-//import com.cybozu.labs.langdetect.Language;
 
 /**
  * @author Michi, Marc

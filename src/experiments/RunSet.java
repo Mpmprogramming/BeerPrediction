@@ -30,15 +30,15 @@ public class RunSet {
 		Properties masterProps = new Properties();
 
 		//TODO:Adjust for final experiments
-		masterProps.put("maxLoad", "100000");
-		masterProps.put("dataSets", "123");//First two for training, last one for testing
+		masterProps.put("maxLoad", "900000");
+		masterProps.put("dataSets", "132");//First two for training, last one for testing
 		
 		// Affects stanford core
 
-		masterProps.put("posToKeep", "NN JJ RB");//TODO: DONE: Fix this to nn jj adv!
+		masterProps.put("posToKeep", "NN JJ RB");
 //		masterProps.put("posToKeep", "");
 		masterProps.put("useLemma", "true");//Try!
-		masterProps.put("includePOS", "false");// TODO: Will mess up word vector
+		masterProps.put("includePOS", "false");
 		masterProps.put("annotators", "tokenize, ssplit, pos, lemma");
 		
 		
@@ -50,16 +50,16 @@ public class RunSet {
 		masterProps.put("useStoplist", "true");
 		masterProps.put("stopwordsFile", "data/english-stop-words-small.txt");
 		masterProps.put("wordsToKeep", "5000");
-		masterProps.put("minTermFreq", "50");
+		masterProps.put("minTermFreq", "70");
 
 		//For optimization focus on thresholds
-		masterProps.put("minTopRatingscore", "0.9");//actual aspect ration / MAX(Aspect)
+		masterProps.put("minTopRatingscore", "0.8");//actual aspect ration / MAX(Aspect)
 		masterProps.put("maxLowRatingscore", "0.4");
 		
 		
 		//Evaluation parameters
 		masterProps.put("minTopClassScore", "0.70");//[0-1]actual aspect ration / MAX(Aspect); correlates with: fp++ fn--
-		masterProps.put("minSentimentTopScore", "0.0");//Correlates with: fn++ fp--
+		masterProps.put("minSentimentTopScore", "0.65");//Correlates with: fn++ fp--
 		masterProps.put("butMultiplier", "-0.7");//1.0 => do nothing
 		
 		return masterProps;

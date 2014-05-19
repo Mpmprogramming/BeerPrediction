@@ -14,13 +14,13 @@ import java.io.OutputStreamWriter;
 import java.io.Writer;
 import java.util.Properties;
 
+import models.Review;
+
 import com.cybozu.labs.langdetect.Detector;
 import com.cybozu.labs.langdetect.DetectorFactory;
 import com.cybozu.labs.langdetect.LangDetectException;
 
 import edu.stanford.nlp.pipeline.StanfordCoreNLP;
-import models.Corpus;
-import models.Review;
 
 /**
  * @author Marc, Michi
@@ -67,7 +67,7 @@ public class SplitDataSet {
 		int numOfTests = 0;
 		int amountNonEnglishReviews= 0;
 		double sumOverall =0.00;
-		double ratioNonEnglish =0.00;
+//		double ratioNonEnglish =0.00;
 
 		try {
 			System.out.println("Attempt loading file: " + path);

@@ -18,8 +18,6 @@ import weka.core.Instance;
 import weka.core.Instances;
 import weka.core.SparseInstance;
 import weka.core.converters.ArffSaver;
-import weka.core.stemmers.SnowballStemmer;
-import weka.core.stemmers.Stemmer;
 import weka.filters.Filter;
 import weka.filters.unsupervised.attribute.StringToWordVector;
 

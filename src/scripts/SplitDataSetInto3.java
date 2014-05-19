@@ -62,8 +62,6 @@ public class SplitDataSetInto3 {
 		String line = null;
 		BufferedReader br = null;
 		int numOfReviews = 0;
-		int numOfTrainings = 0;
-		int numOfTests = 0;
 		int amountNonEnglishReviews = 0;
 		
 		try {

@@ -42,7 +42,7 @@ public class GenerateWordLists {
 		// Affects stanford core
 		props.put("posToKeep", "NN JJ RB"); 
 		props.put("useLemma", "true");// 
-		props.put("includePOS", "true");// TODO: Will mess up word vector
+		props.put("includePOS", "true");
 											// creation
 		props.put("annotators", "tokenize, ssplit, pos, lemma");
 		Corpus co = new Corpus(props);
